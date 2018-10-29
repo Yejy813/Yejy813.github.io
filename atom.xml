@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yejy813.github.io/"/>
-  <updated>2018-10-27T12:27:31.967Z</updated>
+  <updated>2018-10-29T15:39:36.455Z</updated>
   <id>https://yejy813.github.io/</id>
   
   <author>
@@ -17,82 +17,20 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>秋风</title>
-    <link href="https://yejy813.github.io/2018/10/27/%E6%88%91%E7%9A%84%E5%90%8D%E5%AD%97%E6%98%AF%E5%8F%B6%E4%BD%B3%E8%BF%90/"/>
-    <id>https://yejy813.github.io/2018/10/27/我的名字是叶佳运/</id>
+    <title>关于这个博客</title>
+    <link href="https://yejy813.github.io/2018/10/27/2018-10-29/"/>
+    <id>https://yejy813.github.io/2018/10/27/2018-10-29/</id>
     <published>2018-10-27T05:35:16.000Z</published>
-    <updated>2018-10-27T12:27:31.967Z</updated>
+    <updated>2018-10-29T15:39:36.455Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/sea.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/h2&gt;&lt;p&gt;秋风用时光的旋律，用桂花的芬芳、苹果的馨香、菊花的灿烂、牵牛花的奔放、一串红的艳丽，把一望无际的田野乡村，演绎得在自然中沉醉，渲染得天地间空旷而又阳刚。&lt;br&gt;
+      &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/sea.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/h2&gt;&lt;p&gt;花了两三天时间，搭建了一个自己的博客，在阿里云买了人生中第一个域名 &lt;a href=&quot;https://mikeblog.top/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;mikeblog.top&lt;/a&gt;，基本框架用的是hexo+githubpage，这个网上教程很多，也很详细，我就不介绍详细过程了，在这里十分感谢其他博主的分享，也感谢这两个平台，让我在互联网上有了一个自己的小栖息地，说实话，感觉像有了一个自己的家。&lt;br&gt;
     
     </summary>
     
     
-  </entry>
-  
-  <entry>
-    <title>测试一下分类和标签</title>
-    <link href="https://yejy813.github.io/2018/10/26/%E6%B5%8B%E8%AF%95/"/>
-    <id>https://yejy813.github.io/2018/10/26/测试/</id>
-    <published>2018-10-26T13:10:14.000Z</published>
-    <updated>2018-10-26T13:17:05.903Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;111111&quot;&gt;&lt;a href=&quot;#111111&quot; class=&quot;headerlink&quot; title=&quot;111111&quot;&gt;&lt;/a&gt;111111&lt;/h1&gt;&lt;h2 id=&quot;222222&quot;&gt;&lt;a href=&quot;#222222&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="测试" scheme="https://yejy813.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="分类" scheme="https://yejy813.github.io/tags/%E5%88%86%E7%B1%BB/"/>
-    
-      <category term="Test" scheme="https://yejy813.github.io/tags/Test/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hello, hexo</title>
-    <link href="https://yejy813.github.io/2018/10/25/hello-hexo/"/>
-    <id>https://yejy813.github.io/2018/10/25/hello-hexo/</id>
-    <published>2018-10-25T14:39:02.000Z</published>
-    <updated>2018-10-25T14:39:02.724Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://yejy813.github.io/2018/10/25/hello-world/"/>
-    <id>https://yejy813.github.io/2018/10/25/hello-world/</id>
-    <published>2018-10-25T14:26:05.657Z</published>
-    <updated>2018-10-25T14:26:05.658Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
+      <category term="随笔" scheme="https://yejy813.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
