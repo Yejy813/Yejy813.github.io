@@ -108,21 +108,20 @@
 
 
 
-  <meta name="description" content="操作系统基本概念 操作系统 (operating system, 缩写 OS)，是指控制和管理整个计算机系统的硬件和软件资源，合理地组织调度计算机的工作和资源的分配的集合，为用户和底层硬件之间的桥梁。对于程序员来说，操作系统是工作场地，是应用程序控制底层硬件接口的提供者。">
+  <meta name="description" content="缅怀 就在昨天，MVP 的呼声响彻标靶中心球馆，步入不惑的玫瑰，拿下了生涯新高 50 分，曾经的天之骄子，风城玫瑰，NBA 历史上最年轻的常规赛 MVP，经过多年坎途，不曾在病魔面前哭泣，而在昨天却低下了头，落下了泪…   感慨万千，脑海中记着的依然是 09 年那一轮史诗级季后赛，还有那个给芝加哥带来无限希望的玫瑰。此刻，向传奇致敬！加油，罗斯！">
 <meta name="keywords" content="操作系统">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统简述">
-<meta property="og:url" content="https://yejy813.github.io/2018/10/31/操作系统简述-2018-10-31/index.html">
+<meta property="og:title" content="操作系统--进程管理(一)">
+<meta property="og:url" content="https://yejy813.github.io/2018/11/02/操作系统-进程管理一-2018-11-2/index.html">
 <meta property="og:site_name" content="Mike&#39;s Blog">
-<meta property="og:description" content="操作系统基本概念 操作系统 (operating system, 缩写 OS)，是指控制和管理整个计算机系统的硬件和软件资源，合理地组织调度计算机的工作和资源的分配的集合，为用户和底层硬件之间的桥梁。对于程序员来说，操作系统是工作场地，是应用程序控制底层硬件接口的提供者。">
+<meta property="og:description" content="缅怀 就在昨天，MVP 的呼声响彻标靶中心球馆，步入不惑的玫瑰，拿下了生涯新高 50 分，曾经的天之骄子，风城玫瑰，NBA 历史上最年轻的常规赛 MVP，经过多年坎途，不曾在病魔面前哭泣，而在昨天却低下了头，落下了泪…   感慨万千，脑海中记着的依然是 09 年那一轮史诗级季后赛，还有那个给芝加哥带来无限希望的玫瑰。此刻，向传奇致敬！加油，罗斯！">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux.png?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/LinuxKernel.png?raw=true">
-<meta property="og:updated_time" content="2018-10-31T14:29:18.816Z">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/rose.png?raw=true">
+<meta property="og:updated_time" content="2018-11-02T15:49:53.709Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统简述">
-<meta name="twitter:description" content="操作系统基本概念 操作系统 (operating system, 缩写 OS)，是指控制和管理整个计算机系统的硬件和软件资源，合理地组织调度计算机的工作和资源的分配的集合，为用户和底层硬件之间的桥梁。对于程序员来说，操作系统是工作场地，是应用程序控制底层硬件接口的提供者。">
-<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux.png?raw=true">
+<meta name="twitter:title" content="操作系统--进程管理(一)">
+<meta name="twitter:description" content="缅怀 就在昨天，MVP 的呼声响彻标靶中心球馆，步入不惑的玫瑰，拿下了生涯新高 50 分，曾经的天之骄子，风城玫瑰，NBA 历史上最年轻的常规赛 MVP，经过多年坎途，不曾在病魔面前哭泣，而在昨天却低下了头，落下了泪…   感慨万千，脑海中记着的依然是 09 年那一轮史诗级季后赛，还有那个给芝加哥带来无限希望的玫瑰。此刻，向传奇致敬！加油，罗斯！">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/rose.png?raw=true">
 
 
 
@@ -131,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="https://yejy813.github.io/2018/10/31/操作系统简述-2018-10-31/">
+  <link rel="canonical" href="https://yejy813.github.io/2018/11/02/操作系统-进程管理一-2018-11-2/">
 
 
 
@@ -141,7 +140,7 @@
   };
 </script>
 
-  <title>操作系统简述 | Mike's Blog</title>
+  <title>操作系统--进程管理(一) | Mike's Blog</title>
   
 
 
@@ -333,7 +332,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yejy813.github.io/2018/10/31/操作系统简述-2018-10-31/">
+    <link itemprop="mainEntityOfPage" href="https://yejy813.github.io/2018/11/02/操作系统-进程管理一-2018-11-2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiayun-Ye">
@@ -350,7 +349,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统简述
+          <h1 class="post-title" itemprop="name headline">操作系统--进程管理(一)
               
             
           </h1>
@@ -375,7 +374,7 @@
                 
               
 
-              <time title="创建时间：2018-10-31 21:05:51 / 修改时间：22:29:18" itemprop="dateCreated datePublished" datetime="2018-10-31T21:05:51+08:00">2018-10-31</time>
+              <time title="创建时间：2018-11-02 22:23:29 / 修改时间：23:49:53" itemprop="dateCreated datePublished" datetime="2018-11-02T22:23:29+08:00">2018-11-02</time>
             
 
             
@@ -393,7 +392,7 @@
 
           
           
-             <span id="/2018/10/31/操作系统简述-2018-10-31/" class="leancloud_visitors" data-flag-title="操作系统简述">
+             <span id="/2018/11/02/操作系统-进程管理一-2018-11-2/" class="leancloud_visitors" data-flag-title="操作系统--进程管理(一)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,7 +417,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.1k</span>
+                <span title="本文字数">1.7k</span>
               
 
               
@@ -442,67 +441,83 @@
       
 
       
-        <h2 id="操作系统基本概念"><a href="#操作系统基本概念" class="headerlink" title="操作系统基本概念"></a>操作系统基本概念</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux.png?raw=true" alt="avatar"></p>
-<p>操作系统 (operating system, 缩写 OS)，是指<strong>控制和管理整个计算机系统的硬件和软件资源，合理地组织调度计算机的工作和资源的分配的集合</strong>，为用户和底层硬件之间的桥梁。对于程序员来说，操作系统是工作场地，是<strong>应用程序控制底层硬件接口</strong>的提供者。<br><a id="more"></a></p>
-<h2 id="操作系统启动"><a href="#操作系统启动" class="headerlink" title="操作系统启动"></a>操作系统启动</h2><p>以 Linux 为例，一开始操作系统是存放在 Disk 上面的，然后再由 BIOS（基本I/O处理系统）检测我们计算机操作系统的各种外设，检测完，如果外设正常，再将一个 bootloader 小程序由 Disk 加载到内存中去，bootloader (512个字节) 负责将操作系统加载到内存，最终操作系统开始正常工作。</p>
-<blockquote>
-<p><strong>操作系统启动后，如何与外设和应用程序交互呢？</strong></p>
+        <h2 id="缅怀"><a href="#缅怀" class="headerlink" title="缅怀"></a>缅怀</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/rose.png?raw=true" alt="avatar"></p>
+<p>就在昨天，MVP 的呼声响彻标靶中心球馆，步入不惑的玫瑰，拿下了生涯新高 50 分，曾经的天之骄子，风城玫瑰，NBA 历史上最年轻的常规赛 MVP，经过多年坎途，不曾在病魔面前哭泣，而在昨天却低下了头，落下了泪…   感慨万千，脑海中记着的依然是 09 年那一轮史诗级季后赛，还有那个给芝加哥带来无限希望的玫瑰。此刻，向传奇致敬！加油，罗斯！<br><a id="more"></a></p>
+<h2 id="进程定义"><a href="#进程定义" class="headerlink" title="进程定义"></a>进程定义</h2><blockquote>
+<p><strong>一个具有一定独立功能的程序在一个数据集合上的一次动态执行过程</strong>。</p>
 </blockquote>
-<p>外设是通过中断和I/O来处理的，至于应用程序，是通过系统调用和异常来提供相应功能。中断，异常，系统调用三者就是操作系统同应用程序和底层硬件之间交互手段，三者具体定义如下：</p>
-<blockquote>
+<p>说的直接一点，我们编写代码时，一个 <code>mian()</code> 函数的动态执行过程就是一个进程，当然还包括这个 <code>main()</code> 函数执行过程中使用的资源和数据。</p>
+<h2 id="进程的组成"><a href="#进程的组成" class="headerlink" title="进程的组成"></a>进程的组成</h2><h3 id="一个进程应该包括："><a href="#一个进程应该包括：" class="headerlink" title="一个进程应该包括："></a>一个进程应该包括：</h3><blockquote>
 <ul>
-<li>系统调用（来源于应用程序)<br>应用程序主动向操作系统发出服务请求。<strong>系统调用会触发”用户态”到”内核态”的一个转换</strong>。”用户态”指的是应用程序在运行过程中，  cpu 所处的一个特权级状态，权限较低，不能直接访问特殊的机器指令和 I/O ; “内核态”指的是操作系统运行过程中 cpu 所指的一个状态，权限较高，该状态下，操作系统可以执行任何一条指令，包括特权指令，访问 I/O 指令。这种机制使得<strong>系统安全性可以得到保证</strong>。系统调用付出的代价主要是执行的<strong>开销相对普通函数调用较大</strong> (切换堆栈，用户态切换内核态)。<br><strong>Windows 应用 WIN32 API</strong><br><strong>POSIX-based systems 应用 POSIX API</strong>（包括unix，Linux，mac os x的所有版本）</li>
+<li>程序的代码；</li>
+<li>程序处理的数据；</li>
+<li>程序计数器中的值，指示下一条将运行的指令；</li>
+<li>一组通用的寄存器的当前值，堆，栈；</li>
+<li>一组系统资源(如内存资源，文件系统，网络等一系列资源)</li>
+</ul>
+</blockquote>
+<p>总之，<strong>进程包含了正在运行的一个程序的所有状态信息</strong>。</p>
+<h3 id="进程与程序的关系"><a href="#进程与程序的关系" class="headerlink" title="进程与程序的关系"></a>进程与程序的关系</h3><blockquote>
+<ul>
+<li>程序是产生进程的基础</li>
+<li>程序的每次运行构成不同的进程</li>
+<li>进程是程序功能的体现</li>
+<li>通过多次执行，一个程序可对应多个进程；通过调用关系，一个进程可包含多个程序。</li>
+</ul>
+</blockquote>
+<h3 id="进程与程序的区别"><a href="#进程与程序的区别" class="headerlink" title="进程与程序的区别"></a>进程与程序的区别</h3><blockquote>
+<ul>
+<li>进程是 <strong>动态的</strong>，程序是静态的：程序是有序代码的集合；进程是程序的执行，进程有核心态用户态</li>
+<li>进程是 <strong>暂时的</strong>，程序是永久的：进程是一个状态变化的过程，程序可长久保存</li>
+<li>进程与程序的组成不同：<strong>进程的组成包括程序，数据和进程控制块(即进程状态信息)</strong></li>
+</ul>
+</blockquote>
+<h2 id="进程的特点"><a href="#进程的特点" class="headerlink" title="进程的特点"></a>进程的特点</h2><blockquote>
+<ul>
+<li><strong>动态性</strong>：可动态的创建，结束进程； 创建接口 <code>fork()</code>, 结束进程： <code>kill</code> 等。</li>
+<li><strong>并发性</strong>：进程可以被独立调度并占有处理机运行；多核并行，单核一段时间内并发执行；</li>
+<li><strong>独立性</strong>：不同进程的工作不相互影响；(正确性不受影响，操作系统内存管理，页表管理使得不同进程访问不同的物理内存，相互之间独立不受影响。越过地址空间会产生缺页异常。保证进程独数据独立性。)</li>
+<li><strong>制约性</strong>：因访问共享数据/资源或者进程间同步产生制约；</li>
+</ul>
+</blockquote>
+<h2 id="进程控制结构-PCB"><a href="#进程控制结构-PCB" class="headerlink" title="进程控制结构(PCB)"></a>进程控制结构(PCB)</h2><blockquote>
+<p>进程控制块：<strong>操作系统管理控制进程运行所用的信息集合</strong>。<br>操作系统用PCB来描述进程的基本情况以及运行变化过程，<strong>PCB是进程存在的唯一标志</strong>。</p>
+</blockquote>
+<h3 id="使用进程控制块"><a href="#使用进程控制块" class="headerlink" title="使用进程控制块"></a>使用进程控制块</h3><blockquote>
+<p>进程的创建：为该进程生成一个PCB<br>进程终止：回收它的PCB<br>进程的组织管理：通过对PCB的组织管理来实现</p>
+</blockquote>
+<p><strong>对进程的创建，终止和管理都是通过处理PCB来完成</strong>。</p>
+<h3 id="PCB包含的三大类信息"><a href="#PCB包含的三大类信息" class="headerlink" title="PCB包含的三大类信息"></a>PCB包含的三大类信息</h3><blockquote>
+<ul>
+<li><strong>进程标识信息</strong>。如本进程的标识，本进程的产生者标识(父进程标识)；用户标识。</li>
+<li><strong>处理机状态信息保存区</strong>。保存进程的运行现场信息：<blockquote>
+<pre><code>1. 用户可见寄存器，用户程序可以使用数据，地址等寄存器。 
+2. 控制和状态寄存器，如程序计数器(PC)，程序状态字(PSW)。
+3. 栈指针，过程调用/系统调用/中断处理和返回时需要用到它。
+</code></pre></blockquote>
+</li>
 </ul>
 </blockquote>
 <blockquote>
 <ul>
-<li>异常（来源于不良的应用程序）<br>非法指令或者其他坏的处理状态。（如：内存出错） 操作系统需要保存现场，然后处理异常，接着杀死异常程序或重新执行异常程序。</li>
+<li><strong>进程控制信息</strong>：<blockquote>
+<pre><code>1. 调度和状态信息，用于操作系统调度进程并占用处理机使用。
+2. 进程间通信信息，为支持进程间与通信相关的各种标识，信号，信件等，这些信息存放在接收方的进程控制块里面。
+3. 存储管理信息，包含有指向本进程影像存储空间的数据结构。
+4. 进程所用的资源，说明由进程打开，使用的系统资源，如打开的文件等。
+5. 有关数据结构连接信息，进程可以连接到一个进程队列中，或连接到相关的其他进程的PCB。
+</code></pre></blockquote>
+</li>
 </ul>
 </blockquote>
-<blockquote>
+<h3 id="PCB的组织方式"><a href="#PCB的组织方式" class="headerlink" title="PCB的组织方式"></a>PCB的组织方式</h3><blockquote>
 <ul>
-<li>中断（来源于外设）<br>来自不同的硬件设备的计时器和网络中断 。中断向量表中保存有各个外设的中断编号和相应的中断服务例程地址，操作系统收到中断编号，查表，然后转到相应地址执行服务例程，这个时候操作系统需要保存当前处理状态，处理完中断再恢复现场。</li>
-</ul>
-</blockquote>
-<h2 id="操作系统特征"><a href="#操作系统特征" class="headerlink" title="操作系统特征"></a>操作系统特征</h2><ol>
-<li><p>并发 (Concurrence)</p>
-<blockquote>
-<p>并发： 一个时间段内，多个程序在运行。<br>并行：同一个时间点上，多个程序在运行，需要多核cpu来完成。<br>操作系统特征之一就是并发，同时存在多个运行程序，需要通过操作系统来进行调度。</p>
-</blockquote>
-</li>
-<li><p>共享 （Sharing)</p>
-<blockquote>
-<p>对于硬件资源，内存资源和相关外设等”同时”访问，共同使用，实际上是互斥共享。</p>
-</blockquote>
-</li>
-<li><p>虚拟 （Virtual)</p>
-<blockquote>
-<p>虚拟是指 <strong>把一个物理上的实体变为若干个逻辑上的对应物</strong>。物理实体（前者）是实的，即实际存在的；而后者是虚的，是用户感觉上的事物。用于实现虚拟的技术，称为虚拟技术。在操作系统中利用了多种虚拟技术，分别用来实现虚拟处理器、虚拟内存和虚拟外部设备。</p>
-<ul>
-<li>在虚拟处理器技术中，是 <strong>通过多道程序设计技术</strong>，让多道程序并发执行的方法，来分时使用一个处理器的。此时，虽然只有一个处理器，但它能同时为多个用户服务，使每个终端用户都感觉有一个中央处理器（CPU) 在专门为它服务。利用多道程序设计技术，把一个物理上的CPU虚拟为多个逻辑上的 CPU，称为虚拟处理器。</li>
-<li>类似地，可以通过虚拟存储器技术，<strong>将一台机器的物理存储器变为虚拟存储器</strong>，以便从逻辑上来扩充存储器的容量。当然,这时用户所感觉到的内存容量是虚的。我们把用户所感觉到的存储器（实际是不存在的）称为虚拟存储器。</li>
-<li>还可以通过虚拟设备技术，将一台物理 I/O 设备虚拟为多台逻辑上的I/O设备，并允许每个用户占用一台逻辑上的 I/O 设备，这样便可以 <strong>使原来仅允许在一段时间内由一个用户访问的设备（即临界资源)，变为在一段时间内允许多个用户同时访问的共享设备</strong>。<br>因此，操作系统的虚拟技术可归纳为：<strong>时分复用技术</strong>，如处理器的分时共享；<strong>空分复用技术</strong>，如虚拟存储器</li>
-</ul>
-</blockquote>
-</li>
-<li><p>异步 (Asynchronism)</p>
-<blockquote>
-<p>程序的执行不是一贯到底，而是走走停停，向前推进的速度不可预知，但只要运行环境相同，操作系统需要保证程序运行结果也相同。<br>异步使得操作系统运行在一种随机的环境下，可能导致进程产生与时间有关的错误 (就像对全局变量的访问顺序不当会导致程序出错一样）。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="Linux-系统组成"><a href="#Linux-系统组成" class="headerlink" title="Linux 系统组成"></a>Linux 系统组成</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/LinuxKernel.png?raw=true" alt="avatar"></p>
-<p>上图是 Linux 操作系统内核组成图，从中我们可以看到，操作系统主要功能为以下四个，那么后面文章中会一一深入介绍！</p>
-<blockquote>
-<ul>
-<li><strong>进程管理</strong>（Processing management）</li>
-<li><strong>内存管理</strong>（Memory management）</li>
-<li><strong>文件系统</strong>（File system）</li>
-<li><strong>网络通信</strong>（Networking）</li>
+<li>链表： 同一状态的进程其 PCB 组成一个链表，多个状态对应多个不同的链表。各状态的进程形成不同的链表：就绪链表，阻塞链表。(<strong>一般采用链表，动态插入删除，开销较小</strong>)</li>
+<li>索引表：同一状态的进程归入一个 index 表(由 index 指向 PCB )，多个状态对应多个不同的 index 表。各状态的进程形成不同的索引表：就绪索引表，阻塞索引表。(如果 PCB 个数比较固定，不会频繁插入删除，使用索引表)</li>
 </ul>
 </blockquote>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
-<p><a href="https://www.bilibili.com/video/av6538245/?p=2" target="_blank" rel="noopener">https://www.bilibili.com/video/av6538245/?p=2</a><br><a href="https://blog.csdn.net/bigpudding24/article/details/48603301" target="_blank" rel="noopener">https://blog.csdn.net/bigpudding24/article/details/48603301</a></p>
+<p><a href="https://www.bilibili.com/video/av6538245/?p=2" target="_blank" rel="noopener">https://www.bilibili.com/video/av6538245/?p=2</a></p>
 </blockquote>
 
       
@@ -537,8 +552,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/27/2018-10-29/" rel="next" title="关于这个博客">
-                <i class="fa fa-chevron-left"></i> 关于这个博客
+              <a href="/2018/10/31/操作系统简述-2018-10-31/" rel="next" title="操作系统简述">
+                <i class="fa fa-chevron-left"></i> 操作系统简述
               </a>
             
           </div>
@@ -546,10 +561,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/02/操作系统-进程管理一-2018-11-2/" rel="prev" title="操作系统--进程管理(一)">
-                操作系统--进程管理(一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -716,7 +727,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统基本概念"><span class="nav-number">1.</span> <span class="nav-text">操作系统基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统启动"><span class="nav-number">2.</span> <span class="nav-text">操作系统启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统特征"><span class="nav-number">3.</span> <span class="nav-text">操作系统特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-系统组成"><span class="nav-number">4.</span> <span class="nav-text">Linux 系统组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缅怀"><span class="nav-number">1.</span> <span class="nav-text">缅怀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程定义"><span class="nav-number">2.</span> <span class="nav-text">进程定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的组成"><span class="nav-number">3.</span> <span class="nav-text">进程的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个进程应该包括："><span class="nav-number">3.1.</span> <span class="nav-text">一个进程应该包括：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程与程序的关系"><span class="nav-number">3.2.</span> <span class="nav-text">进程与程序的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程与程序的区别"><span class="nav-number">3.3.</span> <span class="nav-text">进程与程序的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的特点"><span class="nav-number">4.</span> <span class="nav-text">进程的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程控制结构-PCB"><span class="nav-number">5.</span> <span class="nav-text">进程控制结构(PCB)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用进程控制块"><span class="nav-number">5.1.</span> <span class="nav-text">使用进程控制块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCB包含的三大类信息"><span class="nav-number">5.2.</span> <span class="nav-text">PCB包含的三大类信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCB的组织方式"><span class="nav-number">5.3.</span> <span class="nav-text">PCB的组织方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -885,7 +896,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/10/31/操作系统简述-2018-10-31/'
+        refer: '2018/11/02/操作系统-进程管理一-2018-11-2/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];
