@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://yejy813.github.io/"/>
+  <link href="https://mikeblog.top/"/>
   <updated>2018-11-03T01:33:07.609Z</updated>
-  <id>https://yejy813.github.io/</id>
+  <id>https://mikeblog.top/</id>
   
   <author>
     <name>Jiayun-Ye</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>操作系统--进程管理(二)</title>
-    <link href="https://yejy813.github.io/2018/11/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BA%8C-2018-11-3/"/>
-    <id>https://yejy813.github.io/2018/11/03/操作系统-进程管理二-2018-11-3/</id>
+    <link href="https://mikeblog.top/2018/11/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BA%8C-2018-11-3/"/>
+    <id>https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/</id>
     <published>2018-11-03T00:13:53.000Z</published>
     <updated>2018-11-03T01:33:07.609Z</updated>
     
@@ -37,14 +37,14 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://yejy813.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
   <entry>
     <title>操作系统--进程管理(一)</title>
-    <link href="https://yejy813.github.io/2018/11/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%80-2018-11-2/"/>
-    <id>https://yejy813.github.io/2018/11/02/操作系统-进程管理一-2018-11-2/</id>
+    <link href="https://mikeblog.top/2018/11/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%80-2018-11-2/"/>
+    <id>https://mikeblog.top/2018/11/02/操作系统-进程管理一-2018-11-2/</id>
     <published>2018-11-02T14:23:29.000Z</published>
     <updated>2018-11-02T15:49:53.709Z</updated>
     
@@ -56,14 +56,14 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://yejy813.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
   <entry>
     <title>操作系统简述</title>
-    <link href="https://yejy813.github.io/2018/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0-2018-10-31/"/>
-    <id>https://yejy813.github.io/2018/10/31/操作系统简述-2018-10-31/</id>
+    <link href="https://mikeblog.top/2018/10/31/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0-2018-10-31/"/>
+    <id>https://mikeblog.top/2018/10/31/操作系统简述-2018-10-31/</id>
     <published>2018-10-31T13:05:51.000Z</published>
     <updated>2018-10-31T14:29:18.816Z</updated>
     
@@ -75,25 +75,25 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://yejy813.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
   <entry>
     <title>关于这个博客</title>
-    <link href="https://yejy813.github.io/2018/10/27/2018-10-29/"/>
-    <id>https://yejy813.github.io/2018/10/27/2018-10-29/</id>
+    <link href="https://mikeblog.top/2018/10/27/2018-10-29/"/>
+    <id>https://mikeblog.top/2018/10/27/2018-10-29/</id>
     <published>2018-10-27T05:35:16.000Z</published>
     <updated>2018-10-30T13:55:41.208Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/sea.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/h2&gt;&lt;p&gt;花了两三天时间，搭建了一个自己的博客，在阿里云买了人生中第一个域名 &lt;strong&gt;&lt;a href=&quot;https://mikeblog.top/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;mikeblog.top&lt;/a&gt;&lt;/strong&gt;，基本框架用的是hexo+githubpage，这个网上教程很多，也很详细，我就不介绍详细过程了，在这里十分感谢其他博主的分享，也感谢这两个平台，让我在互联网上有了一个自己的小栖息地，说实话，感觉像有了一个自己的家。&lt;br&gt;
+      &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/sea.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/h2&gt;&lt;p&gt;花了两三天时间，搭建了一个自己的博客，在阿里云买了人生中第一个域名 &lt;strong&gt;&lt;a href=&quot;https://mikeblog.top/&quot;&gt;mikeblog.top&lt;/a&gt;&lt;/strong&gt;，基本框架用的是hexo+githubpage，这个网上教程很多，也很详细，我就不介绍详细过程了，在这里十分感谢其他博主的分享，也感谢这两个平台，让我在互联网上有了一个自己的小栖息地，说实话，感觉像有了一个自己的家。&lt;br&gt;
     
     </summary>
     
     
-      <category term="随笔" scheme="https://yejy813.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+      <category term="随笔" scheme="https://mikeblog.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
