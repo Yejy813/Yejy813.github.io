@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2018-11-03T01:33:07.609Z</updated>
+  <updated>2018-11-09T16:13:50.439Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>操作系统-线程概述</title>
+    <link href="https://mikeblog.top/2018/11/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E7%BA%BF%E7%A8%8B%E6%A6%82%E8%BF%B0-2018-11-9/"/>
+    <id>https://mikeblog.top/2018/11/09/操作系统-线程概述-2018-11-9/</id>
+    <published>2018-11-09T14:13:59.000Z</published>
+    <updated>2018-11-09T16:13:50.439Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;为什么使用线程&quot;&gt;&lt;a href=&quot;#为什么使用线程&quot; class=&quot;headerlink&quot; title=&quot;为什么使用线程&quot;&gt;&lt;/a&gt;为什么使用线程&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E7%BA%BF%E7%A8%8B.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们需要一种新的实体(&lt;strong&gt;线程&lt;/strong&gt;)，既能够满足不同实体之间可以并发执行，同时可以共享相同的地址空间和文件资源等，相对于进程，&lt;strong&gt;减少创建和切换时的开销&lt;/strong&gt;。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>操作系统--进程管理(二)</title>
     <link href="https://mikeblog.top/2018/11/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BA%8C-2018-11-3/"/>
     <id>https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/</id>
     <published>2018-11-03T00:13:53.000Z</published>
-    <updated>2018-11-03T01:33:07.609Z</updated>
+    <updated>2018-11-09T16:14:55.701Z</updated>
     
     <summary type="html">
     
@@ -46,7 +67,7 @@
     <link href="https://mikeblog.top/2018/11/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%80-2018-11-2/"/>
     <id>https://mikeblog.top/2018/11/02/操作系统-进程管理一-2018-11-2/</id>
     <published>2018-11-02T14:23:29.000Z</published>
-    <updated>2018-11-02T15:49:53.709Z</updated>
+    <updated>2018-11-09T14:16:01.361Z</updated>
     
     <summary type="html">
     
