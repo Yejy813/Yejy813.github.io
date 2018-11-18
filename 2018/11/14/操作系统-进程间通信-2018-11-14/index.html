@@ -117,7 +117,7 @@
 <meta property="og:description" content="IPC 运用范畴  配图与本文无关，纯属有趣  相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！今天把博客的 git 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(IPC) 。进程间通信，我们从 &amp;lt;&amp;lt; UNIX网络编程卷2：进程间通信 &amp;gt;&amp;gt; 最后一章 Sun RPC 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/Snipaste_2018-11-12_22-04-22.png?raw=true">
-<meta property="og:updated_time" content="2018-11-18T08:01:09.575Z">
+<meta property="og:updated_time" content="2018-11-18T08:04:25.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统--进程间通信(一)">
 <meta name="twitter:description" content="IPC 运用范畴  配图与本文无关，纯属有趣  相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！今天把博客的 git 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(IPC) 。进程间通信，我们从 &amp;lt;&amp;lt; UNIX网络编程卷2：进程间通信 &amp;gt;&amp;gt; 最后一章 Sun RPC 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些">
@@ -391,7 +391,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-11-18 16:01:09" itemprop="dateModified" datetime="2018-11-18T16:01:09+08:00">2018-11-18</time>
+                <time title="修改时间：2018-11-18 16:04:25" itemprop="dateModified" datetime="2018-11-18T16:04:25+08:00">2018-11-18</time>
               
             
           </span>
@@ -483,7 +483,7 @@
 </li>
 <li>signal types and type names are defined in signal.h 定义在 signal.h 文件</li>
 <li>signals are not queued   信号没有排队</li>
-<li>handlers “terminate process” (SIG_DFL) and “ignore signal” (SIG_IGN) are already defined in signal.h 常用终进程和忽略信号在 signal.h</li>
+<li>handlers “terminate process” (SIG_DFL) and “ignore signal” (SIG_IGN) are already defined in signal.h 常用终止进程和忽略信号定义在 signal.h</li>
 </ul>
 <p><code>unix</code> 主要接口信息：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>: signal.h</span></span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">void</span> <span class="title">raise</span><span class="params">(<span class="keyword">int</span> sig_type)</span></span></span><br><span class="line">description：用信号sig_type发信号。</span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">void</span> <span class="title">signal</span><span class="params">(<span class="keyword">int</span> sig_type, <span class="keyword">void</span> (*sig_handler)(<span class="keyword">int</span> signal_type))</span></span></span><br><span class="line">description：sig_type是signal.h中定义的信号值（或名称）之一。 sig_handles是一个指向带有int参数的函数的指针。当进程被指定类型的信号命中时，此函数将在进程上下文中运行。</span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">int</span> <span class="title">kill</span><span class="params">(<span class="keyword">pid_t</span> dest_pid, <span class="keyword">int</span> sig_type)</span></span></span><br><span class="line">description：向使用PID dest_pid运行的进程发送sig_type类型的信号。 dest_pid的特定类型0和-1 make kill（）分别发送与发送方的同一组执行的所有进程，并发信号通知系统中运行的所有进程（仅适用于超级用户凭据)。</span><br></pre></td></tr></table></figure></p>
 <h3 id="管道和FIFO"><a href="#管道和FIFO" class="headerlink" title="管道和FIFO"></a>管道和FIFO</h3><p><strong>1.管道，通常指无名管道，是 <code>UNIX</code> 系统<code>IPC</code>最古老的形式</strong>。<br>特点：</p>
