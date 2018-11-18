@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2018-11-18T08:04:25.599Z</updated>
+  <updated>2018-11-18T16:27:20.041Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>操作系统-进程互斥和同步</title>
+    <link href="https://mikeblog.top/2018/11/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-2018-11-18/"/>
+    <id>https://mikeblog.top/2018/11/18/操作系统-进程互斥和同步-2018-11-18/</id>
+    <published>2018-11-18T13:34:13.000Z</published>
+    <updated>2018-11-18T16:27:20.041Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E9%97%AE%E9%A2%98.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
+&lt;p&gt;为什么会有同步和互斥？ 因为计算机系统中有多个进程存在，多个进程间进行交互，会引起它们对 &lt;strong&gt;共享资源&lt;/strong&gt;的访问，如果这些资源处理不当，就可能出现一些意想不到的情况，比如说 &lt;strong&gt;饥饿，死锁&lt;/strong&gt;等一系列问题。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>操作系统--进程间通信(一)</title>
     <link href="https://mikeblog.top/2018/11/14/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1-2018-11-14/"/>
     <id>https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/</id>
     <published>2018-11-14T14:13:04.000Z</published>
-    <updated>2018-11-18T08:04:25.599Z</updated>
+    <updated>2018-11-18T13:40:58.091Z</updated>
     
     <summary type="html">
     
@@ -35,8 +56,6 @@
     
     
       <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-      <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -66,7 +85,7 @@
     <link href="https://mikeblog.top/2018/11/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BA%8C-2018-11-3/"/>
     <id>https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/</id>
     <published>2018-11-03T00:13:53.000Z</published>
-    <updated>2018-11-09T16:14:55.701Z</updated>
+    <updated>2018-11-18T15:49:48.552Z</updated>
     
     <summary type="html">
     
