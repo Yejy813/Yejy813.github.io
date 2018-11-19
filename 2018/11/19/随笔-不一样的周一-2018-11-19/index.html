@@ -108,20 +108,22 @@
 
 
 
-  <meta name="description" content="IPC 运用范畴  配图与本文无关，纯属有趣  相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！今天把博客的 git 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(IPC) 。进程间通信，我们从 &amp;lt;&amp;lt; UNIX网络编程卷2：进程间通信 &amp;gt;&amp;gt; 最后一章 Sun RPC 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些">
-<meta name="keywords" content="操作系统">
+  <meta name="description" content="今天是 2018-11-19 日，周一，和以往的周一不太一样，首先我旁边少了一个人，导师加主管，上周离职了，惊讶加不解。不解的是公司发展到现在不容易，而他做到这个位置同样不易，而且已经不搞技术很久了，年龄也到了不惑有一，如果离开现在公司，外面还有更好的地方可以去吗？">
+<meta name="keywords" content="随笔">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统--进程间通信(一)">
-<meta property="og:url" content="https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/index.html">
+<meta property="og:title" content="不一样的周一">
+<meta property="og:url" content="https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/index.html">
 <meta property="og:site_name" content="Mike&#39;s Blog">
-<meta property="og:description" content="IPC 运用范畴  配图与本文无关，纯属有趣  相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！今天把博客的 git 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(IPC) 。进程间通信，我们从 &amp;lt;&amp;lt; UNIX网络编程卷2：进程间通信 &amp;gt;&amp;gt; 最后一章 Sun RPC 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些">
+<meta property="og:description" content="今天是 2018-11-19 日，周一，和以往的周一不太一样，首先我旁边少了一个人，导师加主管，上周离职了，惊讶加不解。不解的是公司发展到现在不容易，而他做到这个位置同样不易，而且已经不搞技术很久了，年龄也到了不惑有一，如果离开现在公司，外面还有更好的地方可以去吗？">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/Snipaste_2018-11-12_22-04-22.png?raw=true">
-<meta property="og:updated_time" content="2018-11-18T13:40:58.091Z">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/timg.jpg?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E5%90%8E%E4%BC%9A%E6%9C%89%E6%9C%9F.jpg?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E5%B7%A5%E4%B8%9A4.0.jpg?raw=true">
+<meta property="og:updated_time" content="2018-11-19T15:22:49.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统--进程间通信(一)">
-<meta name="twitter:description" content="IPC 运用范畴  配图与本文无关，纯属有趣  相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！今天把博客的 git 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(IPC) 。进程间通信，我们从 &amp;lt;&amp;lt; UNIX网络编程卷2：进程间通信 &amp;gt;&amp;gt; 最后一章 Sun RPC 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些">
-<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/Snipaste_2018-11-12_22-04-22.png?raw=true">
+<meta name="twitter:title" content="不一样的周一">
+<meta name="twitter:description" content="今天是 2018-11-19 日，周一，和以往的周一不太一样，首先我旁边少了一个人，导师加主管，上周离职了，惊讶加不解。不解的是公司发展到现在不容易，而他做到这个位置同样不易，而且已经不搞技术很久了，年龄也到了不惑有一，如果离开现在公司，外面还有更好的地方可以去吗？">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/timg.jpg?raw=true">
 
 
 
@@ -130,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/">
+  <link rel="canonical" href="https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/">
 
 
 
@@ -140,7 +142,7 @@
   };
 </script>
 
-  <title>操作系统--进程间通信(一) | Mike's Blog</title>
+  <title>不一样的周一 | Mike's Blog</title>
   
 
 
@@ -332,7 +334,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiayun-Ye">
@@ -349,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统--进程间通信(一)
+          <h1 class="post-title" itemprop="name headline">不一样的周一
               
             
           </h1>
@@ -374,24 +376,12 @@
                 
               
 
-              <time title="创建时间：2018-11-14 22:13:04" itemprop="dateCreated datePublished" datetime="2018-11-14T22:13:04+08:00">2018-11-14</time>
+              <time title="创建时间：2018-11-19 21:37:57 / 修改时间：23:22:49" itemprop="dateCreated datePublished" datetime="2018-11-19T21:37:57+08:00">2018-11-19</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-11-18 21:40:58" itemprop="dateModified" datetime="2018-11-18T21:40:58+08:00">2018-11-18</time>
               
             
           </span>
@@ -404,7 +394,7 @@
 
           
           
-             <span id="/2018/11/14/操作系统-进程间通信-2018-11-14/" class="leancloud_visitors" data-flag-title="操作系统--进程间通信(一)">
+             <span id="/2018/11/19/随笔-不一样的周一-2018-11-19/" class="leancloud_visitors" data-flag-title="不一样的周一">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,7 +419,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">5.8k</span>
+                <span title="本文字数">1.8k</span>
               
 
               
@@ -453,57 +443,28 @@
       
 
       
-        <h2 id="IPC-运用范畴"><a href="#IPC-运用范畴" class="headerlink" title="IPC 运用范畴"></a>IPC 运用范畴</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/Snipaste_2018-11-12_22-04-22.png?raw=true" alt="avatar"></p>
-<blockquote>
-<p><strong>配图与本文无关，纯属有趣</strong></p>
-</blockquote>
-<p>相对于做点什么，我们更想睡懒觉，但是相对于睡觉，我想写总结！<br>今天把博客的 <code>git</code> 分支搞混了，浪费了一点时间。那么今天介绍一下进程间通信(<code>IPC</code>) 。进程间通信，我们从 &lt;&lt; <code>UNIX</code>网络编程卷2：进程间通信 &gt;&gt; 最后一章 <strong>Sun RPC</strong> 谈起，那为什么呢？ 因为我们去掌握一个东西，肯定是因为它有价值，我们才去学习，如果一些技术现在都不用了，淘汰了，那我们就没有必要去深究，只需学习其思想，浅尝辄止即可。<br><a id="more"></a><br>最后一张概述部分是这样介绍的，构筑一个应用程序时，我们首先在以下两者之间作出选择：</p>
-<blockquote>
-<p> (1) 构筑一个庞大的单一程序，完成全部工作；<br> (2) 把整个应用程序散步到彼此通信的多个进程中。<br>如果我们选择后者，接下去的抉择是：</p>
-<blockquote>
-<p>  (2a) 假设所有进程运行在同一台主机上 (允许 <code>IPC</code> 用于这些进程间的通信)；<br>  (2b) 假设某些进程会运行在其他主机上 (要求使用进程间某种形式的网络通信)。</p>
-</blockquote>
-</blockquote>
-<p>这本著作主要关注的是 <code>2a</code> 这种情况，也就是 <strong>使用<code>消息传递</code>、<code>共享内存</code>、并可能使用某种形式的<code>同步</code>来进行同一台主机上的进程间 <code>IPC</code></strong>。同一进程内不同线程间的 <code>IPC</code> 以及不同进程内各个线程间的 <code>IPC</code>只是这种情形的特殊情况。</p>
-<p>而对于不同部分之间需要网络通信的应用程序则大多数使用 <strong>显示网络编程</strong>（<code>explicit network programming</code>)方式编写，也就是我们现在流行的 <code>Socket</code>编程。</p>
-<p>那么现在是什么情况呢？ 由于互联网大火，导致现在主流热门的进程间通信方式变成了使用 <code>Socket</code> 套接字通信。这个也可以理解，由于互联网就是传统的 <code>C/S</code>(服务器端-客户端)架构，对于客户端开发来说，主要就是移动应用开发、<code>PC</code>端应用开发、Web 浏览器开发，这些是互联网主要的流量入口，应用和浏览器需要通信的对象就是服务器，服务器要做的也是和客户端更好的进行通信，所以如果需要从事互联网的工作，那么对 <code>Socket</code> 编程相对于其他 <code>IPC</code> 手段就需要更熟悉，特别是服务器后台开发，客户端还好，客户端业务逻辑和 <code>UI</code> 体验相对重要，至于一些系统层技术，开发框架都已经封装的很好了，只需掌握使用方法就可以，像<code>android</code> 、 <code>IOS</code>开发。但是如果你是从事系统开发，那么所有的 <code>IPC</code> 方式都需要了解，特别是<code>消息传递</code>、<code>共享内存</code>需要深入了解。</p>
-<h2 id="具体的-IPC-手段"><a href="#具体的-IPC-手段" class="headerlink" title="具体的 IPC 手段"></a>具体的 IPC 手段</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>软件中断通知事件处理 例如：SIGFPE, SIGKILL, SIGUSR1, SIGSTOP, SIGCONT<br>接收到信号会发生什么：</p>
+        <p><img src="https://github.com/Yejy813/pictures/blob/master/timg.jpg?raw=true" alt="avatar"><br>今天是 2018-11-19 日，周一，和以往的周一不太一样，首先我旁边少了一个人，导师加主管，上周离职了，惊讶加不解。不解的是公司发展到现在不容易，而他做到这个位置同样不易，而且已经不搞技术很久了，年龄也到了不惑有一，如果离开现在公司，外面还有更好的地方可以去吗？<br><a id="more"></a><br>在我的印象里，他走的就是传统的程序员模式，从程序员开始，然后做<code>Teamleader</code>，最后是主管，这时候无需码代码，搞技术，整天就是开这个会那个会、需求评审、项目例会等等，忙的不可开交。到了这个时候，他最大的价值就是对公司的业务了如指掌，非常熟悉，基本每个功能点他都可以摸清楚。我在想，到这种地步，应该会一直呆公司吧，毕竟如果离开，成本太大了，去到新公司，要熟悉新业务不说，可能还要重新将拾起许久技术。 </p>
+<p>当然，他能够对现在业务摸的这么清楚，而且问题分析能力很强，逻辑思维很好，表达能力也强，十分善于沟通，项目管理这一块也很熟悉，所以优点是很明显的，到了新公司，我相信他也可以十分迅速的掌握新公司的业务，走上管理岗位。</p>
+<p>第一个导师加主管，而且还是学长，教会了我很多，扮演着引入人的角色，对我十分关照，真的非常感谢。 希望您今后工作顺利，前程似锦！后会有期！<br><img src="https://github.com/Yejy813/pictures/blob/master/%E5%90%8E%E4%BC%9A%E6%9C%89%E6%9C%9F.jpg?raw=true" alt="avatar"></p>
+<p>当然，对我来说，我其实并不喜欢主管之前的状态，完全抛开技术，做管理工作。虽然现在我还比较迷茫，但是大方向还是确定的，我还是要搞技术，只是选哪个方向罢了，我觉得技术对我来说还是比较有吸引力的，毕竟技术改变未来，笑脸！</p>
+<p><img src="https://github.com/Yejy813/pictures/blob/master/%E5%B7%A5%E4%B8%9A4.0.jpg?raw=true" alt="avatar"></p>
+<p>今天是周一，像以往一样，我会先在阮一峰老师的<strong><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">博客</a></strong>上，看看有没有什么新鲜事，他是唯一一个可以把技术博客写的如此文艺的人，感觉非常不错。</p>
+<p>从中看到印象最深刻的，莫过于计算机科学家 <strong><a href="https://www.tbray.org/ongoing/When/201x/2018/10/25/On-Retirement" target="_blank" rel="noopener">Tim Bray</a></strong>在一篇博客中谈到自己可能退休，但是令人感叹的不是退休，而是他对事物，对工作的态度。</p>
+<p>Rea­sons to keep work­ing</p>
 <ul>
-<li>Catch：指定信号处理函数被调用</li>
-<li>Ignore：依靠操作系统的默认操作<br>  example：Abort，memory dump，suspend or resume process</li>
-<li>Mask：闭塞信号，因此不会发生<br>  可能是暂时的（处理同样类型的信号）</li>
+<li>I get to write soft­ware that fil­ters and routes a mil­lion mes­sages a sec­ond. 编写软件，每秒过滤路由100万个消息</li>
+<li>I’m in a po­si­tion where it’s re­al­ly hard for peo­ple not to lis­ten to my opin­ions about<br>tech­nol­o­gy. I’d be­come amaz­ing­ly un­in­ter­est­ing about fif­teen sec­onds af­ter re­tir­ing. 处于一个别人很难不听取我技术意见的位置</li>
+<li>I learn things all the time about how to think about how to use com­put­er­s. 我一直在学习思考如何使用计算机</li>
+<li>I get a chance to move the needle, a lit­tle, on the way peo­ple use com­put­er­s. 我有机会在人们使用计算机的方式上移动一针</li>
+<li>I like com­put­er­s, and so it makes sense to work for (what I as­sume must be) the world’s largest provider of com­put­ers to peo­ple and busi­ness­es who use them. 我喜欢计算机</li>
 </ul>
-<p>不足：不能传输要交换的任何数据</p>
-<p>特点：</p>
+<p>现在工作中，我还无法保持这种热情，那我是不是也可以退休了? 非也，我们可以努力培养自己这方面的能力，对事物持续投入热情的能力。虽然，有的时候早上起来还处于 Some morn­ings, I feel like sleep­ing in. 状态，但我相信这只是暂时的 ！ </p>
 <ul>
-<li>signals are only delivered between processes when either:  仅在同一个用户的进程间传递，或者超级用户发出信号<ol>
-<li>the processes involved are run by the same user</li>
-<li>the raising process is run by a superuser</li>
-</ol>
+<li>参考：<blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2018/11/weekly-issue-31.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/11/weekly-issue-31.html</a><br><a href="https://dev.to/acoh3n/why-i-love-java-5c14" target="_blank" rel="noopener">https://dev.to/acoh3n/why-i-love-java-5c14</a><br><a href="https://phpocean.com/blog/article/learning-programming-is-different-from-learning-a-programming-language/80" target="_blank" rel="noopener">https://phpocean.com/blog/article/learning-programming-is-different-from-learning-a-programming-language/80</a></p>
+</blockquote>
 </li>
-<li>signal types and type names are defined in signal.h 定义在 signal.h 文件</li>
-<li>signals are not queued   信号没有排队</li>
-<li>handlers “terminate process” (SIG_DFL) and “ignore signal” (SIG_IGN) are already defined in signal.h 常用终止进程和忽略信号定义在 signal.h</li>
 </ul>
-<p><code>unix</code> 主要接口信息：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>: signal.h</span></span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">void</span> <span class="title">raise</span><span class="params">(<span class="keyword">int</span> sig_type)</span></span></span><br><span class="line">description：用信号sig_type发信号。</span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">void</span> <span class="title">signal</span><span class="params">(<span class="keyword">int</span> sig_type, <span class="keyword">void</span> (*sig_handler)(<span class="keyword">int</span> signal_type))</span></span></span><br><span class="line">description：sig_type是signal.h中定义的信号值（或名称）之一。 sig_handles是一个指向带有int参数的函数的指针。当进程被指定类型的信号命中时，此函数将在进程上下文中运行。</span><br><span class="line"></span><br><span class="line">functions：<span class="function"><span class="keyword">int</span> <span class="title">kill</span><span class="params">(<span class="keyword">pid_t</span> dest_pid, <span class="keyword">int</span> sig_type)</span></span></span><br><span class="line">description：向使用PID dest_pid运行的进程发送sig_type类型的信号。 dest_pid的特定类型0和-1 make kill（）分别发送与发送方的同一组执行的所有进程，并发信号通知系统中运行的所有进程（仅适用于超级用户凭据)。</span><br></pre></td></tr></table></figure></p>
-<h3 id="管道和FIFO"><a href="#管道和FIFO" class="headerlink" title="管道和FIFO"></a>管道和FIFO</h3><p><strong>1.管道，通常指无名管道，是 <code>UNIX</code> 系统<code>IPC</code>最古老的形式</strong>。<br>特点：</p>
-<ul>
-<li>pipes are uni-directional  半双工</li>
-<li>with file descriptors, they can only be shared between processes with parent-child relationship 只能用于父子进程间</li>
-<li>atomicity is guaranteed for messages shorter than PIPE_BUF bytes  特定大小缓存保持原子性</li>
-<li>alf-open pipes are told widowed (or broken) pipes. Writing on them causes a write error, reading from them always returns 0 bytes.  坏的管道，会出现写错误，读取时，返回0字节.</li>
-</ul>
-<p><code>unix</code> 主要接口信息：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>: unistd.h</span></span><br><span class="line">functions： <span class="function"><span class="keyword">int</span> <span class="title">pipe</span><span class="params">(<span class="keyword">int</span> *fd_couple)</span>  </span></span><br><span class="line">description：创建一个管道并将其文件描述符存储到fd_couple [0]（读取结束）和fd_couple [1]（写入结束）。 </span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，错误返回 <span class="number">-1</span></span><br></pre></td></tr></table></figure></p>
-<p>模拟使用场景，实现 <code>Linux</code> 系统调用 <code>popen</code>，主要代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILE * <span class="title">vpopen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * cmdstring, <span class="keyword">const</span> <span class="keyword">char</span> * type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pfd[<span class="number">2</span>];</span><br><span class="line">    FILE * fp;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((type[<span class="number">0</span>] != <span class="string">'r'</span> &amp;&amp; type[<span class="number">0</span>] != <span class="string">'w'</span>) || type[<span class="number">1</span>] != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        errno = EINVAL;</span><br><span class="line">        <span class="keyword">return</span> (<span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(pipe(pfd) != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((pid = vfork()) &lt; <span class="number">0</span>) <span class="comment">// vfork 相对于fork区别是: vfork需要等待子进程执行完后才开始执行，两者共享地址空间</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>) <span class="comment">// 子进程</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(*type == <span class="string">'r'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            close(pfd[<span class="number">0</span>]);</span><br><span class="line">            <span class="keyword">if</span> (pfd[<span class="number">1</span>] != STDOUT_FILENO)</span><br><span class="line">            &#123;</span><br><span class="line">                dup2(pfd[<span class="number">1</span>], STDOUT_FILENO);</span><br><span class="line">                close(pfd[<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            close(pfd[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">if</span> (pfd[<span class="number">0</span>] != STDIN_FILENO)</span><br><span class="line">            &#123;</span><br><span class="line">                dup2(pfd[<span class="number">0</span>], STDIN_FILENO);</span><br><span class="line">                close(pfd[<span class="number">0</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(execl(<span class="string">"/bin/bash"</span>, <span class="string">"bash"</span>, <span class="string">"-c"</span>, cmdstring, (<span class="keyword">char</span> *) <span class="number">0</span>) &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    wait(<span class="number">0</span>); <span class="comment">// 等子进程结束，回收子进程</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (*type == <span class="string">'r'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        close(pfd[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">if</span> ((fp = fdopen(pfd[<span class="number">0</span>], type)) == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="literal">NULL</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        close(pfd[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">if</span> ((fp = fdopen(pfd[<span class="number">1</span>], type)) == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="literal">NULL</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>2.有名管道，FIFO，</strong><br>特点：</p>
-<ul>
-<li>每个FIFO有一个路径名与之关联，允许无亲缘关系进程间的通信  </li>
-<li>拥有标准管道的属性和特征</li>
-</ul>
-<p><code>unix</code> 主要接口信息：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*  <span class="meta">#<span class="meta-keyword">include</span>: sys/types.h and sys/stat.h</span></span><br><span class="line">*  functions： <span class="function"><span class="keyword">int</span> <span class="title">mkfifo</span><span class="params">(<span class="keyword">char</span> *path, <span class="keyword">mode_t</span> mode)</span> </span></span><br><span class="line">*  description：path是要创建的FIFO文件的（路径+）名称。 mode是文件权限（请参阅umask（2）和chmod（2））</span><br><span class="line">*  <span class="keyword">return</span>： 成功返回 <span class="number">0</span>，错误返回非 <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<p>模拟使用场景：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* 模拟场景</span><br><span class="line">*  <span class="number">1.</span> 在 shell 端使用命令创建有名管道： mkfifo /tmp/named_pipe</span><br><span class="line">*  <span class="number">2.</span> 运行该接口</span><br><span class="line">*  <span class="number">3.</span> 在 shell 端写入数据到管道 ：echo <span class="string">"hey, this is a message"</span> &gt; /tmp/named_pipe</span><br><span class="line">*  <span class="number">4.</span> 测试完毕，删除管道： rm /tmp/named_pipe</span><br><span class="line">* </span><br><span class="line">*  当然我们也可以自己启动一个任意进程向FIFO管道里面写数据</span><br></pre></td></tr></table></figure></p>
-<p>具体实现代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fifo_read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pipe;</span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">char</span> TmpCh;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* we expect a named pipe has been created</span></span><br><span class="line"><span class="comment">     * in /tmp/named_pipe . The command</span></span><br><span class="line"><span class="comment">     *   $ mkfifo /tmp/named_pipe</span></span><br><span class="line"><span class="comment">     * is a friend to get to this point</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    pipe = open(<span class="string">"/tmp/named_pipe"</span>, O_RDONLY);</span><br><span class="line">    <span class="keyword">if</span> (pipe &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"open fifo error, maybe you should create a fifo first !\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">/* preparing to read from the pipe... */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Waiting data from the pipe... \n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* reading one char a time from the pipe */</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (read(pipe, &amp;ch, <span class="number">1</span>) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Read the pipe failed! \n"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ch != TmpCh)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%c"</span>, ch);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        TmpCh = ch;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* leaving the pipe */</span></span><br><span class="line">    close(pipe);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上述主要对<code>IPC</code>做了一个大体的介绍，以及介绍了信号(signal)和管道两种<code>IPC</code>方式，这两者在<code>Linux</code>系统自带功能实现中用的较多。至于 <code>Posix</code>和 <code>System V</code>的进程间通信方式 <strong>消息队列</strong>，<strong>信号</strong>和 <strong>共享内存</strong>，由于内容较多后面再单独介绍。</p>
 
       
     </div>
@@ -525,7 +486,7 @@
     <strong>本文作者： </strong>Jiayun-Ye</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/" title="操作系统--进程间通信(一)">https://mikeblog.top/2018/11/14/操作系统-进程间通信-2018-11-14/</a>
+    <a href="https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/" title="不一样的周一">https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
@@ -538,7 +499,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/操作系统/" rel="tag"><i class="fa fa-tag"></i> 操作系统</a>
+            <a href="/tags/随笔/" rel="tag"><i class="fa fa-tag"></i> 随笔</a>
           
         </div>
       
@@ -551,8 +512,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/09/操作系统-线程概述-2018-11-9/" rel="next" title="操作系统-线程概述">
-                <i class="fa fa-chevron-left"></i> 操作系统-线程概述
+              <a href="/2018/11/18/操作系统-进程互斥和同步-2018-11-18/" rel="next" title="操作系统-进程互斥和同步">
+                <i class="fa fa-chevron-left"></i> 操作系统-进程互斥和同步
               </a>
             
           </div>
@@ -560,10 +521,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/18/操作系统-进程互斥和同步-2018-11-18/" rel="prev" title="操作系统-进程互斥和同步">
-                操作系统-进程互斥和同步 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -613,17 +570,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -726,22 +674,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC-运用范畴"><span class="nav-number">1.</span> <span class="nav-text">IPC 运用范畴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的-IPC-手段"><span class="nav-number">2.</span> <span class="nav-text">具体的 IPC 手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#信号"><span class="nav-number">2.1.</span> <span class="nav-text">信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管道和FIFO"><span class="nav-number">2.2.</span> <span class="nav-text">管道和FIFO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -905,7 +837,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/11/14/操作系统-进程间通信-2018-11-14/'
+        refer: '2018/11/19/随笔-不一样的周一-2018-11-19/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];

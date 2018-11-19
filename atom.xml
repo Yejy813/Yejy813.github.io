@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2018-11-18T16:27:20.041Z</updated>
+  <updated>2018-11-19T15:22:49.656Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>不一样的周一</title>
+    <link href="https://mikeblog.top/2018/11/19/%E9%9A%8F%E7%AC%94-%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84%E5%91%A8%E4%B8%80-2018-11-19/"/>
+    <id>https://mikeblog.top/2018/11/19/随笔-不一样的周一-2018-11-19/</id>
+    <published>2018-11-19T13:37:57.000Z</published>
+    <updated>2018-11-19T15:22:49.656Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/timg.jpg?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;br&gt;今天是 2018-11-19 日，周一，和以往的周一不太一样，首先我旁边少了一个人，导师加主管，上周离职了，惊讶加不解。不解的是公司发展到现在不容易，而他做到这个位置同样不易，而且已经不搞技术很久了，年龄也到了不惑有一，如果离开现在公司，外面还有更好的地方可以去吗？&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="https://mikeblog.top/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>操作系统-进程互斥和同步</title>
