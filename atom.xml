@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2018-12-15T10:04:30.355Z</updated>
+  <updated>2018-12-15T10:36:00.655Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>你有困惑吗</title>
+    <link href="https://mikeblog.top/2018/12/15/%E4%BD%A0%E6%9C%89%E5%9B%B0%E6%83%91%E5%90%97/"/>
+    <id>https://mikeblog.top/2018/12/15/你有困惑吗/</id>
+    <published>2018-12-15T10:22:56.000Z</published>
+    <updated>2018-12-15T10:36:00.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;工程师层级人员讨论会-–-2018-12-7&quot;&gt;&lt;a href=&quot;#工程师层级人员讨论会-–-2018-12-7&quot; class=&quot;headerlink&quot; title=&quot;工程师层级人员讨论会  – 2018-12-7&quot;&gt;&lt;/a&gt;工程师层级人员讨论会  – 2018-12-7&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/Engineer.jpg?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
+&lt;p&gt;上周，部门主管黄总和HR组织了一场讨论会，召集了大概20个开发，大概水平都是处于工程师层级，这个层级评定和你工作年龄无关，而是和你的工作产出，负责项目相关。在我看来，过去的大部分都是业务骨干，因为基本涉及部门所有产品线的所有开发人员，有工作两年的，工作4年，5年，8年的。
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="https://mikeblog.top/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>进程间通信-消息队列</title>
