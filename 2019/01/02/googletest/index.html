@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Unit Test 和 gtest 介绍 单元测试（ Unit Test ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。 单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 回归测试 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试">
+<meta name="keywords" content="测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 单元测试框架-gtest">
+<meta property="og:url" content="https://mikeblog.top/2019/01/02/googletest/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="Unit Test 和 gtest 介绍 单元测试（ Unit Test ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。 单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 回归测试 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/unit_test.png?raw=true">
+<meta property="og:updated_time" content="2019-01-06T15:54:12.760Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 单元测试框架-gtest">
+<meta name="twitter:description" content="Unit Test 和 gtest 介绍 单元测试（ Unit Test ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。 单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 回归测试 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/01/02/googletest/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++ 单元测试框架-gtest | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/01/02/googletest/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++ 单元测试框架-gtest
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-02 22:48:13" itemprop="dateCreated datePublished" datetime="2019-01-02T22:48:13+08:00">2019-01-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-06 23:54:12" itemprop="dateModified" datetime="2019-01-06T23:54:12+08:00">2019-01-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/01/02/googletest/" class="leancloud_visitors" data-flag-title="C++ 单元测试框架-gtest">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">15k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Unit-Test-和-gtest-介绍"><a href="#Unit-Test-和-gtest-介绍" class="headerlink" title="Unit Test 和 gtest 介绍"></a>Unit Test 和 gtest 介绍</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true" alt="avatar"></p>
+<p><strong>单元测试</strong>（ <code>Unit Test</code> ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。</p>
+<p>单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 <strong>回归测试</strong> 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试不但不会成为开发者的负担，反而可以在保证开发质量的情况下，加速迭代开发的过程。<br><a id="more"></a><br><strong>GoogleTest</strong>是一个跨平台的(<code>Liunx</code>、<code>Mac OS X</code>、<code>Windows</code>、<code>Cygwin</code>、<code>Windows CE</code> and <code>Symbian</code>) <code>C++</code> 单元测试框架，<strong>GoogleTest</strong>由 <code>google</code> 公司发布, 且遵循 <code>New BSD License</code>（可用作商业用途）的开源项目, 为当前比较主流的 <code>C++</code> 单元测试框架，目前所在公司也在使用。</p>
+<h2 id="gtest-安装、导入项目（Linux系统）"><a href="#gtest-安装、导入项目（Linux系统）" class="headerlink" title="gtest 安装、导入项目（Linux系统）"></a>gtest 安装、导入项目（Linux系统）</h2><h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><p>我本地使用的系统参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ uname -a</span><br><span class="line">Linux yejy 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure></p>
+<p><strong>gtest github</strong> 地址：</p>
+<blockquote>
+<ul>
+<li><a href="https://github.com/google/googletest" target="_blank" rel="noopener">https://github.com/google/googletest</a></li>
+</ul>
+</blockquote>
+<p>下载源码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ git <span class="built_in">clone</span> https://github.com/google/googletest</span><br></pre></td></tr></table></figure></p>
+<h3 id="导入项目"><a href="#导入项目" class="headerlink" title="导入项目"></a>导入项目</h3><h4 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h4><p>下载源码后，接着就是将其导入到我们的项目中使用，如果你只是想简单测试一下，可以直接编译 gtest 源码，生成相应的静态库，将库和头文件拷贝到系统的头文件和库中，然后就可以直接写代码进行测试了，步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ <span class="built_in">cd</span> googletest</span><br><span class="line">bash-4.2$ cmake</span><br><span class="line">bash-4.2$ make</span><br><span class="line">bash-4.2$ cp libgtest*.a  /usr/lib </span><br><span class="line">bash-4.2$ cp –a include/gtest /usr/include</span><br></pre></td></tr></table></figure>
+<p>写一个简单的测试程序：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;gtest/gtest.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TEST(testCase, test0)&#123;</span><br><span class="line">    EXPECT_EQ(add(<span class="number">4</span>,<span class="number">3</span>), <span class="number">7</span>); <span class="comment">// 断言检测两参数是否相等</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  testing::InitGoogleTest(&amp;argc, argv); <span class="comment">// 初始化，所有测试都是这里启动的</span></span><br><span class="line">  <span class="keyword">return</span> RUN_ALL_TESTS(); <span class="comment">// 运行所有测试用例</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译代码，当然你可以用 <code>make</code> 或者 <code>cmake</code> 编译都可以，具体输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[==========] Running 1 test from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 1 test from testCase</span><br><span class="line">[ RUN      ] testCase.test0</span><br><span class="line">[       OK ] testCase.test0 (0 ms)</span><br><span class="line">[----------] 1 test from testCase (0 ms total)</span><br></pre></td></tr></table></figure></p>
+<h4 id="工业生产"><a href="#工业生产" class="headerlink" title="工业生产"></a>工业生产</h4><p>上面这种测试方法比较特殊，等于是把 <code>gtest</code> 库和 <code>gnu c</code> 库一样使用了，正常工作项目中，肯定不会这样用的。</p>
+<p>正确的做法是 <strong>以第三方库的形式直接将源码引入进项目</strong>。可能有人就会说了，为什么一定要将源代码引入其中，而不先编译出静态库，然后导入其中呢，这样编译自己项目的时候不就不用再重新编译了吗？ 这里主要是考虑 <strong>跨平台</strong>，编译环境会有多种，需要多次编译，因此需要源码导入，同宿主项目一起编译。</p>
+<p>我比较熟悉的编译工具是 <strong>cmake</strong>, 工作中使用的也是这个，该工具也是跨平台的，在编译大型跨平台项目时，很有优势，那这边就大致讲一下引入步骤，如果你对 <code>cmake</code> 很熟悉，那这边就很轻松了。</p>
+<p>首先看一下引入后的代码结构，如下图：<br><img src="https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/unit_test.png?raw=true" alt="avatar"></p>
+<p>重点是这个文件 <strong>unit_test/CMakeLists.txt</strong> ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">file(GLOB SRC_FILES ./*.cpp)</span><br><span class="line">file(GLOB HEADER_FILES ./*.h)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将给定目录添加到编译器用于搜索包含文件的目录中。相对路径被解释为相对于当前源目录。</span></span><br><span class="line"><span class="comment"># 相当于gcc命令的-I，告诉编译器到该目录中查找头文件</span></span><br><span class="line">include_directories(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/src)</span><br><span class="line"><span class="keyword">if</span>(ENABLE_TEST)</span><br><span class="line">    include_directories(</span><br><span class="line">        <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/3rdlib/googletest/googlemock/include</span><br><span class="line">        <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/3rdlib/googletest/googletest/include</span><br><span class="line">        )</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成可执行文件 posix_thread_test.exx </span></span><br><span class="line">add_executable(posix_thread_test.exx </span><br><span class="line">            <span class="variable">$&#123;SRC_FILES&#125;</span></span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入 gtest 库，posixthread 为源代码库</span></span><br><span class="line">target_link_libraries(posix_thread_test.exx </span><br><span class="line">            gtest</span><br><span class="line">            posixthread   </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">target_install(posix_thread_test.exx)</span><br></pre></td></tr></table></figure></p>
+<p>导入项目，主要就是看 <strong>unit_test/CMakeLists.txt</strong> 这个文件了，其他基本变化不大，如果你熟悉 <code>cmake</code> 很容易就能看懂。 至于图中的源码，是最近在封装 <strong>Posix-thread</strong> 时写的，源码大部分引用了陈硕老师的 <code>muduo</code> 网络库中的线程相关代码。</p>
+<h2 id="gtest-具体使用"><a href="#gtest-具体使用" class="headerlink" title="gtest 具体使用"></a>gtest 具体使用</h2><p>介绍一下断言，断言主要用来做一些逻辑判断，主要有以下两类接口:</p>
+<blockquote>
+<ul>
+<li>ASSERT_XXX()： 如果断言失败，则测试处理终止。</li>
+<li>EXPECT_XXX()： 非致命性失败，允许继续处理。</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Test</th>
+<th style="text-align:center">Fatal</th>
+<th style="text-align:center">NonFatal </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">condition 为真</td>
+<td style="text-align:center">ASSERT_TRUE(condition)</td>
+<td style="text-align:center">EXPECT_TRUE(condition)</td>
+</tr>
+<tr>
+<td style="text-align:center">condition 为假</td>
+<td style="text-align:center">ASSERT_FALSE(condition)</td>
+<td style="text-align:center">EXPECT_FALSE(condition)</td>
+</tr>
+<tr>
+<td style="text-align:center">Equal</td>
+<td style="text-align:center">ASSERT_EQ(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_EQ(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Not Equal</td>
+<td style="text-align:center">ASSERT_NE(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_NE(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Less Than</td>
+<td style="text-align:center">ASSERT_LT(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_LT(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Less Than or Equal</td>
+<td style="text-align:center">ASSERT_LE(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_LE(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Greater Than</td>
+<td style="text-align:center">ASSERT_GT(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_GT(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Greater Than or Equal</td>
+<td style="text-align:center">ASSERT_GE(arg1,arg2)</td>
+<td style="text-align:center">EXPECT_GE(arg1,arg2)</td>
+</tr>
+<tr>
+<td style="text-align:center">C String Equal</td>
+<td style="text-align:center">ASSERT_STREQ(str1,str2)</td>
+<td style="text-align:center">EXPECT_STREQ(str1,str2)</td>
+</tr>
+<tr>
+<td style="text-align:center">C String Not Equal</td>
+<td style="text-align:center">ASSERT_STRNE(str1,str2)</td>
+<td style="text-align:center">EXPECT_STRNE(str1,str2)</td>
+</tr>
+<tr>
+<td style="text-align:center">C String Case Equal</td>
+<td style="text-align:center">ASSERT_STRCASEEQ(str1,str2)</td>
+<td style="text-align:center">EXPECT_STRCASEEQ(str1,str2)</td>
+</tr>
+<tr>
+<td style="text-align:center">C String Case Not Equal</td>
+<td style="text-align:center">ASSERT_STRCASENE(str1,str2)</td>
+<td style="text-align:center">EXPECT_STRCASENE(str1,str2)</td>
+</tr>
+<tr>
+<td style="text-align:center">Verify that exception is thrown</td>
+<td style="text-align:center">ASSERT_THROW(statement,exception_type)</td>
+<td style="text-align:center">EXPECT_THROW(statement,exception_type)</td>
+</tr>
+<tr>
+<td style="text-align:center">Verify that exception is thrown</td>
+<td style="text-align:center">ASSERT_ANY_THROW(statement)</td>
+<td style="text-align:center">EXPECT_ANY_THROW(statement)</td>
+</tr>
+<tr>
+<td style="text-align:center">Verify that exception is NOT thrown</td>
+<td style="text-align:center">ASSERT_NO_THROW(statement)</td>
+<td style="text-align:center">EXPECT_NO_THROW(statement)</td>
+</tr>
+</tbody>
+</table>
+<p>测试代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gtest/gtest.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;posix_thread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">threadFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"tid= "</span>&lt;&lt; PosixThread::CurrentThread::tid() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TEST(PosixThreadTest, CreateThread)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"pid= "</span> &lt;&lt; ::getpid() &lt;&lt; <span class="string">"   tid= "</span> &lt;&lt;PosixThread::CurrentThread::tid() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  PosixThread::<span class="function">Thread <span class="title">t1</span><span class="params">(threadFunc)</span></span>;</span><br><span class="line">  t1.start();</span><br><span class="line">  ASSERT_TRUE(t1.started());</span><br><span class="line">  EXPECT_FALSE(t1.started()); <span class="comment">// 故意失败</span></span><br><span class="line">  ASSERT_FALSE(t1.started()); <span class="comment">// 故意失败</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"t1.tid: "</span> &lt;&lt; t1.tid() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"thread name: "</span> &lt;&lt; t1.name().c_str() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  t1.join();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"CreateThread end !\n"</span></span><br><span class="line">            &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TEST(AtomicTest, AtomicInt64)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"pid= "</span> &lt;&lt; ::getpid() &lt;&lt; <span class="string">"  tid= "</span> &lt;&lt;PosixThread::CurrentThread::tid() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  PosixThread::AtomicInt64 a0;</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">0</span>);</span><br><span class="line">  ASSERT_EQ(a0.getAndAdd(<span class="number">1</span>), <span class="number">0</span>);</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">1</span>);</span><br><span class="line">  ASSERT_EQ(a0.addAndGet(<span class="number">2</span>), <span class="number">3</span>);</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">3</span>);</span><br><span class="line">  ASSERT_EQ(a0.incrementAndGet(), <span class="number">4</span>);</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">4</span>);</span><br><span class="line">  a0.increment();</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">5</span>);</span><br><span class="line">  ASSERT_EQ(a0.addAndGet(<span class="number">-3</span>), <span class="number">2</span>);</span><br><span class="line">  ASSERT_EQ(a0.getAndSet(<span class="number">100</span>), <span class="number">2</span>);</span><br><span class="line">  ASSERT_EQ(a0.get(), <span class="number">100</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ ./output/bin/posix_thread_test.exx </span><br><span class="line">[==========] Running 2 tests from 2 <span class="built_in">test</span> cases.</span><br><span class="line">[----------] Global <span class="built_in">test</span> environment <span class="built_in">set</span>-up.</span><br><span class="line">[----------] 1 <span class="built_in">test</span> from PosixThreadTest</span><br><span class="line">[ RUN      ] PosixThreadTest.CreateThread</span><br><span class="line">pid= 5297   tid= 5297</span><br><span class="line">tid= 5298</span><br><span class="line">/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:16: Failure</span><br><span class="line">Value of: t1.started()</span><br><span class="line">  Actual: <span class="literal">true</span></span><br><span class="line">Expected: <span class="literal">false</span></span><br><span class="line">/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:17: Failure</span><br><span class="line">Value of: t1.started()</span><br><span class="line">  Actual: <span class="literal">true</span></span><br><span class="line">Expected: <span class="literal">false</span></span><br><span class="line">[  FAILED  ] PosixThreadTest.CreateThread (0 ms)</span><br><span class="line">[----------] 1 <span class="built_in">test</span> from PosixThreadTest (0 ms total)</span><br><span class="line"></span><br><span class="line">[----------] 1 <span class="built_in">test</span> from AtomicTest</span><br><span class="line">[ RUN      ] AtomicTest.AtomicInt64</span><br><span class="line">pid= 5297  tid= 5297</span><br><span class="line">[       OK ] AtomicTest.AtomicInt64 (0 ms)</span><br><span class="line">[----------] 1 <span class="built_in">test</span> from AtomicTest (0 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global <span class="built_in">test</span> environment tear-down</span><br><span class="line">[==========] 2 tests from 2 <span class="built_in">test</span> cases ran. (0 ms total)</span><br><span class="line">[  PASSED  ] 1 <span class="built_in">test</span>.</span><br><span class="line">[  FAILED  ] 1 <span class="built_in">test</span>, listed below:</span><br><span class="line">[  FAILED  ] PosixThreadTest.CreateThread</span><br><span class="line"></span><br><span class="line"> 1 FAILED TEST</span><br></pre></td></tr></table></figure></p>
+<p>从执行结果，我们可以很清楚的知道测试用例具体执行到哪一步，如果失败了，我们可以看到具体是哪一行代码出问题了，程序预期结果是什么，但是实际结果又是什么，输出十分详细。</p>
+<p>我们还可以将测试结果导出到 <code>xml</code> 文件，通过参数：<code>--gtest_output</code> 实现。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ ./output/bin/posix_thread_test.exx --gtest_output=<span class="string">"xml:./test.xml"</span></span><br><span class="line">bash-4.2$ cat test.xml </span><br><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;testsuites tests=<span class="string">"2"</span> failures=<span class="string">"1"</span> disabled=<span class="string">"0"</span> errors=<span class="string">"0"</span> timestamp=<span class="string">"2019-01-04T21:36:40"</span> time=<span class="string">"0"</span> name=<span class="string">"AllTests"</span>&gt;</span><br><span class="line">  &lt;testsuite name=<span class="string">"PosixThreadTest"</span> tests=<span class="string">"1"</span> failures=<span class="string">"1"</span> disabled=<span class="string">"0"</span> errors=<span class="string">"0"</span> time=<span class="string">"0"</span>&gt;</span><br><span class="line">    &lt;testcase name=<span class="string">"CreateThread"</span> status=<span class="string">"run"</span> time=<span class="string">"0"</span> classname=<span class="string">"PosixThreadTest"</span>&gt;</span><br><span class="line">      &lt;failure message=<span class="string">"/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:16&amp;#x0A;Value of: t1.started()&amp;#x0A;  Actual: true&amp;#x0A;Expected: false"</span> <span class="built_in">type</span>=<span class="string">""</span>&gt;&lt;![CDATA[/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:16</span><br><span class="line">Value of: t1.started()</span><br><span class="line">  Actual: <span class="literal">true</span></span><br><span class="line">Expected: <span class="literal">false</span>]]&gt;&lt;/failure&gt;</span><br><span class="line">      &lt;failure message=<span class="string">"/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:17&amp;#x0A;Value of: t1.started()&amp;#x0A;  Actual: true&amp;#x0A;Expected: false"</span> <span class="built_in">type</span>=<span class="string">""</span>&gt;&lt;![CDATA[/home/willy/myshare/thread-pool/unit_test/thread_test.cpp:17</span><br><span class="line">Value of: t1.started()</span><br><span class="line">  Actual: <span class="literal">true</span></span><br><span class="line">Expected: <span class="literal">false</span>]]&gt;&lt;/failure&gt;</span><br><span class="line">    &lt;/testcase&gt;</span><br><span class="line">  &lt;/testsuite&gt;</span><br><span class="line">  &lt;testsuite name=<span class="string">"AtomicTest"</span> tests=<span class="string">"1"</span> failures=<span class="string">"0"</span> disabled=<span class="string">"0"</span> errors=<span class="string">"0"</span> time=<span class="string">"0"</span>&gt;</span><br><span class="line">    &lt;testcase name=<span class="string">"AtomicInt64"</span> status=<span class="string">"run"</span> time=<span class="string">"0"</span> classname=<span class="string">"AtomicTest"</span> /&gt;</span><br><span class="line">  &lt;/testsuite&gt;</span><br><span class="line">&lt;/testsuites&gt;</span><br></pre></td></tr></table></figure></p>
+<p>此外，在运行可执行目标程序时，可以使用 <code>--gtest_filter</code> 来指定要执行的测试用例，支持字符串正则匹配，主要如下几种常用情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./output/bin/posix_thread_test.exx 没有指定filter，运行所有测试；</span><br><span class="line">./output/bin/posix_thread_test.exx --gtest_filter=* 指定filter为*，运行所有测试；</span><br><span class="line">./output/bin/posix_thread_test.exx --gtest_filter=PosixThreadTest.* 运行测试用例FooTest的所有测试；</span><br><span class="line">./output/bin/posix_thread_test.exx --gtest_filter=*Null*:*Thread* 运行所有全名；</span><br><span class="line">./output/bin/posix_thread_test.exx --gtest_filter=PosixThreadTest.*-PosixThreadTest.CreateThread </span><br><span class="line">运行测试用例FooTest的所有测试，但不包括PosixThreadTest.CreateThread。</span><br></pre></td></tr></table></figure></p>
+<p><strong>gtest</strong> 还有很多方便你测试的功能，包括 <strong>事件机制</strong>, <strong>参数化</strong>, <strong>死亡测试</strong>, <strong>运行参数</strong>等，我们点到为止，如果想继续深入，可以参考这位博主的 gtest 系列, 很详细：<br><a href="http://www.cnblogs.com/coderzh/archive/2009/03/31/1426758.html" target="_blank" rel="noopener">玩转Google开源C++单元测试框架Google Test系列</a></p>
+<h2 id="googlemock-使用"><a href="#googlemock-使用" class="headerlink" title="googlemock 使用"></a>googlemock 使用</h2><p>googlemock，是用于编写和使用C++ 模拟类的框架，在我们工作中，主要用来模拟应用程序的一部分，在单元测试用例编写过程中，<strong>常常需要编写模拟对象来隔离被测试单元的“下游”或“上游”程序逻辑或环境，从而达到对需要测试的部分进行隔离测试的目的</strong>，它可以帮助我们获得更好的系统设计并编写更好的测试。googlemock 同样遵循 New BSD License（可用作商业用途）的开源项目。</p>
+<p>在开发过程中，经常出现各联调模块间，进度不一的情况；测试环境非常不稳定，易导致测试失败，导致达不到单元测试的目的，模仿对象提供了解决这些问题的方法：模仿对象符合实际对象的接口，但只包含用来“欺骗”测试对象并跟踪其行为的必要代码。因此，其实现往往比实际实现类简单很多。</p>
+<p>官方教程：</p>
+<blockquote>
+<ul>
+<li><a href="https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md" target="_blank" rel="noopener">https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md</a></li>
+</ul>
+</blockquote>
+<p>官方的 <code>Tutorial</code> 讲的很详细，我在<code>github</code>上也找了一个使用例子，很简洁，但是能很好的说明问题，大致代码如下：<br>mail_service.h文件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> MAIL_SERVICE_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAIL_SERVICE_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** \brief Mail service. This represents one of the collaborators of the SUT. </span></span><br><span class="line"><span class="comment"> * \author David Stutz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// 邮件服务</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MailService</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** \brief Send a mial.</span></span><br><span class="line"><span class="comment">     * \param[in] message message to send</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> message)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* MAIL_SERVICE_HPP */</span></span></span><br></pre></td></tr></table></figure></p>
+<p>order.h文件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ORDER_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ORDER_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"warehouse.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mail_service.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** \brief An order of a product with quantity. */</span></span><br><span class="line"><span class="comment">// 订单</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** \brief Constructor.</span></span><br><span class="line"><span class="comment">     * \param[in] quantity quantity requested</span></span><br><span class="line"><span class="comment">     * \param[in] product product name requested</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Order(<span class="keyword">int</span> quantity, <span class="built_in">std</span>::<span class="built_in">string</span> product)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;quantity = quantity;</span><br><span class="line">        <span class="keyword">this</span>-&gt;product = product;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Set the mail service to use. </span></span><br><span class="line"><span class="comment">     * \param[in] mailService the mail service to attach</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="comment">// 设置邮件服务</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setMailService</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;MailService&gt; mailService)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;mailService = mailService;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Fill the order given the warehouse. </span></span><br><span class="line"><span class="comment">     * \param[in] warehouse the warehouse to use</span></span><br><span class="line"><span class="comment">     * \return whether the operation was successful</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     <span class="comment">// 判断产品是否有库存，发送邮件通知</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">fill</span><span class="params">(Warehouse &amp;warehouse)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (warehouse.hasInventory(quantity, product))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">            warehouse.remove(quantity, product);</span><br><span class="line">            <span class="keyword">this</span>-&gt;mailService-&gt;send(<span class="string">"Order filled."</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">            <span class="keyword">this</span>-&gt;mailService-&gt;send(<span class="string">"Order not filled."</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Product name. */</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> product;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Quantity requested. */</span></span><br><span class="line">    <span class="keyword">int</span> quantity;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Mail service to use. */</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;MailService&gt; mailService;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* ORDER_HPP */</span></span></span><br></pre></td></tr></table></figure></p>
+<p>warehouse.h文件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> WAREHOUSE_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WAREHOUSE_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** \brief Warehouse interface. This interface is one of the collaborators of our SUT.</span></span><br><span class="line"><span class="comment"> * \author David Stutz</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Warehouse</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** \brief Check whether the product in the given quantity is on stock.</span></span><br><span class="line"><span class="comment">     * \param[in] quantity quantity requested</span></span><br><span class="line"><span class="comment">     * \param[in] product product name</span></span><br><span class="line"><span class="comment">     * \return whether the warehouse has the product on stock for the given quantity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     <span class="comment">// 是否有库存</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">hasInventory</span><span class="params">(<span class="keyword">int</span> quantity, <span class="built_in">std</span>::<span class="built_in">string</span> product)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** \brief Remove the given quantity of the product from the warehouse.</span></span><br><span class="line"><span class="comment">     * \param[in] quantity quantity to remove</span></span><br><span class="line"><span class="comment">     * \param[in] product product name to remove</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     <span class="comment">// 从库存中删除</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> quantity, <span class="built_in">std</span>::<span class="built_in">string</span> product)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* WAREHOUSE_HPP */</span></span></span><br></pre></td></tr></table></figure></p>
+<p>主要场景就是处理产品订单，其中库存Warehouse类和邮件服务MailService类，我们只声明一下虚基类，不实现，然后通过模拟对象的方式<code>mock</code>一下Warehouse和MailService，来达到订单类接口测试的正常开展，具体测试代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gmock/gmock.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"lib/mail_service.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"lib/order.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"lib/warehouse.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> ::testing::Return;</span><br><span class="line"><span class="keyword">using</span> ::testing::_; <span class="comment">// Matcher for parameters</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MockWarehouse</span> :</span> <span class="keyword">public</span> Warehouse</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// see https://github.com/google/googletest/blob/master/googlemock/docs/ForDummies.md</span></span><br><span class="line">    MOCK_CONST_METHOD2(hasInventory, <span class="keyword">bool</span>(<span class="keyword">int</span>, <span class="built_in">std</span>::<span class="built_in">string</span>));</span><br><span class="line">    MOCK_METHOD2(remove, <span class="keyword">void</span>(<span class="keyword">int</span>, <span class="built_in">std</span>::<span class="built_in">string</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MockMailService</span> :</span> <span class="keyword">public</span> MailService</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    MockMailService()</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MOCK_METHOD1(send, <span class="keyword">void</span>(<span class="built_in">std</span>::<span class="built_in">string</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">TEST(OrderTest, Fill)</span><br><span class="line">&#123;</span><br><span class="line">    MockWarehouse warehouse;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;MockMailService&gt; mailService = <span class="built_in">std</span>::make_shared&lt;MockMailService&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="function">Order <span class="title">order</span><span class="params">(<span class="number">50</span>, <span class="string">"Talisker"</span>)</span></span>;</span><br><span class="line">    order.setMailService(mailService);</span><br><span class="line">    </span><br><span class="line">    EXPECT_CALL(warehouse, hasInventory(<span class="number">50</span>, <span class="string">"Talisker"</span>))</span><br><span class="line">        .Times(<span class="number">1</span>)</span><br><span class="line">        .WillOnce(Return(<span class="literal">true</span>));</span><br><span class="line"></span><br><span class="line">    EXPECT_CALL(warehouse, remove(<span class="number">50</span>, <span class="string">"Talisker"</span>))</span><br><span class="line">        .Times(<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    EXPECT_CALL(*mailService, send(_)) <span class="comment">// Not making assumptions on the message send ...</span></span><br><span class="line">        .Times(<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    ASSERT_TRUE(order.fill(warehouse));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  testing::InitGoogleMock(&amp;argc, argv);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Runs all tests using Google Test.</span></span><br><span class="line">  <span class="keyword">return</span> RUN_ALL_TESTS();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ ./output/bin/order.exx </span><br><span class="line">[==========] Running 1 test from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 1 test from OrderTest</span><br><span class="line">[ RUN      ] OrderTest.Fill</span><br><span class="line">[       OK ] OrderTest.Fill (0 ms)</span><br><span class="line">[----------] 1 test from OrderTest (0 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global test environment tear-down</span><br><span class="line">[==========] 1 test from 1 test case ran. (1 ms total)</span><br><span class="line">[  PASSED  ] 1 test.</span><br></pre></td></tr></table></figure></p>
+<p>其中main函数和gtest差不多，只是初始化的是googlemock，我们着重了解的是几个宏的含义:</p>
+<p><strong>MOCK_METHOD</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOCK_METHOD#<span class="number">1</span>(#<span class="number">2</span>, #<span class="number">3</span>(#<span class="number">4</span>) )</span><br><span class="line"></span><br><span class="line">MOCK_CONST_METHOD2(hasInventory, <span class="keyword">bool</span>(<span class="keyword">int</span>, <span class="built_in">std</span>::<span class="built_in">string</span>));</span><br><span class="line">MOCK_METHOD2(remove, <span class="keyword">void</span>(<span class="keyword">int</span>, <span class="built_in">std</span>::<span class="built_in">string</span>));</span><br></pre></td></tr></table></figure></p>
+<p><strong>其中#1表示你要mock的方法共有几个参数，#2是你要mock的方法名称，#3表示这个方法的返回值类型，#4是这个方法具体的参数。</strong></p>
+<p><strong>EXPECT_CALL</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> ::testing::Return;</span><br><span class="line">EXPECT_CALL(warehouse, hasInventory(<span class="number">50</span>, <span class="string">"Talisker"</span>))</span><br><span class="line">        .Times(<span class="number">1</span>)</span><br><span class="line">        .WillOnce(Return(<span class="literal">true</span>));</span><br></pre></td></tr></table></figure></p>
+<p><strong>设定期望对象被访问的方式及其响应，其中warehouse为对象，希望hasInventory在传递参数为(50, “Talisker”)时，被调用且仅被调用一次，第一次返回true。</strong></p>
+<p><strong>ON_CALL</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ON_CALL(#1, #2(#3)).WillByDefault(Return(#4));</span><br><span class="line"></span><br><span class="line">ON_CALL(foo, GetSize())                         </span><br><span class="line">  .WillByDefault(Return(1));</span><br><span class="line">  // ... other default actions ...</span><br></pre></td></tr></table></figure></p>
+<p><strong>其中#1表示mock对象，#2表示个方法名称，#3表示方法的参数，#4表示参数为#1, #2，#3情况下返回结果。</strong></p>
+<p><code>ON_CALL</code>和<code>EXPECT_CALL</code>的区别? <code>ON_CALL</code>定义了调用mock方法时会发生什么，但并不意味着对被调用方法的任何期望。 <code>EXPECT_CALL</code>不仅定义了行为，还设置了对给定次数（以及在指定顺序时按给定顺序）使用给定参数调用方法的期望。</p>
+<p>GoogleMock 为开发者设定 Mock 类行为，跟踪程序运行过程及结果，提供了丰富的支持。但与此同时，应用程序也应该尽量降低应用代码间的耦合度，使得单元测试可以很容易对被测试单元进行隔离。(尽量做到高内聚，低耦合)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Googletest 与 GoogleMock，很好的简化了我们的C++单元测试工作，本篇文章对此做了一个总结，让自己对gtest有了一个系统的认识。<strong>测试并不只是测试工程师的责任，对于开发工程师，为了保证发布给测试环节的代码具有足够好的质量（ Quality ），为所编写的功能代码编写适量的单元测试是十分必要的。</strong></p>
+<p><strong>如果还想更加深入的了解，可查阅官方文档</strong>：</p>
+<blockquote>
+<ul>
+<li><a href="https://github.com/google/googletest/tree/master/googlemock/docs" target="_blank" rel="noopener">https://github.com/google/googletest/tree/master/googlemock/docs</a></li>
+</ul>
+</blockquote>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-cppunittest/?mhq=gtest&amp;mhsrc=ibmsearch_a" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/linux/l-cn-cppunittest/?mhq=gtest&amp;mhsrc=ibmsearch_a</a><br><a href="https://blog.csdn.net/russell_tao/article/details/7344739" target="_blank" rel="noopener">https://blog.csdn.net/russell_tao/article/details/7344739</a><br><a href="http://www.cnblogs.com/coderzh/archive/2009/03/31/1426758.html" target="_blank" rel="noopener">http://www.cnblogs.com/coderzh/archive/2009/03/31/1426758.html</a><br><a href="https://github.com/davidstutz/googlemock-example" target="_blank" rel="noopener">https://github.com/davidstutz/googlemock-example</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/01/02/googletest/" title="C++ 单元测试框架-gtest">https://mikeblog.top/2019/01/02/googletest/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/测试/" rel="tag"><i class="fa fa-tag"></i> 测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/15/你有困惑吗/" rel="next" title="你有困惑吗">
+                <i class="fa fa-chevron-left"></i> 你有困惑吗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unit-Test-和-gtest-介绍"><span class="nav-number">1.</span> <span class="nav-text">Unit Test 和 gtest 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gtest-安装、导入项目（Linux系统）"><span class="nav-number">2.</span> <span class="nav-text">gtest 安装、导入项目（Linux系统）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载源码"><span class="nav-number">2.1.</span> <span class="nav-text">下载源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入项目"><span class="nav-number">2.2.</span> <span class="nav-text">导入项目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单测试"><span class="nav-number">2.2.1.</span> <span class="nav-text">简单测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工业生产"><span class="nav-number">2.2.2.</span> <span class="nav-text">工业生产</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gtest-具体使用"><span class="nav-number">3.</span> <span class="nav-text">gtest 具体使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#googlemock-使用"><span class="nav-number">4.</span> <span class="nav-text">googlemock 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/01/02/googletest/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

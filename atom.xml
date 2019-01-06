@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2018-12-15T10:36:00.655Z</updated>
+  <updated>2019-01-06T15:54:12.760Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 单元测试框架-gtest</title>
+    <link href="https://mikeblog.top/2019/01/02/googletest/"/>
+    <id>https://mikeblog.top/2019/01/02/googletest/</id>
+    <published>2019-01-02T14:48:13.000Z</published>
+    <updated>2019-01-06T15:54:12.760Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Unit-Test-和-gtest-介绍&quot;&gt;&lt;a href=&quot;#Unit-Test-和-gtest-介绍&quot; class=&quot;headerlink&quot; title=&quot;Unit Test 和 gtest 介绍&quot;&gt;&lt;/a&gt;Unit Test 和 gtest 介绍&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;单元测试&lt;/strong&gt;（ &lt;code&gt;Unit Test&lt;/code&gt; ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。&lt;/p&gt;
+&lt;p&gt;单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 &lt;strong&gt;回归测试&lt;/strong&gt; 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试不但不会成为开发者的负担，反而可以在保证开发质量的情况下，加速迭代开发的过程。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="测试" scheme="https://mikeblog.top/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>你有困惑吗</title>
