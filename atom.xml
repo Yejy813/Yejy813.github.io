@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-19T12:42:17.961Z</updated>
+  <updated>2019-01-19T14:34:30.982Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -21,11 +21,12 @@
     <link href="https://mikeblog.top/2019/01/12/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
     <id>https://mikeblog.top/2019/01/12/C-多线程编程/</id>
     <published>2019-01-12T11:03:08.000Z</published>
-    <updated>2019-01-19T12:42:17.961Z</updated>
+    <updated>2019-01-19T14:34:30.982Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;多线程编程&quot;&gt;&lt;a href=&quot;#多线程编程&quot; class=&quot;headerlink&quot; title=&quot;多线程编程&quot;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;&lt;p&gt;这段时间，主要在分析和整理多线程相关的内容，主要是因为工作中我有负责部门基础库的开发维护，其中就包括线程库，然后近期要在组内做异步这一块的分享，所以也希望趁这个机会对这一块知识进行系统的梳理，然后自己也将 posix-thread 线程重新使用了一下，加深印象，基本覆盖到了相关关键接口的使用。&lt;br&gt;
+      &lt;h2 id=&quot;多线程编程&quot;&gt;&lt;a href=&quot;#多线程编程&quot; class=&quot;headerlink&quot; title=&quot;多线程编程&quot;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;MutexLock&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&amp;#123;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  MutexLock();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ~MutexLock();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  MutexLock(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; MutexLock &amp;amp;mutex) = &lt;span class=&quot;keyword&quot;&gt;delete&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  MutexLock &amp;amp;&lt;span class=&quot;keyword&quot;&gt;operator&lt;/span&gt;=(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; MutexLock &amp;amp;mutex) = &lt;span class=&quot;keyword&quot;&gt;delete&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;unlock&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;IsLockedByThisThread&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;pthread_mutex_t&lt;/span&gt; *getPthreadMutex();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;friend&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Condition&lt;/span&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;pthread_mutex_t&lt;/span&gt; mutex_;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;pid_t&lt;/span&gt; holder_;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这段时间，主要在分析和整理多线程相关的内容，主要是因为工作中我有负责部门基础库的开发维护，其中就包括线程库，然后近期要在组内做异步这一块的分享，所以也希望趁这个机会对这一块知识进行系统的梳理，然后自己也将 posix-thread 线程重新使用了一下，加深印象，基本覆盖到了相关关键接口的使用。&lt;br&gt;
     
     </summary>
     
@@ -39,11 +40,11 @@
     <link href="https://mikeblog.top/2019/01/02/googletest/"/>
     <id>https://mikeblog.top/2019/01/02/googletest/</id>
     <published>2019-01-02T14:48:13.000Z</published>
-    <updated>2019-01-06T15:54:12.760Z</updated>
+    <updated>2019-01-19T14:01:16.851Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;Unit-Test-和-gtest-介绍&quot;&gt;&lt;a href=&quot;#Unit-Test-和-gtest-介绍&quot; class=&quot;headerlink&quot; title=&quot;Unit Test 和 gtest 介绍&quot;&gt;&lt;/a&gt;Unit Test 和 gtest 介绍&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
+      &lt;h2 id=&quot;Unit-Test-和-gtest-介绍&quot;&gt;&lt;a href=&quot;#Unit-Test-和-gtest-介绍&quot; class=&quot;headerlink&quot; title=&quot;Unit Test 和 gtest 介绍&quot;&gt;&lt;/a&gt;Unit Test 和 gtest 介绍&lt;/h2&gt;&lt;span itemprop=&quot;image&quot; itemscope=&quot;&quot; itemtype=&quot;http://schema.org/ImageObject&quot;&gt;&lt;img itemprop=&quot;url image&quot; src=&quot;https://github.com/Yejy813/pictures/blob/master/%E6%B5%8B%E8%AF%95/Test.png?raw=true&quot; class=&quot;full-image&quot; alt=&quot;alt&quot; title=&quot;UnitTest&quot;&gt;&lt;meta itemprop=&quot;width&quot; content=&quot;auto&quot;&gt;&lt;meta itemprop=&quot;height&quot; content=&quot;auto&quot;&gt;&lt;/span&gt;
 &lt;p&gt;&lt;strong&gt;单元测试&lt;/strong&gt;（ &lt;code&gt;Unit Test&lt;/code&gt; ，模块测试）是开发者编写的一小段代码，用于检验被测代码的一个很小的、很明确的功能是否正确，通过编写单元测试可以在编码阶段发现程序编码错误，甚至是程序设计错误。&lt;/p&gt;
 &lt;p&gt;单元测试不但可以增加开发者对于所完成代码的自信，同时，好的单元测试用例往往可以在 &lt;strong&gt;回归测试&lt;/strong&gt; 的过程中，很好地保证之前所发生的修改没有破坏已有的程序逻辑。因此，单元测试不但不会成为开发者的负担，反而可以在保证开发质量的情况下，加速迭代开发的过程。&lt;br&gt;
     
@@ -59,7 +60,7 @@
     <link href="https://mikeblog.top/2018/12/15/%E4%BD%A0%E6%9C%89%E5%9B%B0%E6%83%91%E5%90%97/"/>
     <id>https://mikeblog.top/2018/12/15/你有困惑吗/</id>
     <published>2018-12-15T10:22:56.000Z</published>
-    <updated>2018-12-15T10:36:00.655Z</updated>
+    <updated>2019-01-19T14:00:44.182Z</updated>
     
     <summary type="html">
     
