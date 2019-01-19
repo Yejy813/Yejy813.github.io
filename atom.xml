@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-06T15:54:12.760Z</updated>
+  <updated>2019-01-19T12:42:17.961Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 多线程编程</title>
+    <link href="https://mikeblog.top/2019/01/12/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    <id>https://mikeblog.top/2019/01/12/C-多线程编程/</id>
+    <published>2019-01-12T11:03:08.000Z</published>
+    <updated>2019-01-19T12:42:17.961Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;多线程编程&quot;&gt;&lt;a href=&quot;#多线程编程&quot; class=&quot;headerlink&quot; title=&quot;多线程编程&quot;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;&lt;p&gt;这段时间，主要在分析和整理多线程相关的内容，主要是因为工作中我有负责部门基础库的开发维护，其中就包括线程库，然后近期要在组内做异步这一块的分享，所以也希望趁这个机会对这一块知识进行系统的梳理，然后自己也将 posix-thread 线程重新使用了一下，加深印象，基本覆盖到了相关关键接口的使用。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>C++ 单元测试框架-gtest</title>
@@ -70,9 +88,9 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
       <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
       <category term="设计模式" scheme="https://mikeblog.top/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
@@ -111,9 +129,9 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
       <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
@@ -154,9 +172,9 @@
     </summary>
     
     
-      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
       <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
