@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-20T16:24:23.007Z</updated>
+  <updated>2019-01-20T16:41:43.333Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://mikeblog.top/2019/01/20/make/"/>
     <id>https://mikeblog.top/2019/01/20/make/</id>
     <published>2019-01-19T22:33:40.000Z</published>
-    <updated>2019-01-20T16:24:23.007Z</updated>
+    <updated>2019-01-20T16:41:43.333Z</updated>
     
     <summary type="html">
     
@@ -32,6 +32,8 @@
     
     
       <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
+    
+      <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
     
   </entry>
   
