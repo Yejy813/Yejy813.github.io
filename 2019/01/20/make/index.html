@@ -152,21 +152,32 @@
 
 
 
-  <meta name="description" content="进程状态(State) 操作系统通过维护进程状态队列，来对进程进行管理。   状态队列：  由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态； 不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)； 每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中脱离出来，加入到另一个队列。">
-<meta name="keywords" content="操作系统">
+  <meta name="description" content="程序的编译与链接1234567891011# Top level makefile, the real shit is at src/Makefiledefault: all.DEFAULT:	cd src &amp;amp;&amp;amp; $(MAKE) $@install:	cd src &amp;amp;&amp;amp; $(MAKE) $@.PHONY: install GNU Make 是一个工具，它从程序的源文">
+<meta name="keywords" content="编译 (compile)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统--进程管理(二)">
-<meta property="og:url" content="https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/index.html">
+<meta property="og:title" content="MakeFile 编写">
+<meta property="og:url" content="https://mikeblog.top/2019/01/20/make/index.html">
 <meta property="og:site_name" content="Mike&#39;s Blog">
-<meta property="og:description" content="进程状态(State) 操作系统通过维护进程状态队列，来对进程进行管理。   状态队列：  由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态； 不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)； 每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中脱离出来，加入到另一个队列。">
+<meta property="og:description" content="程序的编译与链接1234567891011# Top level makefile, the real shit is at src/Makefiledefault: all.DEFAULT:	cd src &amp;amp;&amp;amp; $(MAKE) $@install:	cd src &amp;amp;&amp;amp; $(MAKE) $@.PHONY: install GNU Make 是一个工具，它从程序的源文">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E5%9B%BE.png?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E9%98%9F%E5%88%97.png?raw=true">
-<meta property="og:updated_time" content="2018-11-18T15:49:48.552Z">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile2.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile8.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile4.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile5.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile6.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable1.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable2.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable3.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable4.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable5.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable6.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/make-shell.png?raw=true">
+<meta property="og:updated_time" content="2019-01-20T02:53:25.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统--进程管理(二)">
-<meta name="twitter:description" content="进程状态(State) 操作系统通过维护进程状态队列，来对进程进行管理。   状态队列：  由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态； 不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)； 每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中脱离出来，加入到另一个队列。">
-<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E5%9B%BE.png?raw=true">
+<meta name="twitter:title" content="MakeFile 编写">
+<meta name="twitter:description" content="程序的编译与链接1234567891011# Top level makefile, the real shit is at src/Makefiledefault: all.DEFAULT:	cd src &amp;amp;&amp;amp; $(MAKE) $@install:	cd src &amp;amp;&amp;amp; $(MAKE) $@.PHONY: install GNU Make 是一个工具，它从程序的源文">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile.png?raw=true">
 
 
 
@@ -175,7 +186,7 @@
 
 
 
-  <link rel="canonical" href="https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/">
+  <link rel="canonical" href="https://mikeblog.top/2019/01/20/make/">
 
 
 
@@ -185,7 +196,7 @@
   };
 </script>
 
-  <title>操作系统--进程管理(二) | Mike's Blog</title>
+  <title>MakeFile 编写 | Mike's Blog</title>
   
 
 
@@ -377,7 +388,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/01/20/make/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiayun-Ye">
@@ -394,7 +405,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统--进程管理(二)
+          <h1 class="post-title" itemprop="name headline">MakeFile 编写
               
             
           </h1>
@@ -419,24 +430,12 @@
                 
               
 
-              <time title="创建时间：2018-11-03 08:13:53" itemprop="dateCreated datePublished" datetime="2018-11-03T08:13:53+08:00">2018-11-03</time>
+              <time title="创建时间：2019-01-20 06:33:40 / 修改时间：10:53:25" itemprop="dateCreated datePublished" datetime="2019-01-20T06:33:40+08:00">2019-01-20</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-11-18 23:49:48" itemprop="dateModified" datetime="2018-11-18T23:49:48+08:00">2018-11-18</time>
               
             
           </span>
@@ -449,7 +448,7 @@
 
           
           
-             <span id="/2018/11/03/操作系统-进程管理二-2018-11-3/" class="leancloud_visitors" data-flag-title="操作系统--进程管理(二)">
+             <span id="/2019/01/20/make/" class="leancloud_visitors" data-flag-title="MakeFile 编写">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -474,7 +473,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.7k</span>
+                <span title="本文字数">3.8k</span>
               
 
               
@@ -498,54 +497,50 @@
       
 
       
-        <h2 id="进程状态-State"><a href="#进程状态-State" class="headerlink" title="进程状态(State)"></a>进程状态(State)</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E5%9B%BE.png?raw=true" alt="avatar"></p>
-<p><strong>操作系统通过维护进程状态队列，来对进程进行管理</strong>。</p>
+        <h2 id="程序的编译与链接"><a href="#程序的编译与链接" class="headerlink" title="程序的编译与链接"></a>程序的编译与链接</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Top level makefile, the real shit is at src/Makefile</span></span><br><span class="line"></span><br><span class="line"><span class="section">default: all</span></span><br><span class="line"></span><br><span class="line"><span class="section">.DEFAULT:</span></span><br><span class="line">	cd src &amp;&amp; <span class="variable">$(MAKE)</span> <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="section">install:</span></span><br><span class="line">	cd src &amp;&amp; <span class="variable">$(MAKE)</span> <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: install</span></span><br></pre></td></tr></table></figure>
+<div class="note warning"><p><strong>GNU Make 是一个工具，它从程序的源文件中控制程序的可执行文件和其他非源文件的生成。</strong> </p></div>
+<a id="more"></a>
+<p>C、C++ 程序在编译的时候，首先要把源文件编译成中间代码文件，在 Windows 下也就是 .obj 文件， UNIX 下是 .o 文件，即 Object File，这个动作叫做编译（compile），然后再把大量的 Object File 合成执行文件，这个动作叫作链接（link）。在编译时，编译器只检测程序语法，和函数、变量是否被声明，而在链接程序时，链接器会在所有的 Object File 中找寻函数的实现，如果找不到，就会报链接错误。</p>
+<p><strong>make 则是一个工具，MakeFile 类似是一个脚本文件，文件中定义了一系列的规则来告诉 make 需要如何去编译和链接程序</strong>。</p>
+<h2 id="MakeFile-概述"><a href="#MakeFile-概述" class="headerlink" title="MakeFile 概述"></a>MakeFile 概述</h2><h3 id="MakeFile-组成"><a href="#MakeFile-组成" class="headerlink" title="MakeFile 组成"></a>MakeFile 组成</h3><p>Makefile 里主要包含了五个东西：显式规则、隐晦规则、变量定义、文件指示和注释。</p>
 <blockquote>
-<p> 状态队列：</p>
-<ul>
-<li>由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态；</li>
-<li>不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)；</li>
-<li>每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中<br>脱离出来，加入到另一个队列。<a id="more"></a>
-</li>
-</ul>
+<table><tr><td bgcolor="#D1EEEE"><strong>1、显式规则。显式规则说明了，如何生成一个或多个的目标文件。这是由 Makefile 的书写者明显指出，要生成的文件，文件的依赖文件，生成的命令。<br>2、隐晦规则。由于我们的 make 有自动推导的功能，所以隐晦的规则可以让我们比较粗糙地简略地书写 Makefile，这是由 make 所支持的。<br>3、变量的定义。在 Makefile 中我们要定义一系列的变量，变量一般都是字符串，这个有点像 C 语言中的宏，当 Makefile 被执行时，其中的变量都会被扩展到相应的引用位置上。<br>4、文件指示。其包括了三个部分，一个是在一个 Makefile 中引用另一个 Makefile，就像 C语言中的 include 一样；另一个是指根据某些情况指定 Makefile 中的有效部分，就像 C 语言中的预编译#if 一样；还有就是定义一个多行的命令。<br>5、注释。 Makefile 中只有行注释，和 UNIX 的 Shell 脚本一样，其注释是用“#”字符。</strong></td></tr></table>
 </blockquote>
-<h3 id="进程的生命周期管理"><a href="#进程的生命周期管理" class="headerlink" title="进程的生命周期管理"></a>进程的生命周期管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">* 进程创建</span><br><span class="line">  引起进程创建的三个主要事件：</span><br><span class="line">  * 系统初始化时;(创建init进程，负责创建其他新的进程)</span><br><span class="line">  * 用户请求创建一个新进程；</span><br><span class="line">  * 正在运行的进程执行了创建进程的系统调用；</span><br><span class="line"></span><br><span class="line">* 进程运行</span><br><span class="line">  内核选择一个就绪进程，让它占有处理机并执行（涉及相关调度算法，来满足如何选择进程何时来执行）</span><br><span class="line"></span><br><span class="line">* 进程等待</span><br><span class="line">  在以下情况下，进程等待(阻塞)：</span><br><span class="line">    1. 请求并等待系统服务，无法马上完成(例如：执行I/O，请求硬盘时)</span><br><span class="line">    2. 启动某种操作，无法马上完成(需要等待其他进程完成某个操作才可以执行)</span><br><span class="line">    3. 需要的数据没有到达</span><br><span class="line">  进程一旦由运行态转换成等待状态就不占有CPU了，那么其他就绪进程就可以占有CPU执行。进程等待(阻塞)只能由进程自己触发，</span><br><span class="line">  因为只有进程自己知道才能知道何时需要等待某种事件的发生。</span><br><span class="line"></span><br><span class="line">* 进程唤起（由阻塞态转换为就绪态）</span><br><span class="line">  唤醒进程的原因：</span><br><span class="line">    1. 被阻塞进程的需要的资源得到满足</span><br><span class="line">    2. 被阻塞进程等待的事件可达</span><br><span class="line">    3. 将该进程的PCB插入到就绪队列</span><br><span class="line">  进程只能被别的进程或者操作系统唤醒</span><br><span class="line"></span><br><span class="line">* 进程结束</span><br></pre></td></tr></table></figure>
-<h3 id="进程的状态变化模型"><a href="#进程的状态变化模型" class="headerlink" title="进程的状态变化模型"></a>进程的状态变化模型</h3><p><img src="https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E9%98%9F%E5%88%97.png?raw=true" alt="avatar"></p>
+<p>还有一点需要注意，在 Makefile 中的命令，必须要以[Tab]键开始。</p>
+<h3 id="MakeFile-工作方式"><a href="#MakeFile-工作方式" class="headerlink" title="MakeFile 工作方式"></a>MakeFile 工作方式</h3><p>GNU 的 make 工作时的执行步骤如下：</p>
 <blockquote>
-<p>进程的三种基本状态：<br>进程在生命结束前处于且仅处于三种基本状态之一，不同系统设置的进程状态数目不同。</p>
-<ul>
-<li>运行状态(Running)：当一个进程正在处理机上运行时。</li>
-<li>就绪状态(Ready): 一个进程获得了除处理机之外的一切所需资源，一旦得到处理机即可运行。</li>
-<li>等待状态(又称阻塞状态Blocked)：一个进程正在等待某一事件而暂停运行时。如等待某资源，等待输入/输出完成。</li>
-</ul>
+<table><tr><td bgcolor="#D1EEEE"><strong>1、读入所有的 Makefile。<br>2、读入被 include 的其它 Makefile。<br>3、初始化文件中的变量。<br>4、推导隐晦规则，并分析所有规则。<br>5、为所有的目标文件创建依赖关系链。<br>6、根据依赖关系，决定哪些目标要重新生成。<br>7、执行生成命令。</strong></td></tr></table>
 </blockquote>
-<h3 id="进程的挂起模型"><a href="#进程的挂起模型" class="headerlink" title="进程的挂起模型"></a>进程的挂起模型</h3><blockquote>
-<p>   进程在挂起状态时，意味着进程没有占有内存空间，处在挂起状态的进程映像在磁盘上。<br>   挂起状态：</p>
-<ul>
-<li>阻塞挂起状态(Blocked-suspend)：进程在外存并等待某事件的出现</li>
-<li>就绪挂起状态(Ready-suspend)：进程在外存，但只要进入内存即可运行</li>
-</ul>
+<h2 id="MakeFile-使用"><a href="#MakeFile-使用" class="headerlink" title="MakeFile 使用"></a>MakeFile 使用</h2><h3 id="书写规则"><a href="#书写规则" class="headerlink" title="书写规则"></a>书写规则</h3><p>用一个示例来说明 MakeFile 的书写规则，以便给大家一个感性认识。示例来源于 gnu 的 make 使用手册，这个示例中，我们的工程有8个c文件，和3个头文件，我们要写一个 MakeFile 来告诉 make 命令如何编译和链接这几个文件。我们的规则是：</p>
+<blockquote>
+<p>1）如果这个工程没有编译过，那么我们的所有c文件都要编译并被链接。<br>2）如果这个工程的某几个c文件被修改，那么我们只编译被修改的c文件，并链接目标程序。<br>3）如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的c文件，并链接目标程序。</p>
 </blockquote>
-<h2 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h2><ol>
-<li><p><strong>FCFS: first come fist server (先来先服务)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">优点：简单</span><br><span class="line">缺点：</span><br><span class="line">* 平均等待时间波动较大</span><br><span class="line">* 花费时间少的任务可能排在花费时间长的任务后面</span><br><span class="line">* 可能导致I/O和CPU之间的重叠处理</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>SPN/SRT : 短任务优先</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">按照预测的完成时间来将任务入队。</span><br><span class="line">可以是可抢占的或者不可抢占的，可抢占：又叫shortest-Remaining-Time(SRT) (最短剩余时间)</span><br><span class="line"></span><br><span class="line">优点：不公平，最优平均等待时间</span><br><span class="line">缺点：</span><br><span class="line">* 优先考虑短时间进程，可能导致饥饿</span><br><span class="line">* 需要预知未来，如何预估进程执行时间长短(根据过去预估未来)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>HRRRN : 最高响应比优先 (在SPN基础上改进)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R = (W + S)/S  </span><br><span class="line">W ：waiting time 等待时间</span><br><span class="line">S ：service time 执行时间</span><br><span class="line">选择R值最高的进程，充分考虑了进程等待的时间，缓解饥饿现象，不可抢占</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Round Robin 轮循调度算法</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在叫作时间切片的离散单元中分配处理器，时间片结束时，切换到下一个准备好的进程</span><br><span class="line"></span><br><span class="line">经验规则：维持上下文切换开销处于1%以内，99%的时间用在实际进程执行中</span><br><span class="line"></span><br><span class="line">优点：公平</span><br><span class="line">缺点：平均等待时间较差</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>MLFQ 多级反馈队列</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">动态的根据进程执行的过程，操作系统可以根据进程具有cpu密集型和I/O密集型的特征来动态的调整进程优先级</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Fair-share scheduling 公平共享调度</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使得用户的请求在不同的级别享受公平调度，是在进程级别还是用户级别或者用户组级别公平的共享进程的调度</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>MakeFile 写得够好，所有的这一切，我们只用一个 make 命令就可以完成，make 命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
+<p><strong>MakeFile 的书写规则</strong>：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">command</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>target 也就是一个目标文件，可以是 Object File，也可以是执行文件。还可以是一个标签（Label），对于标签这种特性，在后续的“伪目标”中会有介绍。<br>prerequisites 就是要生成那个 target 所依赖的文件或是目标。<br>command 也就是 make 需要执行的命令。（任意的 Shell 命令）</p>
+<blockquote>
+<table><tr><td bgcolor="#54FF9F"><strong>这是一个文件的依赖关系，意思是， target 这一个或多个的目标文件依赖于 prerequisites 中的文件，其生成规则定义在 command 中。说白一点就是说， prerequisites 中如果有一个以上的文件比 target 文件要新的话， command 所定义的命令就会被执行。这就是 Makefile 的规则，也就是 Makefile 中最核心的内容。</strong></td></tr></table>
+</blockquote>
+<p>正如前面所说的，如果一个工程有3个头文件，和8个c文件，我们为了完成前面所述的那三个规则，我们的 Makefile 如下：<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<p>反斜杠（\）是换行符的意思，这样比较便于makefile的易读。我们可以把这个内容保存在名字为 “makefile” 或 “Makefile” 的文件中，然后在该目录下直接输入命令 “make” 就可以生成执行文件 edit。如果要删除执行文件和所有的中间目标文件，那么，只要简单地执行一下 “make clean” 就可以了。</p>
+<p>上图中是最原始的写法，其中有很多变量是重复出现的，我们可以新增 <font color="#dd0000"><strong>变量</strong></font> 以及根据 make 的 <font color="#dd0000"><strong>自动推导</strong></font>，来简化 Makefile。</p>
+<p>引入变量objects：<br><img src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile2.png?raw=true" alt="avatar"></p>
+<p>GNU 的 make 很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
+<p>只要 make 看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果 make 找到一个 whatever.o，那么 whatever.c，就会是 whatever.o 的依赖文件。并且 cc -c whatever.c 也会被推导出来，于是，我们的 makefile 再也不用写得这么复杂。</p>
+<p>最新的 makefile：<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile8.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile4.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<p><font color="#dd0000"><strong>编译C时，<n>.o 的目标会自动推导为 <n>.c</n></n></strong></font><br>Makefile 中<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main : main.o</span><br><span class="line">    gcc -o main main.o</span><br></pre></td></tr></table></figure></p>
+<p>会自动变为:<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">main : main.o</span><br><span class="line">    gcc -o main main.o</span><br><span class="line"></span><br><span class="line"><span class="section">main.o: main.c    &lt;-- main.o 这个目标是隐含生成的</span></span><br><span class="line">    gcc -c main.c</span><br></pre></td></tr></table></figure></p>
+<h3 id="log-打印"><a href="#log-打印" class="headerlink" title="log 打印"></a>log 打印</h3><p>我们可以使用 info / warning / error 打印日志。<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">error</span> text…)</span></span><br><span class="line"><span class="variable">$(<span class="built_in">warning</span> text…)</span></span><br><span class="line"><span class="variable">$(info text…)</span></span><br><span class="line"><span class="comment"># To print variables,</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">error</span> VAR is <span class="variable">$(VAR)</span>)</span></span><br><span class="line"><span class="variable">$(<span class="built_in">warning</span>  VAR is <span class="variable">$(VAR)</span>)</span></span><br><span class="line"><span class="variable">$(info VAR is <span class="variable">$(VAR)</span>)</span></span><br><span class="line"><span class="comment"># when you use 'error' the make execution will stop after showing the error string</span></span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile5.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br>输出：<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile6.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p><strong>1. 变量赋值</strong><br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable1.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<p><strong>2. 变量替换</strong><br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable2.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br><strong>3. 变量追加值 +=</strong><br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable3.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br>4.变量覆盖<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable4.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br>5.目标变量<br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable5.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><br><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/makefile-variable6.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<h3 id="前缀"><a href="#前缀" class="headerlink" title="前缀"></a>前缀</h3><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/make-shell.png?raw=true" class="full-image" alt="alt" title="Makefile"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<h3 id="伪目标"><a href="#伪目标" class="headerlink" title="伪目标"></a>伪目标</h3><p>“伪目标”并不是一个文件，只是一个标签，由于“伪目标”不是文件，所以 make 无法生成它的依赖关系和决定它是否要执行。为了避免和文件重名的这种情况，我们可以使用一个特殊的标记“.PHONY”来显示地指明一个目标是“伪目标”，向 make 说明，不管是否有这个文件，这个目标就是“伪目标”<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: clean --&gt; 最好加上，以免和文件名冲突</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">  rm *.o temp</span><br></pre></td></tr></table></figure></p>
+<p>伪目标同样可以作为“默认目标”，只要将其放在第一个。一个示例就是，如果你的 Makefile 需要一口气生成若干个可执行文件，但你只想简单地敲一个 make 完事，并且，所有的目标文件都写在一个 Makefile 中，那么你可以使用“伪目标”这个特性：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">all: prog1 prog2 prog3</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: all</span></span><br><span class="line"><span class="section">prog1: prog1.o utils.o</span></span><br><span class="line">  cc -o prog1 prog1.o utils.o</span><br><span class="line"><span class="section">prog2: prog2.o</span></span><br><span class="line">  cc -o prog2 prog2.o</span><br><span class="line"><span class="section">prog3: prog3.o sort.o utils.o</span></span><br><span class="line">  cc -o prog3 prog3.o sort.o utils.o</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MakeFile 主要思想就是依赖关系，判断依赖文件更新，来执行相关 command。MakeFile 对于一些工程结构简单的代码，可以很好的胜任组织编译链接工作，但是当工程非常大的时候(代码目录繁多，层次错综复杂)，手写 MakeFile 会非常麻烦，而且 MakeFile 是类 Unix 平台（平台相关）上的工具，，如果换一个平台(windows、android等)，又需要重新编写其他编译链接脚本，因此，在开发生产中，建议使用跨平台编译工具 CMake。</p>
+<blockquote>
+<p><strong>主要参考书籍 &lt;&lt; 跟我一起写 MakeFile &gt;&gt; </strong></p>
+</blockquote>
 
       
     </div>
@@ -567,7 +562,7 @@
     <strong>本文作者： </strong>Jiayun-Ye</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/" title="操作系统--进程管理(二)">https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/</a>
+    <a href="https://mikeblog.top/2019/01/20/make/" title="MakeFile 编写">https://mikeblog.top/2019/01/20/make/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
@@ -580,7 +575,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/操作系统/" rel="tag"><i class="fa fa-tag"></i> 操作系统</a>
+            <a href="/tags/编译-compile/" rel="tag"><i class="fa fa-tag"></i> 编译 (compile)</a>
           
         </div>
       
@@ -593,8 +588,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/02/操作系统-进程管理一-2018-11-2/" rel="next" title="操作系统--进程管理(一)">
-                <i class="fa fa-chevron-left"></i> 操作系统--进程管理(一)
+              <a href="/2019/01/12/C-多线程编程/" rel="next" title="C++ 多线程编程">
+                <i class="fa fa-chevron-left"></i> C++ 多线程编程
               </a>
             
           </div>
@@ -602,10 +597,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/09/操作系统-线程概述-2018-11-9/" rel="prev" title="操作系统-线程概述">
-                操作系统-线程概述 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -784,7 +775,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程状态-State"><span class="nav-number">1.</span> <span class="nav-text">进程状态(State)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的生命周期管理"><span class="nav-number">1.1.</span> <span class="nav-text">进程的生命周期管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的状态变化模型"><span class="nav-number">1.2.</span> <span class="nav-text">进程的状态变化模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的挂起模型"><span class="nav-number">1.3.</span> <span class="nav-text">进程的挂起模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程调度算法"><span class="nav-number">2.</span> <span class="nav-text">进程调度算法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的编译与链接"><span class="nav-number">1.</span> <span class="nav-text">程序的编译与链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MakeFile-概述"><span class="nav-number">2.</span> <span class="nav-text">MakeFile 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MakeFile-组成"><span class="nav-number">2.1.</span> <span class="nav-text">MakeFile 组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MakeFile-工作方式"><span class="nav-number">2.2.</span> <span class="nav-text">MakeFile 工作方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MakeFile-使用"><span class="nav-number">3.</span> <span class="nav-text">MakeFile 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#书写规则"><span class="nav-number">3.1.</span> <span class="nav-text">书写规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log-打印"><span class="nav-number">3.2.</span> <span class="nav-text">log 打印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">3.3.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前缀"><span class="nav-number">3.4.</span> <span class="nav-text">前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪目标"><span class="nav-number">3.5.</span> <span class="nav-text">伪目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -953,7 +944,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2018/11/03/操作系统-进程管理二-2018-11-3/'
+        refer: '2019/01/20/make/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];

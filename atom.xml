@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-19T14:34:30.982Z</updated>
+  <updated>2019-01-20T02:53:25.440Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MakeFile 编写</title>
+    <link href="https://mikeblog.top/2019/01/20/make/"/>
+    <id>https://mikeblog.top/2019/01/20/make/</id>
+    <published>2019-01-19T22:33:40.000Z</published>
+    <updated>2019-01-20T02:53:25.440Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;程序的编译与链接&quot;&gt;&lt;a href=&quot;#程序的编译与链接&quot; class=&quot;headerlink&quot; title=&quot;程序的编译与链接&quot;&gt;&lt;/a&gt;程序的编译与链接&lt;/h2&gt;&lt;figure class=&quot;highlight makefile&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Top level makefile, the real shit is at src/Makefile&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;default: all&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;.DEFAULT:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	cd src &amp;amp;&amp;amp; &lt;span class=&quot;variable&quot;&gt;$(MAKE)&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;install:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	cd src &amp;amp;&amp;amp; &lt;span class=&quot;variable&quot;&gt;$(MAKE)&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&lt;span class=&quot;meta-keyword&quot;&gt;.PHONY&lt;/span&gt;: install&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;&lt;strong&gt;GNU Make 是一个工具，它从程序的源文件中控制程序的可执行文件和其他非源文件的生成。&lt;/strong&gt; &lt;/p&gt;&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
+    
+  </entry>
   
   <entry>
     <title>C++ 多线程编程</title>
