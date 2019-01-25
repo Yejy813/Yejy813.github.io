@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="What is GDB? 官方文档：  https://sourceware.org/gdb/download/onlinedocs/  GDB 是 GNU 项目的调试器，你可以用 GDB 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。">
+<meta name="keywords" content="GNU Software">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GDB">
+<meta property="og:url" content="https://mikeblog.top/2019/01/23/GDB/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="What is GDB? 官方文档：  https://sourceware.org/gdb/download/onlinedocs/  GDB 是 GNU 项目的调试器，你可以用 GDB 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/gdb.png?raw=true">
+<meta property="og:updated_time" content="2019-01-25T16:48:00.790Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GDB">
+<meta name="twitter:description" content="What is GDB? 官方文档：  https://sourceware.org/gdb/download/onlinedocs/  GDB 是 GNU 项目的调试器，你可以用 GDB 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/gdb.png?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/01/23/GDB/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>GDB | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/01/23/GDB/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GDB
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-23 20:53:27" itemprop="dateCreated datePublished" datetime="2019-01-23T20:53:27+08:00">2019-01-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-26 00:48:00" itemprop="dateModified" datetime="2019-01-26T00:48:00+08:00">2019-01-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/01/23/GDB/" class="leancloud_visitors" data-flag-title="GDB">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">12k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="What-is-GDB"><a href="#What-is-GDB" class="headerlink" title="What is GDB?"></a><strong>What is GDB?</strong></h2><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/gdb.png?raw=true" class="full-image" alt="alt" title="gdb"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<p>官方文档：</p>
+<blockquote>
+<p><strong><a href="https://sourceware.org/gdb/download/onlinedocs/" target="_blank" rel="noopener">https://sourceware.org/gdb/download/onlinedocs/</a></strong></p>
+</blockquote>
+<p><code>GDB</code> 是 <code>GNU</code> 项目的调试器，你可以用 <code>GDB</code> 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。<br><a id="more"></a></p>
+<blockquote>
+<table><tr><td bgcolor="#FFFFE0"><strong>(gdb) set print address on<br>(gdb) f 0<br>#0  Request::process (this=0x7fffffffe690) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:8<br> 8    &emsp;     PosixThread::MutexLockGuard &lt; PosixThread::MutexLock &gt; lock(mutex_);<br>(gdb) </strong></td></tr></table>
+</blockquote>
+<p>上述指令表示，当程序显示函数信息时，<code>GDB</code> 会显出函数的参数地址，然后调用 <code>f &lt;n&gt;</code> 或 <code>frame &lt;n&gt;</code>, 表示查看当前栈层的信息。在我看来，查看栈层信息以及打印相关变量的地址，是 <code>GDB</code> 最为有用的地方。</p>
+<p><code>GDB</code> 主要做四件事情(以及支持这些事情的其他事情)，来帮助你捕捉程序中的错误：</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"> <strong> 1. 启动程序，指定可能影响其行为的任何内容。<br>2. 使程序在指定条件下停止。<br>3. 当程序停止时，检查发生了什么。<br>4. 更改程序中的内容，以便您可以尝试纠正一个错误的影响并继续了解另一个错误。</strong> </td></tr></table>
+</blockquote>
+<p>这些程序可能与 <code>GDB</code> 在同一台机器上，或者另一台机器（远程）或模拟器上执行。 <code>GDB</code> 可以在大多数流行的 <code>UNIX</code> 和 <code>Microsoft Windows</code> 变体上运行，也可以在 <code>Mac OS X</code> 上运行。</p>
+<p><strong>What Languages does GDB Support?</strong><br><code>GDB</code> 支持以下语言（按字母顺序排列）：</p>
+<ul>
+<li>Ada</li>
+<li>Assembly</li>
+<li>C</li>
+<li>C++</li>
+<li>D</li>
+<li>Fortran</li>
+<li>Go</li>
+<li>Objective-C</li>
+<li>OpenCL</li>
+<li>Modula-2</li>
+<li>Pascal</li>
+<li>Rust</li>
+</ul>
+<h2 id="GDB-本机调试"><a href="#GDB-本机调试" class="headerlink" title="GDB 本机调试"></a>GDB 本机调试</h2><p>首先我们总结一下本机调试，也就是执行程序和 <code>GDB</code> 跑在同一台机器上, 这也是我们最为常见的一种方式。<br><strong>1. 编译 GDB 可调试的程序</strong><br>我用 <code>GDB</code> 主要调试 <code>C/C++</code> 程序，为了将调试信息加到可执行文件中，我们需要用到 <code>gcc</code>编译器提供的 <code>-g</code> 参数，具体编译方法如下：</p>
+<p><strong>Make</strong></p>
+<blockquote>
+<table><tr><td bgcolor="#FFFFE0"><strong>g++&emsp;-g&emsp;-Wall&emsp;hello.cpp&emsp;-o&emsp;hello</strong></td></tr></table>
+</blockquote>
+<p><strong>CMake：</strong></p>
+<blockquote>
+<table><tr><td bgcolor="#FFFFE0"><strong> set(CMAKE_BUILD_TYPE&emsp;”Debug”)<br>set(CMAKE_CXX_FLAGS_DEBUG&emsp;”$ENV{CXXFLAGS}&emsp;-O0&emsp;-Wall&emsp;-g2&emsp;-ggdb”) #替换 Debug 版本参数</strong></td></tr></table>
+</blockquote>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p><strong>下面是程序的启动，启动操作主要有三种：</strong></p>
+<blockquote>
+<p>1.直接加载可执行程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb &lt;program&gt; # program 为你编译的可执行程序</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>2.调试可执行程序的同时，将 <code>core</code> 文件加入其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 注意：core 文件是已经生成的 coredump，如何生成coredump后面介绍。</span><br><span class="line">gdb  &lt;program&gt; core</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>3.当你调试正在运行的进程, 可以通过该指令附着（<code>attach</code>）到进程中调试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb &lt;program&gt; &lt;PID&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>当然我们也可以执行 <code>gdb</code>，然后通过 <code>file &lt;program&gt;</code>来加载可执行程序的符号。</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@yejy build]# gdb output/bin/dead_lock.exx  # 采用方式1, 直接加载可执行程序</span><br><span class="line">GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-94.el7</span><br><span class="line">Copyright (C) 2013 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</span><br><span class="line">and &quot;show warranty&quot; for details.</span><br><span class="line">This GDB was configured as &quot;x86_64-redhat-linux-gnu&quot;.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;...</span><br><span class="line">Reading symbols from /home/willy/myshare/thread-pool/build/output/bin/dead_lock.exx...done.</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></p>
+<h3 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 在进入指定函数时停住。C++ 可以使用class::function或function(type,type)格式来指定函数名。</span><br><span class="line">break &lt;function&gt;</span><br><span class="line"></span><br><span class="line"># 在源文件filename的linenum行处停住。</span><br><span class="line">break filename：linenum</span><br><span class="line"></span><br><span class="line"># 在源文件filename的function函数的入口处停住。</span><br><span class="line">break filename：function</span><br></pre></td></tr></table></figure>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将断点设置在 main 函数</span><br><span class="line">(gdb) b main # break简写</span><br><span class="line">Breakpoint 1 at 0x40143d: file /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp, line 25.</span><br></pre></td></tr></table></figure></p>
+<h3 id="程序运行与单步调试"><a href="#程序运行与单步调试" class="headerlink" title="程序运行与单步调试"></a>程序运行与单步调试</h3><p>较常用指令是如下四个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 程序开始运行</span><br><span class="line">run</span><br><span class="line"></span><br><span class="line"># 恢复程序运行，直到程序结束，或是下一个断点到来。ignore-count表示忽略其后的断点次数。continue，c命令意思相同。</span><br><span class="line">continue [ignore-count]</span><br><span class="line">c [ignore-count]</span><br><span class="line"></span><br><span class="line"># 单步跟踪，如果有函数调用，会进入该函数, count 表示连续执行count条，然后停止，否则一条一条执行。</span><br><span class="line">step &lt;count&gt;</span><br><span class="line"></span><br><span class="line"># 单步跟踪，如果有函数调用，不会进入该函数，count 同上。</span><br><span class="line">next &lt;count&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(gdb) run  # 开始执行</span><br><span class="line">Starting program: /home/willy/myshare/thread-pool/build/output/bin/dead_lock.exx </span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib64/libthread_db.so.1&quot;.</span><br><span class="line"></span><br><span class="line">Breakpoint 1, main (argc=1, argv=0x7fffffffe128) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25</span><br><span class="line">25	  char* pBuff = nullptr;</span><br><span class="line">Missing separate debuginfos, use: debuginfo-install glibc-2.17-222.el7.x86_64 libgcc-4.8.5-28.el7_5.1.x86_64 libstdc++-4.8.5-28.el7_5.1.x86_64</span><br><span class="line">(gdb) n   # next简写，执行下一条</span><br><span class="line">26	  *pBuff = &apos;2&apos;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="分析栈信息"><a href="#分析栈信息" class="headerlink" title="分析栈信息"></a>分析栈信息</h3><p>当程序运行到断点时，我们需要查看程序在哪里停住了。当程序调用了一个函数，函数的地址，函数参数，函数内的局部变量都会被压入”栈”（<code>Stack</code>）中。我们可以使用 <code>GDB</code> 命令来查看栈中的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 打印当前的函数调用栈的所有信息, n是一个正整数，表示打印栈顶上n层的栈信息, n可为负数，表示栈底。</span><br><span class="line">backtrace &lt;n&gt;</span><br><span class="line">bt &lt;n&gt;</span><br><span class="line"></span><br><span class="line"># 查看当前栈，一般来说，程序停止时，最顶层的栈就是当前栈，如果你要查看栈下面层的详细信息，首先要做的是切换当前栈</span><br><span class="line"># 例: frame 0，表示栈顶，frame 1，表示栈的第二层。</span><br><span class="line">frame &lt;n&gt;</span><br><span class="line">f &lt;n&gt;</span><br><span class="line"></span><br><span class="line"># 这个命令会打印出更为详细的当前栈层的信息</span><br><span class="line"># 大多都是运行时的内存地址。比如：函数地址，调用函数的地址，被调用函数的地址，</span><br><span class="line"># 目前的函数是由什么样的程序语言写成的、函数参数地址及值、局部变量的地址等等</span><br><span class="line">info frame</span><br><span class="line">info f</span><br><span class="line"></span><br><span class="line"># 打印出当前函数的参数名及其值。</span><br><span class="line">info args</span><br><span class="line"></span><br><span class="line"># 打印出当前函数中所有局部变量及其值。</span><br><span class="line">info locals</span><br></pre></td></tr></table></figure>
+<p>例如测试源码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Request</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">()</span> <span class="keyword">const</span> __<span class="title">attribute__</span><span class="params">((noinline))</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    PosixThread::MutexLockGuard&lt;PosixThread::MutexLock&gt; lock(mutex_);</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">    Printf();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Printf</span><span class="params">()</span> <span class="keyword">const</span> __<span class="title">attribute__</span><span class="params">((noinline))</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    PosixThread::MutexLockGuard&lt;PosixThread::MutexLock&gt; lock(mutex_);</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">mutable</span> PosixThread::MutexLock mutex_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span>* pBuff = <span class="literal">nullptr</span>;</span><br><span class="line">  *pBuff = <span class="string">'2'</span>;</span><br><span class="line">  </span><br><span class="line">  Request req;</span><br><span class="line">  req.process();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>GDB</code> 调试打印：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">(gdb) backtrace # 查看所有调用栈</span><br><span class="line">#0  main (argc=1, argv=0x7fffffffe128) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25</span><br><span class="line">(gdb) f # 查看当前调用栈</span><br><span class="line">#0  main (argc=1, argv=0x7fffffffe128) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25</span><br><span class="line">25	  char* pBuff = nullptr;</span><br><span class="line">(gdb) info f # 当前调用栈详细信息</span><br><span class="line">Stack level 0, frame at 0x7fffffffe050:</span><br><span class="line"> rip = 0x40143d in main (/home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25); saved rip 0x7ffff6ded445</span><br><span class="line"> source language c++.</span><br><span class="line"> Arglist at 0x7fffffffe040, args: argc=1, argv=0x7fffffffe128</span><br><span class="line"> Locals at 0x7fffffffe040, Previous frame&apos;s sp is 0x7fffffffe050</span><br><span class="line"> Saved registers:</span><br><span class="line">  rbx at 0x7fffffffe038, rbp at 0x7fffffffe040, rip at 0x7fffffffe048</span><br><span class="line">(gdb) info args # 函数参数</span><br><span class="line">argc = 1</span><br><span class="line">argv = 0x7fffffffe128</span><br><span class="line">(gdb) info locals # 函数局部变量</span><br><span class="line">pBuff = 0x401340 &lt;_start&gt; &quot;1\355I\211\321^H\211\342H\203\344\360PTI\307\300`\030@&quot;</span><br><span class="line">req = &#123;mutex_ = &#123;mutex_ = &#123;__data = &#123;__lock = -138651536, __count = 32767, __owner = 15775487, __nusers = 0, __kind = 1, __spins = 0, __elision = 0, __list = &#123;</span><br><span class="line">          __prev = 0x40183d &lt;__libc_csu_init+77&gt;, __next = 0x7fffffffe040&#125;&#125;, </span><br><span class="line">      __size = &quot;pX\274\367\377\177\000\000\377\266\360\000\000\000\000\000\001\000\000\000\000\000\000\000=\030@\000\000\000\000\000@\340\377\377\377\177\000&quot;, </span><br><span class="line">      __align = 140737349703792&#125;, holder_ = 0&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看源码"><a href="#查看源码" class="headerlink" title="查看源码"></a>查看源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 显示程序第linenum行的周围的源程序。</span><br><span class="line">list &lt;linenum&gt;</span><br><span class="line"></span><br><span class="line"># 显示函数名为function的函数的源程序。</span><br><span class="line">list &lt;function&gt;</span><br><span class="line"></span><br><span class="line"># 设置一次默认显示源代码的行数。</span><br><span class="line">set listsize &lt;count&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(gdb) list</span><br><span class="line">23	int main(int argc, char *argv[])</span><br><span class="line">24	&#123;</span><br><span class="line">25	  char* pBuff = nullptr;</span><br><span class="line">26	  *pBuff = &apos;2&apos;;</span><br><span class="line">27	  </span><br><span class="line">(gdb) set listsize 2 # 一次显示两行</span><br><span class="line">(gdb) list</span><br><span class="line">28	  Request req;</span><br><span class="line">29	  req.process();</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></p>
+<h3 id="设置显示选项"><a href="#设置显示选项" class="headerlink" title="设置显示选项"></a>设置显示选项</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 当程序显示函数信息时, GDB会显出函数的参数地址.</span><br><span class="line">set print address</span><br><span class="line">set print address on</span><br><span class="line"></span><br><span class="line"># printf pretty这个选项，那么当GDB显示结构体时会比较漂亮.</span><br><span class="line">set print pretty on</span><br><span class="line"></span><br><span class="line"># 当此选项打开时，GDB将用比较规整的格式来显示虚函数表.</span><br><span class="line">set print vtbl &lt;on/off&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(gdb) show print address</span><br><span class="line">Printing of addresses is on.</span><br><span class="line">(gdb) f  # argv 有地址</span><br><span class="line">#0  main (argc=1, argv=0x7fffffffe128) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25</span><br><span class="line">25	  char* pBuff = nullptr;</span><br><span class="line">(gdb) set print address off</span><br><span class="line">(gdb) f  # argv 无地址</span><br><span class="line">#0  main (argc=1, argv=) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:25</span><br><span class="line">25	  char* pBuff = nullptr;</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></p>
+<h3 id="GDB-中运行-UNIX-的-shell-程序"><a href="#GDB-中运行-UNIX-的-shell-程序" class="headerlink" title="GDB 中运行 UNIX 的 shell 程序"></a>GDB 中运行 UNIX 的 shell 程序</h3><p>在 <code>GDB</code> 环境中，我们可以执行 <code>UNIX</code> 的 <code>shell</code> 命令来完成一些操作, 包括 <code>Make/CMake</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell &lt;command string&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(gdb) shell ls  # ls指令</span><br><span class="line">3rdlib	bin  CMakeCache.txt  CMakeFiles  cmake_install.cmake  DeadLock_Test  install_manifest.txt  lib	Makefile  output  src  unit_mock  unit_test</span><br><span class="line">(gdb) shell cmake .. -DENABLE_DEBUG=ON -DENABLE_TEST=ON # 执行cmake指令</span><br><span class="line">-- The compiler -g++ has c++1y support</span><br><span class="line">Install prefix: /home/willy/myshare/thread-pool/build/output</span><br><span class="line">CMAKE_CXX_FLAGS  :  -std=c++1y</span><br><span class="line">CMAKE_CXX_FLAGS_DEBUG :  -O0 -Wall -g2 -ggdb</span><br><span class="line">CMAKE_CXX_FLAGS_RELEASE :  -O3 -Wall</span><br><span class="line">Build Type: Debug</span><br><span class="line">-- Configuring done</span><br><span class="line">-- Generating done</span><br><span class="line">-- Build files have been written to: /home/willy/myshare/thread-pool/build</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></p>
+<h3 id="调试-coredump-文件"><a href="#调试-coredump-文件" class="headerlink" title="调试 coredump 文件"></a>调试 coredump 文件</h3><p><code>Linux</code> 平台下在一个程序崩溃时，它一般会在指定目录下生成一个 <code>core</code> 文件，<code>core</code> 文件仅仅是一个内存映象(同时加上调试信息)，使用 <code>GDB</code> 来查看 <code>core</code> 文件，可以指示出导致程序出错的代码所在文件和行数。</p>
+<p>首先我们需要生成 <code>core</code> 文件<br>1.查看当前系统是否能生成 <code>core</code> 文件, 如果显示为0则说明当前系统不会生成 <code>core</code> 文件，需要运行 <code>unlimited</code> 操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c</span><br><span class="line"></span><br><span class="line">ulimit -c unlimited</span><br></pre></td></tr></table></figure></p>
+<p>2.设置 <code>core</code> 文件输出路径<br><code>core</code> 文件默认输出到程序运行的目录，也可以更改为其他目录：(目录一定要可写, 确定当前用户是否有权限)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;/tmp/core&quot; &gt;/proc/sys/kernel/core_pattern</span><br></pre></td></tr></table></figure></p>
+<p>运行以上命令后，<code>core</code> 文件会输出到 <code>/tmp</code> 目录下，名称为 <code>core.进程ID</code>，比如进程308挂掉后生成的 <code>core</code> 文件为<code>/tmp/core.308</code>。</p>
+<blockquote>
+<table><tr><td bgcolor="#54FF9F"><strong>注：运行以上命令的 shell 一定要和运行程序的 shell 是同一个</strong></td></tr></table>
+</blockquote>
+<p>3.<code>GDB</code> 调试 <code>core</code> 文件<br>主要使用 <code>gdb  &lt;program&gt; core</code> 启动方式来调试，可以达到问题出现后，现场已经不存在了的情况下，也可以调试的效果，很管用。当然在正常系统环境中生成 <code>coredump</code> 文件的方式各有不同，原理都是获得其函数调用栈地址，然后通过 <code>address2line</code> 具体定位到某个函数，某一行代码。 </p>
+<p>我们通过例子来说明，主要是我在代码中加入下面两句，然后导致函数出现段错误：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* pBuff = <span class="literal">nullptr</span>;</span><br><span class="line">*pBuff = <span class="string">'2'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>执行程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@yejy build]# ./output/bin/dead_lock.exx </span><br><span class="line">段错误(吐核)</span><br><span class="line">[root@yejy build]# ls /tmp/core.4209 # 生成了一个 core 文件</span><br><span class="line">/tmp/core.4209</span><br><span class="line">[root@yejy build]# gdb output/bin/dead_lock.exx /tmp/core.4209 # 使用 gdb 执行程序并且调试 core 文件</span><br><span class="line">GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-94.el7</span><br><span class="line">Copyright (C) 2013 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</span><br><span class="line">and &quot;show warranty&quot; for details.</span><br><span class="line">This GDB was configured as &quot;x86_64-redhat-linux-gnu&quot;.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;...</span><br><span class="line">Reading symbols from /home/willy/myshare/thread-pool/build/output/bin/dead_lock.exx...done.</span><br><span class="line">[New LWP 4209]</span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib64/libthread_db.so.1&quot;.</span><br><span class="line">Core was generated by `./output/bin/dead_lock.exx&apos;.</span><br><span class="line">Program terminated with signal 11, Segmentation fault.</span><br><span class="line">#0  0x0000000000401449 in main (argc=1, argv=0x7ffd573c8518) at /home/willy/myshare/thread-pool/DeadLock_Test/main.cpp:26  </span><br><span class="line">26	  *pBuff = &apos;2&apos;; # 直接就提示 26 行出现段错误</span><br><span class="line">Missing separate debuginfos, use: debuginfo-install glibc-2.17-222.el7.x86_64 libgcc-4.8.5-28.el7_5.1.x86_64 libstdc++-4.8.5-28.el7_5.1.x86_64</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看-C-对象虚函数表"><a href="#查看-C-对象虚函数表" class="headerlink" title="查看 C++ 对象虚函数表"></a>查看 C++ 对象虚函数表</h3><p>我们前面在设置显示选项的时候，有设置显示虚函数表 <code>set print vtbl &lt;on/off&gt;</code>, 那具体是怎么查看呢？<br>通过例子来说明，步骤如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 设置可显示</span><br><span class="line">set print vtbl on</span><br><span class="line"></span><br><span class="line"># 打印所有虚函数地址</span><br><span class="line">info vtbl pObject</span><br><span class="line"></span><br><span class="line"># 打印某一个虚函数</span><br><span class="line">p /a (*(void ***)pObject)[0]@10  # /a 表示 16 进制打印；10表示打印的虚函数个数</span><br><span class="line"></span><br><span class="line"># 查看相应地址的符号</span><br><span class="line">info symbol 0x80486c8</span><br></pre></td></tr></table></figure></p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 断点只对指定线程生效，该线程执行到该断点停止后，所有线程会一起停止，方便我们调试。</span><br><span class="line">break &lt;linespec&gt; thread &lt;threadno&gt;</span><br><span class="line">break &lt;linespec&gt; thread &lt;threadno&gt; if ...</span><br><span class="line"></span><br><span class="line"># 上面的 threadno 是 gdb 分配的，我们可以通过下面这个查看线程 id。</span><br><span class="line">info threads</span><br></pre></td></tr></table></figure>
+<h3 id="查阅帮助"><a href="#查阅帮助" class="headerlink" title="查阅帮助"></a>查阅帮助</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 列出 gdb 指令种类</span><br><span class="line">help</span><br><span class="line"></span><br><span class="line"># GDB 指令详细帮助</span><br><span class="line">gdb -help</span><br><span class="line"></span><br><span class="line"># 一般指令</span><br><span class="line">help &lt;command&gt;</span><br></pre></td></tr></table></figure>
+<p>上述只是讲解了我在工作中最为常用，而且觉得很有用的一些常用指令操作，总体可以覆盖整个调试流程，当然<code>GDB</code> 还有非常多有用的手段，需要我们去发掘并使用，然后就是祈祷工作中可以多遇到些问题，并且尝试使用 <code>GDB</code> 去解决，这样我们才可以学到更多东西，掌握更多的调试手段。</p>
+<p>如果还想全面了解 <code>GDB</code> 指令，可以查看如下链接：</p>
+<blockquote>
+<p><a href="http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn" target="_blank" rel="noopener">http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn</a></p>
+</blockquote>
+<h2 id="GDB-远程调试"><a href="#GDB-远程调试" class="headerlink" title="GDB 远程调试"></a>GDB 远程调试</h2><p>远程调试过程，其实真正调试和本机调试差不多，主要是远程调试环境搭建的时候回麻烦一些，这个会涉及到一些交叉编译的知识，需要编译远端系统使用的<code>gdbserver</code>和本机使用的<code>gdb</code>程序。这个我不打算详细介绍，我只打概介绍一下打概流程，相应交叉编译的内容，我就不介绍了，主要是不好举例子，我自己有一份文档，都是公司内部系统使用的，不好自己拿出来。</p>
+<p>大概流程如下：</p>
+<h3 id="编译-gdbserver-和-gdb"><a href="#编译-gdbserver-和-gdb" class="headerlink" title="编译 gdbserver 和 gdb"></a>编译 gdbserver 和 gdb</h3><p>这一步就是纯粹交叉编译的知识，如果平台确定了，编译起来会比较简单，因为这种工具一般是集成好的，下载下来，配置一下，然后直接 <code>make&amp;&amp;make install</code> 一下就好了.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 配置 gdb 平台参数</span><br><span class="line">cd xxx-gdb/build</span><br><span class="line">/opt/gdb-7.3/configure --target=arm-linux-gnueabi --prefix=/opt/xxx-gdb</span><br><span class="line"></span><br><span class="line"># 配置 gdbserver 平台参数</span><br><span class="line">cd /opt/gdb-7.3/gdb/gdbserver</span><br><span class="line">./configure --host=arm-linux-gnueabi --prefix=/opt/xxx-gdb/gdbserver</span><br><span class="line"></span><br><span class="line"># 编译安装</span><br><span class="line">make&amp;&amp;make install</span><br></pre></td></tr></table></figure></p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>主要是将 <code>GDB</code> 加入到环境变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile在文件的末尾加入以下语句：</span><br><span class="line">	export PATH=/opt/xxx/bin:/opt/xxx-gdb/bin/:$PATH</span><br><span class="line">	保存/etc/profile文件后运行一下. /etc/profile或重新连接shell</span><br></pre></td></tr></table></figure></p>
+<h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><p>首先在远程调试机器上运行<code>gdbserver</code>，假设是 <code>mnt</code> 目录（该目录一般为挂载目录），2345为任意端口，只要之前没使用过就可以，然后<br><code>Exe.exx</code> 为你需要运行的程序, 指令大概如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/mnt/gdb/gdbserver localhost:2345 /mnt/bin/Exe.exx </span><br><span class="line">  </span><br><span class="line"># 执行完，大概提示这个：</span><br><span class="line">Process /mnt/bin/Exe.exx created; pid = 497</span><br><span class="line">Listening on port 2345</span><br></pre></td></tr></table></figure></p>
+<p>然后就是在你的编译机器(可能是虚拟机或者编译服务器)上，使用 <code>gdb</code> 跑你的程序，然后远程连接到远端的 <code>IP:port</code>就可以了<br>如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#首先使用你的 xxx-gdb 跑你的程序</span><br><span class="line">xxx-gdb </span><br><span class="line"></span><br><span class="line"># 链接相关库，因为生产中，不可能就一个可执行程序，需要链接大量的动态库和静态库</span><br><span class="line">set solib-absolute-prefix /lib/</span><br><span class="line">set solib-search-path /lib/</span><br><span class="line"></span><br><span class="line"># 加载可执行程序符号，Exe.exx 和远程服务器上执行的是同一个</span><br><span class="line">file ./bin/Exe.exx</span><br><span class="line"></span><br><span class="line"># 编译虚拟机(或编译服务器)上的 gdb 与远程机器上的 gdbserver 连接。 10.3.3.243为 IP，2345 为你设置的端口</span><br><span class="line">target remote 10.3.3.243:2345</span><br><span class="line"></span><br><span class="line"># 后面就可以执行你的程序了</span><br><span class="line">run 或者 break function （设置断点什么的，或者直接跑）</span><br></pre></td></tr></table></figure>
+<p><strong>总之，远程调试主要是加入了一个<code>gdbserver</code>，用做远程系统上的服务程序，来和编译服务器上的 <code>gdb</code> 进行通信，其他调试手段和本机调试基本一致。</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>GDB</code>的常用知识大概就是这些，如果都掌握吸收了，那一般的生产工作基本没有什么问题，也可以很好的解决遇到的问题，当然这只是 <code>GDB</code> 所有内容中的一部分，肯定也没有官方文档那样细致，所以如果相要更深入的了解，请参阅<a href="https://sourceware.org/gdb/download/onlinedocs/" target="_blank" rel="noopener">官方文档</a>。还有就是像前面那篇参考文章中提到的 <code>GDB</code> 脚本自动调试我们编写的程序，我觉得吧，虽然想法很美好，但是实用性可能不会太高，一个是编写调试脚本的工作成本是一个问题，然后该脚本所适用的调试场景可能也会比较特殊、通用性不够，导致整体成本会比较高。当然如果把编写调试脚本当做一种对 <code>GDB</code> 深入了解的方法，倒是非常不错，这样可以很好的提升我们的 <code>Debug</code> 能力与思维。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a href="http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn" target="_blank" rel="noopener">http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/01/23/GDB/" title="GDB">https://mikeblog.top/2019/01/23/GDB/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GNU-Software/" rel="tag"><i class="fa fa-tag"></i> GNU Software</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/20/make/" rel="next" title="MakeFile 编写">
+                <i class="fa fa-chevron-left"></i> MakeFile 编写
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-GDB"><span class="nav-number">1.</span> <span class="nav-text">What is GDB?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GDB-本机调试"><span class="nav-number">2.</span> <span class="nav-text">GDB 本机调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">2.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置断点"><span class="nav-number">2.2.</span> <span class="nav-text">设置断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序运行与单步调试"><span class="nav-number">2.3.</span> <span class="nav-text">程序运行与单步调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析栈信息"><span class="nav-number">2.4.</span> <span class="nav-text">分析栈信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看源码"><span class="nav-number">2.5.</span> <span class="nav-text">查看源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置显示选项"><span class="nav-number">2.6.</span> <span class="nav-text">设置显示选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GDB-中运行-UNIX-的-shell-程序"><span class="nav-number">2.7.</span> <span class="nav-text">GDB 中运行 UNIX 的 shell 程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试-coredump-文件"><span class="nav-number">2.8.</span> <span class="nav-text">调试 coredump 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-C-对象虚函数表"><span class="nav-number">2.9.</span> <span class="nav-text">查看 C++ 对象虚函数表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">2.10.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查阅帮助"><span class="nav-number">2.11.</span> <span class="nav-text">查阅帮助</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GDB-远程调试"><span class="nav-number">3.</span> <span class="nav-text">GDB 远程调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译-gdbserver-和-gdb"><span class="nav-number">3.1.</span> <span class="nav-text">编译 gdbserver 和 gdb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境配置"><span class="nav-number">3.2.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体使用"><span class="nav-number">3.3.</span> <span class="nav-text">具体使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/01/23/GDB/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

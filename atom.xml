@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-20T16:41:43.333Z</updated>
+  <updated>2019-01-25T16:48:00.790Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GDB</title>
+    <link href="https://mikeblog.top/2019/01/23/GDB/"/>
+    <id>https://mikeblog.top/2019/01/23/GDB/</id>
+    <published>2019-01-23T12:53:27.000Z</published>
+    <updated>2019-01-25T16:48:00.790Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;What-is-GDB&quot;&gt;&lt;a href=&quot;#What-is-GDB&quot; class=&quot;headerlink&quot; title=&quot;What is GDB?&quot;&gt;&lt;/a&gt;&lt;strong&gt;What is GDB?&lt;/strong&gt;&lt;/h2&gt;&lt;span itemprop=&quot;image&quot; itemscope=&quot;&quot; itemtype=&quot;http://schema.org/ImageObject&quot;&gt;&lt;img itemprop=&quot;url image&quot; src=&quot;https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/gdb.png?raw=true&quot; class=&quot;full-image&quot; alt=&quot;alt&quot; title=&quot;gdb&quot;&gt;&lt;meta itemprop=&quot;width&quot; content=&quot;auto&quot;&gt;&lt;meta itemprop=&quot;height&quot; content=&quot;auto&quot;&gt;&lt;/span&gt;
+&lt;p&gt;官方文档：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://sourceware.org/gdb/download/onlinedocs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://sourceware.org/gdb/download/onlinedocs/&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;GDB&lt;/code&gt; 是 &lt;code&gt;GNU&lt;/code&gt; 项目的调试器，你可以用 &lt;code&gt;GDB&lt;/code&gt; 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
+    
+  </entry>
   
   <entry>
     <title>MakeFile 编写</title>
@@ -31,9 +54,9 @@
     </summary>
     
     
-      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
-    
       <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
+    
+      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
     
   </entry>
   
