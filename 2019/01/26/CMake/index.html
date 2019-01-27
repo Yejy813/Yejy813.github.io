@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="CMake 介绍 CMake 是一个开源的跨平台工具系列，旨在构建，测试和打包软件。 CMake 用于使用简单的平台和独立于编译器的配置文件来控制软件编译过程，并生成可在你选择的编译器环境中使用的本机 makefile 和工作空间。">
+<meta name="keywords" content="编译 (compile)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMake">
+<meta property="og:url" content="https://mikeblog.top/2019/01/26/CMake/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="CMake 介绍 CMake 是一个开源的跨平台工具系列，旨在构建，测试和打包软件。 CMake 用于使用简单的平台和独立于编译器的配置文件来控制软件编译过程，并生成可在你选择的编译器环境中使用的本机 makefile 和工作空间。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/cmake.png?raw=true">
+<meta property="og:updated_time" content="2019-01-27T07:29:12.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CMake">
+<meta name="twitter:description" content="CMake 介绍 CMake 是一个开源的跨平台工具系列，旨在构建，测试和打包软件。 CMake 用于使用简单的平台和独立于编译器的配置文件来控制软件编译过程，并生成可在你选择的编译器环境中使用的本机 makefile 和工作空间。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/cmake.png?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/01/26/CMake/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CMake | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/01/26/CMake/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CMake
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-26 22:37:26" itemprop="dateCreated datePublished" datetime="2019-01-26T22:37:26+08:00">2019-01-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-27 15:29:12" itemprop="dateModified" datetime="2019-01-27T15:29:12+08:00">2019-01-27</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/01/26/CMake/" class="leancloud_visitors" data-flag-title="CMake">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">14k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="CMake-介绍"><a href="#CMake-介绍" class="headerlink" title="CMake 介绍"></a>CMake 介绍</h2><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/cmake.png?raw=true" class="full-image" alt="alt" title="CMake"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<div class="note warning"><p><strong>CMake 是一个开源的跨平台工具系列，旨在构建，测试和打包软件。 CMake 用于使用简单的平台和独立于编译器的配置文件来控制软件编译过程，并生成可在你选择的编译器环境中使用的本机 makefile 和工作空间。</strong> </p></div>
+<a id="more"></a>
+<p>CMake 是个开源的跨平台自动化建构系统，它用组态文档控制建构过程（build process）的方式和 Unix 的 Make 相似，只是 CMake 的组态文档取名为 CMakeLists.txt。CMake 并不直接建构出最终的软件，而是产生标准的建构档（如 Unix 的 Makefile 或 Windows Visual C++ 的 projects/workspaces），然后再依一般的建构方式使用。这使得熟悉某个集成开发环境（IDE）的开发者可以用标准的方式建构他的软件。CMake 可以编译源代码、制作程序库、产生适配器（wrapper）、还可以用任意的顺序建构可执行文件。CMake 支持 in-place 建构（二进档和源代码在同一个目录树中）和 out-of-place 建构（二进档在别的目录里），因此可以很容易从同一个源代码目录树中建构出多个二进档。CMake 也支持静态与动态程序库的建构。</p>
+<p><strong>CMake 特点主要有：</strong></p>
+<blockquote>
+<ul>
+<li>开放源代码，使用类 BSD 许可发布。 <a href="https://cmake.org/licensing" target="_blank" rel="noopener">https://cmake.org/licensing</a></li>
+<li>跨平台，并可生成 native 编译配置文件，在 Linux/Unix 平台，生成 makefile，在苹果平台，可以生成 xcode，在 Windows 平台，可以生成 MSVC 的工程文件。</li>
+<li>能够管理大型项目。我所在公司的项目代码就是用 CMake 构建的，代码量大概 140 万行。</li>
+<li>简化编译构建过程和编译过程。CMake 的工具链非常简单：cmake+make。</li>
+<li>高效虑，相对其他构建体系，构建速度上有优势。</li>
+<li>可扩展，可以为 CMake 编写特定功能的模块，扩充 CMake 功能。</li>
+</ul>
+</blockquote>
+<p><strong>CMake 缺点</strong></p>
+<blockquote>
+<p>CMake 很简单，但是没有想象中的简单，比如知乎网友神评论：”屠龙的英雄，自己也已经成为了龙”。<br>CMake 编写的过程实际就是编程的过程，我们编写的是 CMakeLists.txt (每个目录一个), 使用的是 “CMake 语言和语法”。</p>
+</blockquote>
+<p><strong>项目构建步骤：</strong></p>
+<ol>
+<li>为每个代码目录编写 CmakeLists.txt。</li>
+<li>执行命令“cmake PATH”或者“ccmake PATH”生成 Makefile ( PATH 是 CMakeLists.txt 所在的目录 )。</li>
+<li>使用 make 命令进行编译。</li>
+</ol>
+<p>看构建步骤是不是感觉 <code>CMake</code> 很简单，相对于 <code>MakeFile</code> 编写来说确实如此，想想看, 如果一份代码中包含数十个 Project，然后每个 Project 中文件夹数目也很多，这时候我们如果使用 <code>MakeFile</code> 构建整份代码，那我们需要编写的依赖项会十分繁重且复杂，想想都头大，但是 <code>CMake</code> 却能够通过简单且直观的 <code>cmake-commands</code> 来帮你编写出你想要的 <code>MakeFile</code> 文件，最后只需简单的执行一步 <code>make</code> 指令，便可以完成整份代码的编译。反正我自从开始写 <code>CMake</code> 以后，就不写 <code>MakeFile</code> 了。</p>
+<h2 id="CMake-安装"><a href="#CMake-安装" class="headerlink" title="CMake 安装"></a>CMake 安装</h2><p><code>CMake</code> 目前已经成为各大 <code>Linux</code> 发行版提供的组件，基本不需要我们手动安装，<code>Linux</code> 系统下，执行 <code>cmake --version</code>，如果可以看到版本号，就说明已经安装, 如果觉得版本太旧，想要更新，可以从官网下载。</p>
+<blockquote>
+<p><a href="https://cmake.org/download/" target="_blank" rel="noopener">https://cmake.org/download/</a></p>
+</blockquote>
+<h2 id="CMake-官方文档"><a href="#CMake-官方文档" class="headerlink" title="CMake 官方文档"></a>CMake 官方文档</h2><p><code>CMake</code> 为我们提供了一个官方文档，其中将 <code>CMake</code> 整体进行了一下内容的划分，该文档可以作为我们的一个帮助手册，仅仅作为查阅指令的功能，因为官方并没有为我们提供使用的 <code>example</code>，而是提供了 <code>CMake</code> 的相关课程和书籍 &lt;&lt; mastering CMake &gt;&gt;，当然这些事需要付费的。</p>
+<p><strong>官方文档 (3.13版本)：</strong></p>
+<blockquote>
+<p><a href="https://cmake.org/cmake/help/v3.13/index.html" target="_blank" rel="noopener">https://cmake.org/cmake/help/v3.13/index.html</a></p>
+</blockquote>
+<p><strong>具体目录如下：</strong></p>
+<p><strong>Command-Line Tools</strong>  提供了三种命令行工具，除了cmake，还有测试和打包工具</p>
+<blockquote>
+<ul>
+<li>cmake(1)</li>
+<li>ctest(1)</li>
+<li>cpack(1)</li>
+</ul>
+</blockquote>
+<p><strong>Interactive Dialogs</strong> 交互式对话，一般用命令行工具就够了</p>
+<blockquote>
+<ul>
+<li>cmake-gui(1)</li>
+<li>ccmake(1)</li>
+</ul>
+</blockquote>
+<p><strong>Reference Manuals</strong> 参考手册</p>
+<blockquote>
+<ul>
+<li>cmake-buildsystem(7) 构建系统</li>
+<li>cmake-commands(7) 指令</li>
+<li>cmake-compile-features(7) 编译功能</li>
+<li>cmake-developer(7) 为开发人员修改 cmake 源代码树本身以及创作外部维护模块的人员参考</li>
+<li>cmake-env-variables(7) 环境变量</li>
+<li>cmake-generator-expressions(7) cmake 生成器表达式</li>
+<li>cmake-generators(7) cmake 生产器</li>
+<li>cmake-language(7) 语言</li>
+<li>cmake-modules(7) 模块</li>
+<li>cmake-packages(7) 包</li>
+<li>cmake-policies(7) 策略</li>
+<li>cmake-properties(7) 属性</li>
+<li>cmake-qt(7)  qt相关</li>
+<li>cmake-server(7) 服务器</li>
+<li>cmake-toolchains(7) 工具链</li>
+<li>cmake-variables(7) 变量</li>
+<li>cpack-generators(7) cpack 生成器</li>
+</ul>
+</blockquote>
+<p><strong>Release Notes</strong></p>
+<blockquote>
+<ul>
+<li>CMake Release Notes 发布版本说明</li>
+</ul>
+</blockquote>
+<p>列出这个目录，只是为了提醒，我们需要有阅读英文文档的能力，因为开源项目基本都是以英文形式发布的，所以我们必须养成习惯，不懂得地方借助 <code>google</code> 翻译，慢慢就能看懂了。</p>
+<p>这边有位博友翻译过，可以参考一下：<br><a href="https://www.cnblogs.com/coderfenghc/archive/2012/06/16/CMake_ch_01.html" target="_blank" rel="noopener">https://www.cnblogs.com/coderfenghc/archive/2012/06/16/CMake_ch_01.html</a></p>
+<h2 id="Hello-CMake"><a href="#Hello-CMake" class="headerlink" title="Hello CMake"></a>Hello CMake</h2><p>下面从最简单的程序介绍如何构建 <code>CMake</code> 工程，然后慢慢引入 <code>CMake</code> 的各项特性。</p>
+<h3 id="C-代码"><a href="#C-代码" class="headerlink" title="C++代码"></a>C++代码</h3><p>先使用 <code>CMake</code> 尝试构建单文件的工程，工程只有 <code>main.cpp</code> 一个文件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello CMake!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="CMakeLists.txt"></a>CMakeLists.txt</h3><p>在 <code>main.cpp</code> 的同一目录下，新建一个文本文件，命名为 <code>CMakeLists.txt</code>，内容如下：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span>(Hello_CMake)</span><br><span class="line"><span class="keyword">cmake_minimum_required</span> (VERSION <span class="number">2.8</span>.<span class="number">12</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">set</span>(SRC_FILES main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(hellocmake</span><br><span class="line">    <span class="variable">$&#123;SRC_FILES&#125;</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>解释一下上面的 <code>CMake</code>:</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong><code>CMake</code> 中，以命令为单位执行动作，命令不区分大小写。<br><code>project</code> 命令声明工程的名称，同时会添加一些变量（支持的语言，不写默认支持所有），<code>CMake</code> 管理的每个工程都需要有 <code>project</code> 命令。<br><code>cmake_minimum_requried</code> 声明最小要求，可以是 <code>CMake</code>的版本，也可以是其他的条件，这里要求使用 <code>CMake</code> 最低版本为<code>2.8.12</code> 。<br><code>set</code> 命令用来给设置变量，<code>set</code> 的第一个参数为变量名，其后的所有参数都将放入到这个变量中，参数可以有多个，需要注意与命令不同，<code>CMake</code> 的变量是区分大小写的。<br><code>add_executable</code> 命令可以增加一个目标来生成可执行文件，第一个参数为目标名称，之后的参数为源代码文件列表，源代码可以有多个。例子中使用了变量内容作为源代码，也可以直接填上源代码路径。<br>如果在 <code>CMakeLists.txt</code> 中需要引用变量中的内容，需要使用 <code>${Var}</code> 来展开，如例子中的 <code>${SRC_FILES}</code> 将会展开成<code>main.cpp</code> ，如果不使用 <code>${}</code>，<code>SRC_FILES</code> 将会被当做一般的字符串处理。</strong></td></tr></table>
+</blockquote>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p><code>CMake</code> 支持原地编译和分离编译两种方法编译，分离编译可以使编译中间文件和最终文件和源代码分离，便于源代码的管理，所以<code>CMake</code> 这里介绍分离编译方法。我的源代码和<code>CMakeLists.txt</code>放在<code>cmakedemo</code>目录下。</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong>先将工作目录切换到源代码目录的上一层<br>cd ..<br>创建一个编译目录，并进入该目录<br>mkdir buildcmakedemo &amp;&amp; cd buildcmakedemo<br>在该目录下使用cmake配置工程，生成makefile<br>cmake ../cmakedemo<br>使用make编译工程<br>make<br>在编译目录下就生成了hellocmake，./hellocmake可以执行。<br>cmake命令可以解析CMakeLists.txt生成makefile，还可以传入给项目一些变量，控制编译过程，在后面会详细介绍。</strong></td></tr></table>
+</blockquote>
+<p>最终的目录结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@yejy cmakedemo]# tree</span><br><span class="line">.</span><br><span class="line">|-- buildcmakedemo # 编译目录</span><br><span class="line">`-- cmakedemo  # 源代码目录</span><br><span class="line">    `-- main.cpp</span><br></pre></td></tr></table></figure></p>
+<h3 id="子目录和库"><a href="#子目录和库" class="headerlink" title="子目录和库"></a>子目录和库</h3><p>多数工程是分为多个模块的，每个模块处在不同的目录中，<code>CMake</code> 中可以使用命令 <code>add_subdirectory</code> 添加子目录，<strong>子目录继承父目录所有的属性和变量</strong>。现在为我们的 <code>HelloCMake</code>程序加点料。</p>
+<p>在源代码目录新建文件夹 <code>child</code>，在 <code>child</code> 中新建源代码文件 <code>lib.cpp</code> 内容如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">call_child</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Oh My Lady Gaga!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 <code>child</code> 下创建文本文件 <code>CMakeLists.txt</code>，内容如下：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(SRC_FILES lib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(child</span><br><span class="line">	<span class="variable">$&#123;SRC_FILES&#125;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p><code>add_library</code> 命令与 <code>add_executable</code> 类似，但生成的是库文件，<code>CMake</code> 默认会生成静态库，如果需要生成动态库，可以目标名后添加 <code>SHARED</code> 关键字，<code>add_library(child SHARED ${SRC_FILES})</code>，这样就会生成动态库。</p>
+<p>我们还要为 <code>child</code> 这个库提供一个头文件，在 <code>child</code> 目录下新建一个头文件<code>lib.h</code>，然后在文件中声明<code>call_child()</code>。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">call_child</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>修改 <code>main.cpp</code> 使用 <code>child</code> 库，<code>main.cpp</code> 修改后如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;lib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello CMake!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    call_child();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了让编译器知道如何查找头文件 <code>lib.h</code> 和让连接器知道 <code>hellocmake</code> 需要库 <code>child</code>，我们需要修改根目录下的<code>CMakeLists.txt</code>：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span>(Hello_CMake)</span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>.<span class="number">12</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">set</span>(SRC_FILES main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新增：添加子目录的CMakeLists.txt，以及包含 child 文件目录</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(child)</span><br><span class="line"><span class="keyword">include_directories</span>(child)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(hellocmake</span><br><span class="line">    <span class="variable">$&#123;SRC_FILES&#125;</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 新增：链接 child 库</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(hellocmake</span><br><span class="line">    child</span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>解释一下上面的 <code>CMake</code>:</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong>如前面提到的 <code>add_subdirectory</code> 会添加一个子目录到工程中，<code>CMake</code> 会解析子目录中的 <code>CMakeLists.txt</code> 为子目录生成<code>MakeFile</code>。<br><code>include_directories</code> 命令相当于 <code>gcc</code> 命令的 <code>-I</code>，告诉编译器到该目录中查找头文件。<br><code>target_link_libraries</code> 命令相当于<code>gcc</code>的<code>-l</code>命令，告诉连接器连接这个库，第一个参数为生成的目标名称，后面可以跟项目中其他库的目标名称或者已经存在的库文件名，查找规则和<code>gcc -l</code>一致。<br>编辑完成后就可以到第三步的编译目录中再次执行 <code>cmake</code> 和 <code>make</code> 生成 <code>hellocmake</code>。这个<code>hellocmake</code>使用<code>child</code>库输出了文本<code>Oh My Lady Gaga!</code>。<br>注：当然，我们也可以使用find_package</strong></td></tr></table>
+</blockquote>
+<h3 id="交叉编译"><a href="#交叉编译" class="headerlink" title="交叉编译"></a>交叉编译</h3><p><code>CMake</code> 会默认使用本机的编译器来配置项目，如果需要交叉编译，需要设定变量 <code>CMAKE_C_COMPILE</code> 和 <code>CMAKE_CXX_COMPILE</code>，可以通过 <code>cmake</code> 命令的 <code>-D</code> 参数传入,<code>-D</code> 参数可以给 <code>CMake</code> 传入变量，格式为 <code>-DVar=Value</code>。切换工作目录到第三步建立的编译目录中。</p>
+<p>执行命令:<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake ../cmakedemo -DCMAKE_C_COMPILER=arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabi-g++。</span><br></pre></td></tr></table></figure></p>
+<p>执行 <code>make</code> 编译工程，就可以在编译目录得到 <code>arm</code> 平台下的 <code>hellocmake</code> 程序。</p>
+<p><code>CMAKE_C_COMPILE</code>和 <code>CMAKE_CXX_COMPILE</code> 也可以在 <code>CMakeLists.txt</code> 中使用 <code>set</code>命令设定，需要注意的是，由于<code>project</code> 命令会根据这这两个变量设定一些其他的变量，所以它们应该在 <code>project</code> 命令前被设定。</p>
+<p>修改源代码目录的 <code>CMakeLists.txt</code>：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置编译平台参数</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER arm-linux-gnueabi-gcc)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER arm-linux-gnueabi-g++)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(Hello_CMake)</span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>.<span class="number">12</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">set</span>(SRC_FILES main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(child)</span><br><span class="line"><span class="keyword">include_directories</span>(child)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(hellocmake</span><br><span class="line">    <span class="variable">$&#123;SRC_FILES&#125;</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line"><span class="keyword">target_link_libraries</span>(hellocmake</span><br><span class="line">    child</span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>到编译目录下执行 <code>cmake</code> 和 <code>make</code> 也可以得到 <code>arm</code> 平台下的 <code>hellocmake</code>。</p>
+<h2 id="CMake-进阶"><a href="#CMake-进阶" class="headerlink" title="CMake 进阶"></a>CMake 进阶</h2><p><code>CMake</code> 有一整套完备的编译控制体系，拥有繁多的命令和预置变量，这一节将选取一些较常用的命令做简单介绍，其具体使用和其他未介绍到的可以浏览<a href="https://cmake.org/cmake/help/v3.13/index.html" target="_blank" rel="noopener">官方文档</a>。官方文档详细介绍了包括 <code>cmake</code> 命令本身和 <code>CMakeLists.txt</code> 中使用的所有命令和变量。在 <code>cmake</code> 安装包中也有相应的 <code>man</code> 文档，<code>cmake</code> 命令也有<code>--help-command</code> 参数可以查阅各命令的用法。</p>
+<h3 id="通用变量"><a href="#通用变量" class="headerlink" title="通用变量"></a>通用变量</h3><p><strong>1、CMAKE_BUILD_TYPE</strong><br>这个变量可以控制程序的生成模式，可以留空，也可以选择这四种模式：<code>Release</code>，<code>MinSizeRel</code>，<code>Debug</code>，<code>RelWithDebInfo</code>。</p>
+<blockquote>
+<p>   Release模式下打开-O2开关。<br>   MinSizeRel模式下打开-Os开关。<br>   Debug模式打开-g开关。<br>   RelWithDebInfo模式同时打开-O2和-g开关。</p>
+</blockquote>
+<p><strong>2、CMAKE_VERBOSE_MAKEFILE</strong><br>控制编译命令是否可见，设置这个变量为 <code>ON</code> 将会在 <code>make</code> 时看到编译命令，所有编译时加入的参数和编译的文件都将打印出来，便于校验 <code>CMakeLists.txt</code> 的正确性。</p>
+<p><strong>3、CMAKE_SOURCE_DIR</strong><br>指向工程源代码根目录，如使用 <code>cmake ../cmakedemo</code> 配置工程时，<code>CMAKE_SOURCE_DIR</code> 的值就是 <code>../cmakedemo</code>的路径。</p>
+<p><strong>4、CMAKE_BINARY_DIR</strong><br>指向编译目录，如前一节的例子，<code>CMAKE_BINARY_DIR</code> 的值就是 <code>buildcmakedemo</code> 的路径。</p>
+<h3 id="编译阶段命令及变量"><a href="#编译阶段命令及变量" class="headerlink" title="编译阶段命令及变量"></a>编译阶段命令及变量</h3><p><strong>1、add_definitions</strong><br>添加编译器参数的命令，相当于直接在编译时直接在编译命令上添加参数，需要注意这个命令不影响链接时的参数。如使用 <code>g++</code> 编译时，添加命令<code>add_definitions(-std=c++11)</code>会让编译时使用<code>&quot;g++ -std=c++11&quot;</code>命令，但是连接时没有<code>&quot;-std=c++11&quot;</code>。 </p>
+<p><strong>2、CMAKE_C_FLAGS</strong><br>这个命令也是在编译命令上添加参数，与 <code>add_definitions</code> 不同的是这个命令有兄弟命令，可以在不同模式下添加不同的参数：</p>
+<blockquote>
+<p>CMAKE_C_FLAGS<br>CMAKE_C_FLAGS_DEBUG<br>CMAKE_C_FLAGS_MINSIZEREL<br>CMAKE_C_FLAGS_RELEASE<br>CMAKE_C_FLAGS_RELWITHDEBINFO</p>
+</blockquote>
+<p>分别对应所有模式、<code>Debug</code>模式、<code>MinSizeRel</code>模式、<code>Release</code>模式和<code>RelWithDebInfo</code>模式。对应 <code>C++</code> 语言的变量只要把变量名第二段的<code>C</code>换成<code>CXX</code>即可。</p>
+<p><strong>3、configure_file</strong><br>这个命令用于传递CMake变量给语言，在跨平台编译中比较常用。其格式为：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configure_file</span>(&lt;input&gt; &lt;output&gt; [COPYONLY] [ESCAPE_QUOTES] [@ONLY] [NEWLINE_STYLE [UNIX|DOS|WIN32|LF|CRLF]])</span><br></pre></td></tr></table></figure></p>
+<p>命令将会拷贝<code>input</code>到<code>output</code>并将其中的<code>${var}</code>和<code>@var@</code>换成对应<code>CMAKE</code>中的变量。由于在一些语言中<code>${var}</code>已经被占用，所以<code>CMake</code>添加了<code>@var@</code>这种表示方法，在命令中添加关键字<code>@ONLY</code>可以仅替换文件中的<code>@var@</code>，<code>${var}</code>会被忽略。</p>
+<p>例如，我们可以在代码中这样定义：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_BOOST   $&#123;BOOST_FOUND&#125;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_PTHREAD @PTHREAD_FOUND@</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>CMakeLists.txt</code>中使用命令：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configure_file</span>(<span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/cfg.h <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/cfg.in.h)</span><br></pre></td></tr></table></figure></p>
+<p>假设<code>BOOST_FOUND</code>和<code>PTHREAD_FOUND</code>都被定义为1，执行<code>cmake</code>后，构建目录将会生成一个<code>cfg.h</code>文件，内容为：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_BOOST   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_PTHREAD 1</span></span><br></pre></td></tr></table></figure></p>
+<p>如果<code>configure_file</code>命令添加了<code>@ONLY</code>则<code>${BOOST_FOUND}</code>将会被忽略，<code>config.h</code>内容则变为：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_BOOST   $&#123;BOOST_FOUND&#125;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAS_PTHREAD 1</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>4、系统变量</strong></p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong>1,<code>CMAKE_MAJOR_VERSION</code>，<code>CMAKE</code> 主版本号，比如 2.4.6 中的 2。<br>2,<code>CMAKE_MINOR_VERSION</code>，<code>CMAKE</code> 次版本号，比如 2.4.6 中的 4<br>3,<code>CMAKE_PATCH_VERSION</code>，<code>CMAKE</code> 补丁等级，比如 2.4.6 中的 6<br>4,<code>CMAKE_SYSTEM</code>，系统名称，比如 <code>Linux-2.6.22</code>。<br>5,<code>CMAKE_SYSTEM_NAME</code>，不包含版本的系统名，比如 <code>Linux</code>。<br>6,<code>CMAKE_SYSTEM_VERSION</code>，系统版本，比如 2.6.22<br>7,<code>CMAKE_SYSTEM_PROCESSOR</code>，处理器名称，比如 <code>i686</code>.<br>8,<code>UNIX</code>，在所有的类 <code>UNIX</code> 平台为 <code>TRUE</code>，包括 <code>OS X</code> 和 <code>cygwin</code>。<br>9,<code>WIN32</code>，在所有的 <code>win32</code> 平台为 <code>TRUE</code>，包括 <code>cygwin</code>。</strong></td></tr></table>
+</blockquote>
+<p><strong>5、aux_source_directory</strong><br>这个命令可以搜索某个目录所有的源代码文件，添加到变量里，其格式为<code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>，多次对同一变量使用该命令，可以将不同目录的源代码都保存到变量中。对于一些在同一目录下放有很多源代码的工程，使用这个命令可以很方便地获取所有需要编译的文件。</p>
+<p>在前一节的例子中，在源代码根目录使用命令 <code>aux_source_directory(. SRC_FILES)</code>就把<code>main.cpp</code>的路径添加到<code>SRC_FILES</code>变量中。</p>
+<p><strong>6、file(GLOB_RECURSE …)</strong><br><code>file</code>是文件操作命令，有基本的文件功能，这里介绍文件查找功能。<code>file</code>有两种模式可以查找文件，一个是<code>GLOB</code>，另一个是<code>GLOB_RECURSE</code>，<code>GLOB</code>只会查找当前目录下的文件，<code>GLOB_RECURSE</code>会查找当前目录和子目录下的文件。命令格式如下：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB variable [RELATIVE path] [globbing expressions]...)</span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE variable [RELATIVE path] [FOLLOW_SYMLINKS] [globbing expressions]...)</span><br></pre></td></tr></table></figure></p>
+<p>命令默认会保存文件的绝对路径，如果需要相对路径，可以用关键字RELATIVE加上需要获取相对于哪个目录的路径来获取相对路径，但是官方不推荐获取相对路径。填写 <code>globbing expressions</code>（通配符）可以简单过滤文件。</p>
+<p>如前一节的例子，使用 <code>file(GLOB SRC_FILES *.cpp)</code> 可以获取到 <code>main.cpp</code> 的路径，使用 <code>file(GLOB_RECURSE SRC_FILES *.cpp)</code> 可以获取到 <code>main.cpp</code> 和 <code>child/lib.cpp</code> 的路径。</p>
+<h3 id="链接阶段命令及变量"><a href="#链接阶段命令及变量" class="headerlink" title="链接阶段命令及变量"></a>链接阶段命令及变量</h3><p><strong>1、CMAKE_C_LINK_FLAGES</strong><br>与 <code>CMAKE_C_FLAGS</code> 家族类似，模式下的细分变量，其内容将添加在连接器的参数上。</p>
+<p><strong>2、link_directories</strong><br>设置库查找位置，相当于 <code>gcc</code> 的 <code>-L</code>，可以同时设置多个目录。</p>
+<h3 id="安装阶段命令及变量"><a href="#安装阶段命令及变量" class="headerlink" title="安装阶段命令及变量"></a>安装阶段命令及变量</h3><p><strong>1、install</strong><br>大型项目中，会编译出来很多个模块，每个模块都在各自的文件夹中，不方便发布，<code>install</code> 命令可以指定目标的安装位置，<code>install</code> 可以安装多种文件，这里只介绍安装 <code>CMake</code> 目标的安装方法，<code>CMake</code> 主要有 <code>add_executable</code> 和 <code>add_library</code> 命令创建的目标，都可以使用:<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span>(TARGETS target1 target2</span><br><span class="line">	LIBARARY DESTINATION lib</span><br><span class="line">	ARCHIVE DESTINATION lib/static</span><br><span class="line">	RUNTIME DESTINATION bin)</span><br></pre></td></tr></table></figure></p>
+<p>这里的安装位置需要加上下面提到的变量 <code>CMAKE_INSTALL_PREFIX</code> ，默认情况下 <code>Linux</code>的 <code>CMAKE_INTALL_PREFIX=/usr</code>，使用 <code>make install</code> 命令将会把可执行文件目标安装到 <code>/usr/bin</code>下。</p>
+<p><strong>2、CMAKE_INSTALL_PREFIX</strong><br>工程安装位置，为 <code>install</code> 命令使用目录的前缀，<code>Linux</code>下默认为<code>/usr</code>。</p>
+<p><strong>3、CMAKE_INSTALL_RPATH</strong><br>设定安装后可执行文件的运行目录，相当于 <code>gcc</code> 的 <code>-Wl,rpath</code> 在交叉编译时比较常用。</p>
+<h3 id="分支结构和逻辑运算"><a href="#分支结构和逻辑运算" class="headerlink" title="分支结构和逻辑运算"></a>分支结构和逻辑运算</h3><p><code>cmake</code>有完备的流程控制机制，有一般编程语言常用的<code>if</code>分支结构，也有<code>foreach</code>循环结构，这里介绍一下<code>if</code>分支结构，<code>if</code>用法如下：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(expression)</span><br><span class="line">    <span class="keyword">COMMAND</span>(ARGS ...)</span><br><span class="line"><span class="keyword">elseif</span>(expression2)</span><br><span class="line">    <span class="keyword">COMMAND</span>(ARGS ...)</span><br><span class="line"><span class="keyword">else</span>(expression)</span><br><span class="line">    <span class="keyword">COMMAND</span>(ARGS ...)</span><br><span class="line"><span class="keyword">endif</span>(expression)</span><br></pre></td></tr></table></figure></p>
+<p><code>expressin</code> 填入真值表达式，变量为 <strong>0, OFF, NO, FALSE, N, IGNORE, NOTFOUND、以-NOTFOUND结尾或未定义的值</strong>为<code>false</code>，其他为 <code>true</code>。</p>
+<p>注意: <code>else</code> 和<code>endif</code>的<code>expression</code>可以忽略，但是必须带上括号。<br><code>if</code>内可以使用比较运算比较两个变量获得真值：</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong>常用的数值运算有:<br>1,<code>EQUAL</code>: 相等<br>2,<code>LESS</code>：小于<br>3,<code>GREATER</code>：大于<br>常用的字符串运算：<br>1,<code>STRLESS</code>：字符串小于。<br>2,<code>STRGREATER</code>：字符串大于<br>3,<code>STREQUAL</code>：字符串等于<br>4,<code>MATCHES</code>：正则表达式匹配<br>此外还有文件比较等功能，可自行查阅官方文档。<br>多条表达式可以使用逻辑运算NOT、AND和OR连接起来，这几个运算符优先级和C语言的逻辑运算符不同，所以推荐使用括号来明确运算顺序。</strong></td></tr></table>
+</blockquote>
+<h3 id="find-package-查找外部库"><a href="#find-package-查找外部库" class="headerlink" title="find_package 查找外部库"></a>find_package 查找外部库</h3><p>我们前面已经讲过如何链接外部库，上面提到的方法是显式调用，也就是我们知道库和头文件的位置，直接通过<code>include_directories</code>和<code>target_link_libraries</code>将库文件链接进来。现在我们介绍一下另一种方式<code>find_package</code>。</p>
+<p><code>find_package</code>能查找本机安装的外部库，并获取对应的环境和变量。其常用形式为：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(&lt;package&gt; [version] [REQUIRED])</span><br></pre></td></tr></table></figure></p>
+<p>我们以<code>Qt</code>库为例，如果需要<code>Qt</code>库，那先要使用命令<code>find_package(Qt4 REQUIRED)</code>来获取<code>Qt</code>的相关变量，由于Qt库是必须的，所以加上<code>REQUIRED</code>关键字。</p>
+<p><code>find_package</code>会调用<code>cmake</code>安装目录的<code>shared</code>目录下的<code>FindQt4.cmake</code>来设置<code>Qt</code>变量，同时添加一些函数和宏。使用这些变量和宏就可以编译<code>Qt</code>工程。</p>
+<p><strong>系统中<code>FindQt4.cmake</code>目录:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/share/cmake-3.3/Modules/FindQt4.cmake</span><br></pre></td></tr></table></figure></p>
+<p><code>find_package</code>查找<code>Qt</code>成功后，会定义一下常用变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QT_FOUND: 是否找到</span><br><span class="line">QT_LIBRARIES：Qt所有库的路径，在target_link_libraries时添加。</span><br><span class="line">QT_INCLUDES: Qt 头文件路径</span><br></pre></td></tr></table></figure></p>
+<p>对于系统预定义的 Find<name>.cmake 模块，每一个模块都会定义以下几个变量:</name></p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong>• &lt; name&gt;_FOUND<br>• &lt; name&gt;_INCLUDE_DIR or &lt; name&gt;_INCLUDES<br>• &lt; name&gt;_LIBRARY or &lt; name&gt;_LIBRARIES<br>其中的<code>name</code>为<code>find_package</code>中的<code>package</code>参数</strong></td></tr></table>
+</blockquote>
+<p>找到外部模块后，我们便可以将外部模块链接进来：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(Qt4 REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(QT_FOUND)</span><br><span class="line">  <span class="keyword">include_directories</span>(<span class="variable">$&#123;QT_INCLUDE_DIR&#125;</span>)</span><br><span class="line">  <span class="keyword">target_link_libraries</span>(<span class="variable">$&#123;project_name&#125;</span> <span class="variable">$&#123;QT_LIBRARIES&#125;</span>)</span><br><span class="line">end()</span><br></pre></td></tr></table></figure>
+<h2 id="实用的-CMake-封装"><a href="#实用的-CMake-封装" class="headerlink" title="实用的 CMake 封装"></a>实用的 CMake 封装</h2><p>下面列一些实用的 <code>CMake</code> 封装，后续持续更新！</p>
+<p><strong>1、自动检测 C++ 版本参数</strong><br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># using C++ newest feature, auto test Cxx version</span></span><br><span class="line"><span class="keyword">include</span>(CheckCXXCompilerFlag)</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(cxx_feature_name <span class="string">"c++20"</span> <span class="string">"c++2a"</span> <span class="string">"c++17"</span> <span class="string">"c++1z"</span> <span class="string">"c++14"</span> <span class="string">"c++1y"</span> <span class="string">"c++11"</span> <span class="string">"c++0x"</span>)</span><br><span class="line">    <span class="keyword">set</span>(cxx_feature_flag <span class="string">"-std=$&#123;cxx_feature_name&#125;"</span>)</span><br><span class="line">    <span class="keyword">string</span>(REPLACE <span class="string">"+"</span> <span class="string">"x"</span> cxx_feature_suffix <span class="variable">$&#123;cxx_feature_name&#125;</span>)</span><br><span class="line">    CHECK_CXX_COMPILER_FLAG(<span class="variable">$&#123;cxx_feature_flag&#125;</span> COMPILER_SUPPORTS_<span class="variable">$&#123;cxx_feature_suffix&#125;</span>)</span><br><span class="line">    <span class="keyword">if</span>(COMPILER_SUPPORTS_<span class="variable">$&#123;cxx_feature_suffix&#125;</span>)</span><br><span class="line">        <span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">"$&#123;CMAKE_CXX_FLAGS&#125; $&#123;cxx_feature_flag&#125;"</span>)</span><br><span class="line">        <span class="keyword">message</span>(STATUS <span class="string">"The compiler $&#123;BUILDTOOL_PREFIX&#125;-g++ has $&#123;cxx_feature_name&#125; support"</span>)</span><br><span class="line">        <span class="keyword">break</span>()</span><br><span class="line">    <span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure></p>
+<p><strong>2、库文件安装</strong><br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置安装路径</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_INSTALL_PREFIX <span class="string">"$&#123;CMAKE_BINARY_DIR&#125;/output"</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">"Install prefix: $&#123;CMAKE_INSTALL_PREFIX&#125;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># project用的库文件安装函数</span></span><br><span class="line"><span class="keyword">function</span>(target_install OBJECTS)</span><br><span class="line">    <span class="keyword">install</span>(TARGETS <span class="variable">$&#123;OBJECTS&#125;</span></span><br><span class="line">        RUNTIME DESTINATION bin</span><br><span class="line">        ARCHIVE DESTINATION lib</span><br><span class="line">        LIBRARY DESTINATION lib</span><br><span class="line">        )</span><br><span class="line"><span class="keyword">endfunction</span>()</span><br></pre></td></tr></table></figure></p>
+<p><strong>3、将所有包含<code>CMakeLists.txt</code>的子目录添加进来</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add all subdirectories that exist CMakeLists.txt</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(CMakeParseArguments)</span><br><span class="line"><span class="keyword">function</span>(add_all_subdirectories)</span><br><span class="line">    <span class="keyword">cmake_parse_arguments</span>(SUBDIR <span class="string">""</span> <span class="string">""</span> <span class="string">"EXCLUDE"</span> <span class="variable">$&#123;ARGN&#125;</span>)</span><br><span class="line">    <span class="keyword">file</span>(GLOB ALL_FILES *)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">foreach</span>(subdir <span class="variable">$&#123;ALL_FILES&#125;</span>)</span><br><span class="line">        <span class="keyword">if</span>((<span class="keyword">IS_DIRECTORY</span> <span class="variable">$&#123;subdir&#125;</span>)</span><br><span class="line">            <span class="keyword">AND</span> (<span class="keyword">EXISTS</span> <span class="variable">$&#123;subdir&#125;</span>/CMakeLists.txt))</span><br><span class="line">            <span class="keyword">file</span>(RELATIVE_PATH relPath <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span> <span class="variable">$&#123;subdir&#125;</span>)</span><br><span class="line">            <span class="keyword">if</span>(SUBDIR_EXCLUDE)</span><br><span class="line">                <span class="keyword">list</span>(FIND SUBDIR_EXCLUDE <span class="variable">$&#123;relPath&#125;</span> _index)</span><br><span class="line">                <span class="keyword">if</span> (_index <span class="keyword">EQUAL</span> -<span class="number">1</span>)</span><br><span class="line">                    <span class="keyword">add_subdirectory</span>(<span class="variable">$&#123;subdir&#125;</span>)</span><br><span class="line">                <span class="keyword">elseif</span>(CMAKE_DEBUG)</span><br><span class="line">                    <span class="keyword">message</span>(<span class="string">"Exclude [$&#123;relPath&#125;] when add_all_subdirectories"</span>) </span><br><span class="line">                <span class="keyword">endif</span>()</span><br><span class="line">            <span class="keyword">else</span>()</span><br><span class="line">                <span class="keyword">add_subdirectory</span>(<span class="variable">$&#123;subdir&#125;</span>)</span><br><span class="line">            <span class="keyword">endif</span>()</span><br><span class="line">        <span class="keyword">endif</span>()</span><br><span class="line">    <span class="keyword">endforeach</span>()</span><br><span class="line"><span class="keyword">endfunction</span>()</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>CMake</code> 大概就总结到这里，总的来说这个工具还是十分不错的，整体结构清晰明了，后续的话，就着力把一些好的小的功能点，封装成函数或者宏，记录下来，以后碰到需要用了，就可以直接拿来用，基本可以做到一劳永逸。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p>&lt;&lt; cmake 实践 &gt;&gt;</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/01/26/CMake/" title="CMake">https://mikeblog.top/2019/01/26/CMake/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编译-compile/" rel="tag"><i class="fa fa-tag"></i> 编译 (compile)</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/23/GDB/" rel="next" title="GDB">
+                <i class="fa fa-chevron-left"></i> GDB
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CMake-介绍"><span class="nav-number">1.</span> <span class="nav-text">CMake 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMake-安装"><span class="nav-number">2.</span> <span class="nav-text">CMake 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMake-官方文档"><span class="nav-number">3.</span> <span class="nav-text">CMake 官方文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-CMake"><span class="nav-number">4.</span> <span class="nav-text">Hello CMake</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-代码"><span class="nav-number">4.1.</span> <span class="nav-text">C++代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMakeLists-txt"><span class="nav-number">4.2.</span> <span class="nav-text">CMakeLists.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译"><span class="nav-number">4.3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子目录和库"><span class="nav-number">4.4.</span> <span class="nav-text">子目录和库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉编译"><span class="nav-number">4.5.</span> <span class="nav-text">交叉编译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMake-进阶"><span class="nav-number">5.</span> <span class="nav-text">CMake 进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用变量"><span class="nav-number">5.1.</span> <span class="nav-text">通用变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译阶段命令及变量"><span class="nav-number">5.2.</span> <span class="nav-text">编译阶段命令及变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接阶段命令及变量"><span class="nav-number">5.3.</span> <span class="nav-text">链接阶段命令及变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装阶段命令及变量"><span class="nav-number">5.4.</span> <span class="nav-text">安装阶段命令及变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支结构和逻辑运算"><span class="nav-number">5.5.</span> <span class="nav-text">分支结构和逻辑运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find-package-查找外部库"><span class="nav-number">5.6.</span> <span class="nav-text">find_package 查找外部库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用的-CMake-封装"><span class="nav-number">6.</span> <span class="nav-text">实用的 CMake 封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/01/26/CMake/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mikeblog.top/2019/01/26/CMake/</loc>
+    
+    <lastmod>2019-01-27T07:29:12.652Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mikeblog.top/2019/01/23/GDB/</loc>
     
-    <lastmod>2019-01-26T14:33:15.017Z</lastmod>
+    <lastmod>2019-01-26T14:34:34.465Z</lastmod>
     
   </url>
   

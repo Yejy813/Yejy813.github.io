@@ -161,7 +161,7 @@
 <meta property="og:description" content="What is GDB? 官方文档：  https://sourceware.org/gdb/download/onlinedocs/  GDB 是 GNU 项目的调试器，你可以用 GDB 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/gdb.png?raw=true">
-<meta property="og:updated_time" content="2019-01-26T14:33:15.017Z">
+<meta property="og:updated_time" content="2019-01-26T14:34:34.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GDB">
 <meta name="twitter:description" content="What is GDB? 官方文档：  https://sourceware.org/gdb/download/onlinedocs/  GDB 是 GNU 项目的调试器，你可以用 GDB 查看另一个程序在执行过程中的内部内容, 或者在程序崩溃时，查看程序当时正在执行的操作。">
@@ -435,7 +435,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-26 22:33:15" itemprop="dateModified" datetime="2019-01-26T22:33:15+08:00">2019-01-26</time>
+                <time title="修改时间：2019-01-26 22:34:34" itemprop="dateModified" datetime="2019-01-26T22:34:34+08:00">2019-01-26</time>
               
             
           </span>
@@ -581,7 +581,6 @@
 <p><a href="http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn" target="_blank" rel="noopener">http://wiki.ubuntu.org.cn/index.php?title=%E7%94%A8GDB%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F&amp;variant=zh-cn</a></p>
 </blockquote>
 <h2 id="GDB-远程调试"><a href="#GDB-远程调试" class="headerlink" title="GDB 远程调试"></a>GDB 远程调试</h2><p>远程调试过程，真正的调试指令和本地调试基本一致，主要区别在于调试环境不一样，需要事先搭建。我们会用到远端系统使用的<code>gdbserver</code> 和本机使用的 <code>gdb</code>，大概介绍一下整体的流程。</p>
-<p>流程如下：</p>
 <h3 id="编译-gdbserver-和-gdb"><a href="#编译-gdbserver-和-gdb" class="headerlink" title="编译 gdbserver 和 gdb"></a>编译 gdbserver 和 gdb</h3><p>这一步需要对 <code>gdb</code> 和 <code>gdbserver</code> 做一下交叉编译，一般相应平台的<code>gdb</code>公司内部都会有编译好的，直接用就可以，如果需要编译，大致流程如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1. 将gdb-7.6.tar.gz拷贝到虚拟机/opt目录下</span><br><span class="line">2. 解压缩：</span><br><span class="line">cd /opt</span><br><span class="line">tar -xzvf ./ gdb-7.6.tar.gz</span><br><span class="line">3. 创建gdb build目录（最好一个编译器建立一个build目录，不然容易出错）</span><br><span class="line">		mkdir -p xxx-gdb/build</span><br><span class="line">4. 配置gdb平台参数，生成makefile</span><br><span class="line">		cd xxx-gdb/build</span><br><span class="line">/opt/gdb-7.6/configure --target=arm-linux-gnueabi --prefix=/opt/xxx-gdb</span><br><span class="line">注：此处不用定义(--host)，host 是编译 Linux 版本的程序，会默认以 gcc 编译的，target是定义目标系统的版本</span><br><span class="line">5. 编译gdb</span><br><span class="line">		make&amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># gdbserver类似</span><br></pre></td></tr></table></figure></p>
 <h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>将 <code>GDB</code> 加入到环境变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile在文件的末尾加入以下语句：</span><br><span class="line">	export PATH=/opt/xxx/bin:/opt/xxx-gdb/bin/:$PATH</span><br><span class="line">	保存/etc/profile文件后运行一下. /etc/profile或重新连接shell</span><br></pre></td></tr></table></figure></p>
 <h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><p>首先在远程调试机器上运行<code>gdbserver</code>，假设是 <code>mnt</code> 目录（该目录一般为挂载目录），2345为任意端口(保证之前没用过就行)，然后<code>Exe.exx</code> 为你需要运行的程序, 指令大概如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/mnt/gdb/gdbserver localhost:2345 /mnt/bin/Exe.exx </span><br><span class="line">  </span><br><span class="line"># 执行完，大概提示这个：</span><br><span class="line">Process /mnt/bin/Exe.exx created; pid = 497</span><br><span class="line">Listening on port 2345</span><br></pre></td></tr></table></figure></p>
@@ -647,6 +646,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/26/CMake/" rel="prev" title="CMake">
+                CMake <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -723,7 +726,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

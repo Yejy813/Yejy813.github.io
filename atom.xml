@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-01-26T14:33:15.017Z</updated>
+  <updated>2019-01-27T07:29:12.652Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>CMake</title>
+    <link href="https://mikeblog.top/2019/01/26/CMake/"/>
+    <id>https://mikeblog.top/2019/01/26/CMake/</id>
+    <published>2019-01-26T14:37:26.000Z</published>
+    <updated>2019-01-27T07:29:12.652Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;CMake-介绍&quot;&gt;&lt;a href=&quot;#CMake-介绍&quot; class=&quot;headerlink&quot; title=&quot;CMake 介绍&quot;&gt;&lt;/a&gt;CMake 介绍&lt;/h2&gt;&lt;span itemprop=&quot;image&quot; itemscope=&quot;&quot; itemtype=&quot;http://schema.org/ImageObject&quot;&gt;&lt;img itemprop=&quot;url image&quot; src=&quot;https://github.com/Yejy813/pictures/blob/master/%E7%BC%96%E8%AF%91/cmake.png?raw=true&quot; class=&quot;full-image&quot; alt=&quot;alt&quot; title=&quot;CMake&quot;&gt;&lt;meta itemprop=&quot;width&quot; content=&quot;auto&quot;&gt;&lt;meta itemprop=&quot;height&quot; content=&quot;auto&quot;&gt;&lt;/span&gt;
+&lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;&lt;strong&gt;CMake 是一个开源的跨平台工具系列，旨在构建，测试和打包软件。 CMake 用于使用简单的平台和独立于编译器的配置文件来控制软件编译过程，并生成可在你选择的编译器环境中使用的本机 makefile 和工作空间。&lt;/strong&gt; &lt;/p&gt;&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GDB</title>
     <link href="https://mikeblog.top/2019/01/23/GDB/"/>
     <id>https://mikeblog.top/2019/01/23/GDB/</id>
     <published>2019-01-23T12:53:27.000Z</published>
-    <updated>2019-01-26T14:33:15.017Z</updated>
+    <updated>2019-01-26T14:34:34.465Z</updated>
     
     <summary type="html">
     
