@@ -196,6 +196,7 @@ links_layout: block
 #links_layout: inline
 links:
   blog-yejy: http://www.cnblogs.com/blog-yejy/
+  thispointer: https://thispointer.com
   the-morning-paper: https://blog.acolyer.org
 # Sidebar Avatar
 avatar:

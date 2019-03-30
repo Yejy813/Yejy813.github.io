@@ -18,6 +18,6 @@ comments: false
 ## 工作经验
 >* **厦门亿联网络技术股份有限公司（2016 ~ 今）**
 >>   **工作职责：通信终端系统开发维护。**
->>   **主要技术：C++, Make/CMake, Shell, GDB, Linux, GoogleTest**
+>>   **主要技术：C++, &emsp;Make/CMake, &emsp;Shell, &emsp;GDB, &emsp;Linux, &emsp;Android ndk/jni, &emsp;Qt, &emsp;GoogleTest**
 
 
