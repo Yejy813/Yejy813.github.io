@@ -252,6 +252,11 @@ Another person
 ```
 在上面的示例中，`awk`无法正确处理字段，因为字段是换行符而不是空格分隔。
 您需要将`FS`设置为换行符`（\n）`并将`RS`设置为空白文本，因此空行将被视为分隔符。
+```SHELL
+-bash-4.2$ awk 'BEGIN{FS="\n";RS=""} {print $1,$3}' myfile 
+person Name  (222) 466-1234
+Another person (523) 643-8754
+```
 
 是不是很棒，我们可以正确阅读记录(`record`)和字段(`filed`)。
 
