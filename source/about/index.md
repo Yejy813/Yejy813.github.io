@@ -16,7 +16,11 @@ comments: false
  
 
 ## 工作经验
->* **厦门亿联网络技术股份有限公司（2016 ~ 今）**
+>* **浙江核新同花顺网络信息股份有限公司（2020.4 ~ 今）**
+>>   **工作职责：股票基金智能交易系统后端开发。**
+>>   **主要技术：C++11/14, &emsp;asio, &emsp;protobuf, &emsp;zeromq, &emsp;kafka/zookeeper**
+
+>* **厦门亿联网络技术股份有限公司（2016.7 ~ 2020.3）**
 >>   **工作职责：通信终端系统开发维护。**
 >>   **主要技术：C++, &emsp;Make/CMake, &emsp;Shell, &emsp;GDB, &emsp;Linux, &emsp;Android ndk/jni, &emsp;Qt, &emsp;GoogleTest**
 
