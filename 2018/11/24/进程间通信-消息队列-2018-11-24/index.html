@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Message Queue 使用场景今天介绍一下消息队列，对此做个总结，酝酿了有一段时间，因为消息队列在开发中占据了一个很重要的地位。 一般这种系统设施，如果你是在 Linux 系统用户空间进行开发(内核开发除外的所有开发)，需要懂得其原理、接口使用、消息框架构建机制、封装系统提供的 MQ 接口来对上层提供服务。如果你是从事内核开发，那还需要将这些系统设施的实现了解清楚。">
+<meta name="keywords" content="多线程编程,操作系统,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程间通信-消息队列">
+<meta property="og:url" content="https://mikeblog.top/2018/11/24/进程间通信-消息队列-2018-11-24/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="Message Queue 使用场景今天介绍一下消息队列，对此做个总结，酝酿了有一段时间，因为消息队列在开发中占据了一个很重要的地位。 一般这种系统设施，如果你是在 Linux 系统用户空间进行开发(内核开发除外的所有开发)，需要懂得其原理、接口使用、消息框架构建机制、封装系统提供的 MQ 接口来对上层提供服务。如果你是从事内核开发，那还需要将这些系统设施的实现了解清楚。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/observer.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E4%B8%8E%E8%A7%82%E5%AF%9F%E8%80%85%E5%8C%BA%E5%88%AB.png?raw=true">
+<meta property="og:updated_time" content="2019-08-17T07:34:26.497Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程间通信-消息队列">
+<meta name="twitter:description" content="Message Queue 使用场景今天介绍一下消息队列，对此做个总结，酝酿了有一段时间，因为消息队列在开发中占据了一个很重要的地位。 一般这种系统设施，如果你是在 Linux 系统用户空间进行开发(内核开发除外的所有开发)，需要懂得其原理、接口使用、消息框架构建机制、封装系统提供的 MQ 接口来对上层提供服务。如果你是从事内核开发，那还需要将这些系统设施的实现了解清楚。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.png?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2018/11/24/进程间通信-消息队列-2018-11-24/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>进程间通信-消息队列 | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2018/11/24/进程间通信-消息队列-2018-11-24/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">进程间通信-消息队列
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-24 09:30:16" itemprop="dateCreated datePublished" datetime="2018-11-24T09:30:16+08:00">2018-11-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-17 15:34:26" itemprop="dateModified" datetime="2019-08-17T15:34:26+08:00">2019-08-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/24/进程间通信-消息队列-2018-11-24/" class="leancloud_visitors" data-flag-title="进程间通信-消息队列">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">8.2k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Message-Queue-使用场景"><a href="#Message-Queue-使用场景" class="headerlink" title="Message Queue 使用场景"></a>Message Queue 使用场景</h2><p>今天介绍一下消息队列，对此做个总结，酝酿了有一段时间，因为消息队列在开发中占据了一个很重要的地位。</p>
+<p>一般这种系统设施，如果你是在 <code>Linux</code> 系统用户空间进行开发(内核开发除外的所有开发)，需要懂得其原理、接口使用、消息框架构建机制、封装系统提供的 <code>MQ</code> 接口来对上层提供服务。如果你是从事内核开发，那还需要将这些系统设施的实现了解清楚。<br><a id="more"></a><br>我现在做的是系统应用层开发，就以我现在公司为例，开发的是嵌入式系统设备，之前公司消息机制使用的是 <code>Linux</code> 系统自带的消息队列，<code>System V</code> 那一套，后来因为系统资源确实匮乏，如果直接使用原生的消息队列机制，并发量太高的话，系统性能会下降(因为芯片太低端，而使用消息队列的功能模块在增加)，所以自己开发了一套消息机制，实现思路以及对外接口和原来差别不大。<strong>本次主要介绍 <code>System V</code> 和 <code>Posix</code> 消息队列使用和与之相关的设计模式</strong>。</p>
+<p>消息队列（<code>Message Queue</code>），不仅是分布式系统中重要的组件, 也是我们客户机系统开发中的一个重要组件，特别是我们公司现在开发的系统，可以说完全是<strong>由消息驱动的系统，无论是进程间，还是进程内部，消息队列的<code>发布/订阅</code>模式，支撑起了整个系统框架</strong>。</p>
+<p><strong>首先，消息队列的使用场景主要有以下几个：</strong></p>
+<ul>
+<li><p><strong>异步处理</strong><br>  非核心流程异步化，提高系统响应性能。发布者只需将消息通知出去，然后就可以去做其他事情。</p>
+</li>
+<li><p><strong>程序解耦</strong><br>  对于不强依赖于非本系统的核心流程，可以放到消息队列中让消息消费者去按需消费，而不影响核心主流程，做到业务功能模块解耦</p>
+</li>
+<li><p><strong>广播</strong><br>  <code>发布/订阅</code>模式，一个消息，可以多个对象定阅处理</p>
+</li>
+<li><p><strong>流量削峰与流控</strong><br>  对于网络秒杀活动，消息队列可做缓冲处理<br>  1.请求先入消息队列，而不是由业务处理系统直接处理，做了一次缓冲,极大地减少了业务处理系统的压力；<br>  2.队列长度可以做限制，事实上，秒杀时，后入队列的用户无法秒杀到商品，这些请求可以直接被抛弃，返回活动已结束或商品已售完信息；</p>
+</li>
+<li><p><strong>消息驱动的系统</strong></p>
+<ol>
+<li>避免直接调用下一个系统导致当前系统失败；</li>
+<li>每个子系统对于消息的处理方式可以更为灵活，可以选择收到消息时就处理，可以选择定时处理，也可以划分时间段按不同处理速度处理；</li>
+<li>通知其他系统做某些事情</li>
+</ol>
+</li>
+</ul>
+<p>以我现在公司的系统为例，上述场景除了流量削峰( 偏服务端 )，其他基本都有在系统中出现。公司开发的是通信终端系统，主要模块分为: <code>GUI</code>, 网络, 声音，协议等, 各模块都是系统中单独的一个进程, <strong>各个进程间需要通信，则通过发消息的方式，十分方便</strong>; 同时进程内部也通过消息队列，<strong>对相关业务量比较重的核心模块，进行代码重构、解耦, 把一些非核心流程剥离出去，通过发消息的方式通知对应模块进行处理</strong>。</p>
+<p>封装的接口形式和 <code>windows</code> 端的消息机制接口类似：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msgPostMsgToThread() <span class="comment">// 发送到特定线程</span></span><br><span class="line">msgBroadpostThreadMsg() <span class="comment">// 广播</span></span><br><span class="line"></span><br><span class="line">etl_RegisterMsgHandle(TM_TIMER, TM_TIMER, &amp;CStatusManager::OnTimerMsgProgress); <span class="comment">//订阅</span></span><br></pre></td></tr></table></figure></p>
+<p>通过上述接口，我们可以很方便的通知其他进程，并携带上相应的数据，完成进程间通信。消息机制完全采用<code>发布/订阅模式</code>。系统一启动，首先各个进程模块进行初始化操作，每个线程/进程会创建一个消息队列，进程中的各个模块按需调用 <code>etl_RegisterMsgHandle()</code> 接口，订阅消息。然后系统中各进程/线程间，会进行消息的定点发送或者广播，收到消息的进程则调用初始化时注册的 <code>handle()</code> 接口进行处理。</p>
+<h2 id="发布-订阅模式-Publish-Subscribe"><a href="#发布-订阅模式-Publish-Subscribe" class="headerlink" title="发布/订阅模式 (Publish-Subscribe)"></a>发布/订阅模式 (Publish-Subscribe)</h2><p><img src="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.png?raw=true" alt="avatar"></p>
+<p>首先介绍一下不包含消息队列的<code>发布/订阅模式</code>，我们先引用一下 20 年前的一本经典著作 <strong>GoF</strong> 中对<code>发布/订阅模式</code>的介绍, <code>发布/订阅模式</code>别名观察者(observer), 依赖(Dependents), 该模式是一种对象行为型模式.</p>
+<p><strong>模式意图</strong>：</p>
+<blockquote>
+<ul>
+<li>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并自动更新。</li>
+</ul>
+</blockquote>
+<p><strong>模式结构类图</strong> (引用自: <a href="https://blog.csdn.net/u011014707/article/details/45645337" target="_blank" rel="noopener">GOF设计模式解析</a>)<br>主要角色：</p>
+<ul>
+<li>Subject: 目标</li>
+<li>Observer: 观察者<br><img src="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/observer.png?raw=true" alt="avatar"></li>
+</ul>
+<p>传统的观察者模式的优点：</p>
+<blockquote>
+<ul>
+<li>观察者模式可以实现表示层和数据逻辑层的分离，并定义了稳定的消息更新传递机制，抽象了更新接口，使得可以有各种各样不同的表示层作为具体观察者角色。</li>
+<li>观察者模式在观察目标和观察者之间建立一个抽象的耦合。</li>
+<li>观察者模式支持广播通信。</li>
+<li>观察者模式符合”开闭原则”的要求。</li>
+</ul>
+</blockquote>
+<p>观察目标和观察者之间不是紧密耦合，可以说建立了一个抽象耦合，观察者是知道Subject的，Subject也一直保持对观察者进行记录。<strong>然而在包含消息队列的<code>发布/订阅模型</code>中，发布者和订阅者并不知道对方的存在，它们只通过消息代理进行通信，组件是松散耦合的，而且观察者模式大多数时候是同步的，比如当事件触发，Subject就会去调用观察者的方法。而包含消息队列的<code>发布-订阅模式</code>大多数时候是异步的（使用消息队列）。观察者模式需要在单个应用程序地址空间中实现，而发布-订阅更像交叉应用模式</strong>。</p>
+<p>传统的观察者模式与包含消息队列的<code>发布/订阅模型</code>模式关系类似下图：<br><img src="https://github.com/Yejy813/pictures/blob/master/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E4%B8%8E%E8%A7%82%E5%AF%9F%E8%80%85%E5%8C%BA%E5%88%AB.png?raw=true" alt="avatar"></p>
+<h2 id="POSIX-消息队列简单使用"><a href="#POSIX-消息队列简单使用" class="headerlink" title="POSIX 消息队列简单使用"></a>POSIX 消息队列简单使用</h2><p><strong>System V API 和 POSIX API 提供了消息队列，我们主要介绍一下 POSIX</strong></p>
+<p>特点：</p>
+<blockquote>
+<ul>
+<li>POSIX 和 System V 实现中的消息队列都具有内核级持续性</li>
+</ul>
+</blockquote>
+<p><code>POSIX</code> 主要接口信息：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>: mqueue.h (sys/stat.h 用于在创建队列时使用权限宏)</span></span><br><span class="line">main types:</span><br><span class="line"><span class="number">1.</span> <span class="keyword">mqd_t</span>: 消息队列描述符</span><br><span class="line"><span class="number">2.</span> <span class="class"><span class="keyword">struct</span> <span class="title">mq_attr</span>:</span> 消息队列属性结构，定义如下：</span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">mq_attr</span> &#123;</span></span><br><span class="line">       <span class="keyword">long</span> <span class="keyword">int</span> mq_flags;    <span class="comment">/* Message queue flags.  */</span></span><br><span class="line">       <span class="keyword">long</span> <span class="keyword">int</span> mq_maxmsg;   <span class="comment">/* Maximum number of messages.  */</span></span><br><span class="line">       <span class="keyword">long</span> <span class="keyword">int</span> mq_msgsize;  <span class="comment">/* Maximum message size.  */</span></span><br><span class="line">       <span class="keyword">long</span> <span class="keyword">int</span> mq_curmsgs;  <span class="comment">/* Number of messages currently queued.  */</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">functions： <span class="keyword">mqd_t</span> mq_open(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">int</span> flags, ... [ <span class="keyword">mode_t</span> mode, struct mq_attr *mq_attr ])</span><br><span class="line">description：name消息队列名字; flags 用来表示打开消息队列的权限组合; 如果是以创建方式打开，则需要设置相应</span><br><span class="line">             的访问权限mode; 设置消息队列属性 mq_attr.</span><br><span class="line"><span class="keyword">return</span>：返回消息描述符，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">functions： <span class="keyword">int</span> mq_close(<span class="keyword">mdq_t</span> mqdes) </span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，错误返回 <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">functions： <span class="keyword">int</span> mq_unlink(<span class="keyword">const</span> <span class="keyword">char</span> *name)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，错误返回 <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">functions：<span class="keyword">int</span> mq_send(<span class="keyword">mqd_t</span> mqdes, <span class="keyword">const</span> <span class="keyword">char</span> *msgbuf, <span class="keyword">size_t</span> len, <span class="keyword">unsigned</span> <span class="keyword">int</span> prio)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，错误返回 <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">functions：<span class="keyword">size_t</span> mq_receive(<span class="keyword">mqd_t</span> mqdes, <span class="keyword">char</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">unsigned</span> *prio)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">functions： <span class="keyword">int</span> mq_getattr(<span class="keyword">mqd_t</span> mqdes, struct mq_attr *mq_attr)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">functions：<span class="keyword">int</span> mq_setattr(<span class="keyword">mqd_t</span> mqdes, <span class="keyword">const</span> struct mq_attr *mqstat, struct mq_attr *omqstat)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">functions：<span class="keyword">int</span> mq_setattr(<span class="keyword">mqd_t</span> mqdes, <span class="keyword">const</span> struct mq_attr *mqstat, struct mq_attr *omqstat)</span><br><span class="line"><span class="keyword">return</span>： 成功返回 <span class="number">0</span>，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">functions：<span class="keyword">int</span> mq_notify(<span class="keyword">mqd_t</span> mqdes, <span class="keyword">const</span> struct sigevent *sevp);</span><br><span class="line">description： 在有消息时注册通知</span><br><span class="line"><span class="keyword">return</span>：成功返回 <span class="number">0</span>，或者（<span class="keyword">mqd_t</span>）<span class="number">-1</span>出错</span><br><span class="line"></span><br><span class="line">注： 编译时需要链接 rt 库 (Link with -lrt.)</span><br></pre></td></tr></table></figure></p>
+<p>模拟使用场景：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 模拟场景</span><br><span class="line">*  <span class="number">1.</span> 总共三个进程，一个程序负责创建消息队列，一个发送消息，最后一个负责接收</span><br><span class="line">*  <span class="number">2.</span> 接收程序使用 mq_notify 注册信号来处理消息从无到有的场景</span><br><span class="line">*</span><br></pre></td></tr></table></figure></p>
+<p>具体实现代码如下：</p>
+<ol>
+<li><p><strong>cmake 程序</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_definitions</span>(-std=c++<span class="number">11</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(message_queue C CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">aux_source_directory</span>(. SRC_FILES)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(message_queue <span class="variable">$&#123;SRC_FILES&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(message_queue </span><br><span class="line">                      rt</span><br><span class="line">                      )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>mq_create</strong>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"errno.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;           /* For O_* constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;        /* For mode constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mqueue.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERR_EXIT(m) \</span></span><br><span class="line">            <span class="keyword">do</span> \</span><br><span class="line">            &#123; \</span><br><span class="line">                perror(m); \</span><br><span class="line">                <span class="built_in">exit</span>(EXIT_FAILURE); \</span><br><span class="line">            &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">mqd_t</span> mqid;</span><br><span class="line">    mqid = mq_open(<span class="string">"/zed"</span>, O_CREAT | O_RDWR, <span class="number">0666</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mqid == (<span class="keyword">mqd_t</span>) - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ERR_EXIT(<span class="string">"mq_open"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mq_attr</span> <span class="title">attr</span>;</span></span><br><span class="line">    mq_getattr(mqid, &amp;attr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"max msg numb: [%ld],  mq_msgsize: [%ld] byte, current msg size: [%ld], mq_flags[%ld]"</span>,</span><br><span class="line">        attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs, attr.mq_flags);</span><br><span class="line"></span><br><span class="line">    mq_close(mqid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>mq_send</strong>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"errno.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;           /* For O_* constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;        /* For mode constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mqueue.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERR_EXIT(m) \</span></span><br><span class="line">            <span class="keyword">do</span> \</span><br><span class="line">            &#123; \</span><br><span class="line">                perror(m); \</span><br><span class="line">                <span class="built_in">exit</span>(EXIT_FAILURE); \</span><br><span class="line">            &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">stu</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> data[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> index;</span><br><span class="line">&#125;STU;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">mqd_t</span> mqid;</span><br><span class="line">    mqid = mq_open(<span class="string">"/zed"</span>,  O_RDONLY);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mqid == (<span class="keyword">mqd_t</span>) - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ERR_EXIT(<span class="string">"mq_open"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    STU stu;</span><br><span class="line">    stu.index = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">strcpy</span>(stu.data, <span class="string">"my name is yejy"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"stu.data [%s], stu.index [%d]\n"</span>, stu.data, stu.index);</span><br><span class="line">    mq_send(mqid,  (<span class="keyword">const</span> <span class="keyword">char</span>*)&amp;stu, <span class="keyword">sizeof</span>(stu), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mq_attr</span> <span class="title">attr</span>;</span></span><br><span class="line">    mq_getattr(mqid, &amp;attr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"max msg numb: [%ld],  mq_msgsize: [%ld] byte, current msg size: [%ld], mq_flags[%ld] \n"</span>,</span><br><span class="line">        attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs, attr.mq_flags);</span><br><span class="line">    </span><br><span class="line">    mq_close(mqid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>mq_receive</strong>:</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"errno.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;           /* For O_* constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;        /* For mode constants */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mqueue.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERR_EXIT(m) \</span></span><br><span class="line">            <span class="keyword">do</span> \</span><br><span class="line">            &#123; \</span><br><span class="line">                perror(m); \</span><br><span class="line">                <span class="built_in">exit</span>(EXIT_FAILURE); \</span><br><span class="line">            &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">stu</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> data[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> index;</span><br><span class="line">&#125;STU;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigevent</span>  <span class="title">sigev</span>;</span></span><br><span class="line"><span class="keyword">mqd_t</span> mqid;</span><br><span class="line"><span class="keyword">size_t</span> size;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handle_sigusr1</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mq_notify(mqid, &amp;sigev); <span class="comment">// need registered again</span></span><br><span class="line">    STU stu;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> prio;</span><br><span class="line">    <span class="keyword">if</span>(mq_receive(mqid,  (<span class="keyword">char</span>*)&amp;stu, size, &amp;prio) == (<span class="keyword">mqd_t</span>) <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ERR_EXIT(<span class="string">"mq_receive"</span>);</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"data=[%s], index = [%d], prio = [%d]"</span>, stu.data, stu.index, prio);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mqid = mq_open(<span class="string">"/zed"</span>, O_RDONLY);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mqid == (<span class="keyword">mqd_t</span>) - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ERR_EXIT(<span class="string">"mq_open"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mq_attr</span> <span class="title">attr</span>;</span></span><br><span class="line">    mq_getattr(mqid, &amp;attr);</span><br><span class="line">    size = attr.mq_msgsize;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"max msg numb: [%ld],  mq_msgsize: [%ld] byte, current msg size: [%ld], mq_flags[%ld]\n"</span>,</span><br><span class="line">        attr.mq_maxmsg, </span><br><span class="line">        attr.mq_msgsize, </span><br><span class="line">        attr.mq_curmsgs, </span><br><span class="line">        attr.mq_flags);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// signal</span></span><br><span class="line">    signal(SIGUSR1, handle_sigusr1);</span><br><span class="line"></span><br><span class="line">    sigev.sigev_notify = SIGEV_SIGNAL;</span><br><span class="line">    sigev.sigev_signo = SIGUSR1;</span><br><span class="line"></span><br><span class="line">    mq_notify(mqid, &amp;sigev); <span class="comment">// Message from nothing, notify handle</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;); <span class="comment">// loop keep process execute</span></span><br><span class="line"></span><br><span class="line">    mq_close(mqid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于相关设计模式需要懂得其原理与实现，毕竟这些是前人总结出来的宝贵经验，对我们的软件设计思维非常有帮助；至于消息队列，主要介绍了一下其思想与用途，以及对 POSIX 的消息队列接口做了一个简单模拟实现，了解了消息队列的基本使用。当然，作为计算机系统中的一个重要组件，在后端开发中，有很多优秀的消息队列中间件，后续有机会从事相关开发，再进行深入了解，通过此次文章总结，如果下次遇到消息队列相关问题和开发任务，应该会比较得心应手。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2018/11/24/进程间通信-消息队列-2018-11-24/" title="进程间通信-消息队列">https://mikeblog.top/2018/11/24/进程间通信-消息队列-2018-11-24/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程编程/" rel="tag"><i class="fa fa-tag"></i> 多线程编程</a>
+          
+            <a href="/tags/操作系统/" rel="tag"><i class="fa fa-tag"></i> 操作系统</a>
+          
+            <a href="/tags/设计模式/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/19/随笔-不一样的周一-2018-11-19/" rel="next" title="不一样的周一">
+                <i class="fa fa-chevron-left"></i> 不一样的周一
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/15/你有困惑吗/" rel="prev" title="你有困惑吗">
+                你有困惑吗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://thispointer.com" title="thispointer" target="_blank">thispointer</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Message-Queue-使用场景"><span class="nav-number">1.</span> <span class="nav-text">Message Queue 使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布-订阅模式-Publish-Subscribe"><span class="nav-number">2.</span> <span class="nav-text">发布/订阅模式 (Publish-Subscribe)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POSIX-消息队列简单使用"><span class="nav-number">3.</span> <span class="nav-text">POSIX 消息队列简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2018/11/24/进程间通信-消息队列-2018-11-24/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

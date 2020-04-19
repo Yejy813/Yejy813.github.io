@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="痛并快乐着 今天讲讲C/C++程序的常用调试手段，介绍调试手段之前，我会首先对开发过程中可能遇到的问题进行一个总结，大概可以把问题分为以下几类：  必现的程序逻辑错误概率性错误进程卡死或挂掉，系统变卡，cpu 调度变慢程序正常，程序性能瓶颈分析  三年下来，排查的问题不少，该遇到的都遇到了，不该遇到的也遇到了，只能说五味杂陈。">
+<meta name="keywords" content="程序调试与问题排查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 程序异常排查">
+<meta property="og:url" content="https://mikeblog.top/2019/03/05/Linux-程序异常排查/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="痛并快乐着 今天讲讲C/C++程序的常用调试手段，介绍调试手段之前，我会首先对开发过程中可能遇到的问题进行一个总结，大概可以把问题分为以下几类：  必现的程序逻辑错误概率性错误进程卡死或挂掉，系统变卡，cpu 调度变慢程序正常，程序性能瓶颈分析  三年下来，排查的问题不少，该遇到的都遇到了，不该遇到的也遇到了，只能说五味杂陈。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/%E7%97%9B%E5%B9%B6%E5%BF%AB%E4%B9%90%E7%9D%80.jpg?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/tree.png?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/main.png?raw=true">
+<meta property="og:updated_time" content="2019-08-17T07:34:26.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 程序异常排查">
+<meta name="twitter:description" content="痛并快乐着 今天讲讲C/C++程序的常用调试手段，介绍调试手段之前，我会首先对开发过程中可能遇到的问题进行一个总结，大概可以把问题分为以下几类：  必现的程序逻辑错误概率性错误进程卡死或挂掉，系统变卡，cpu 调度变慢程序正常，程序性能瓶颈分析  三年下来，排查的问题不少，该遇到的都遇到了，不该遇到的也遇到了，只能说五味杂陈。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/%E7%97%9B%E5%B9%B6%E5%BF%AB%E4%B9%90%E7%9D%80.jpg?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/03/05/Linux-程序异常排查/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Linux 程序异常排查 | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/03/05/Linux-程序异常排查/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux 程序异常排查
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-05 00:20:29" itemprop="dateCreated datePublished" datetime="2019-03-05T00:20:29+08:00">2019-03-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-17 15:34:26" itemprop="dateModified" datetime="2019-08-17T15:34:26+08:00">2019-08-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/05/Linux-程序异常排查/" class="leancloud_visitors" data-flag-title="Linux 程序异常排查">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.3k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="痛并快乐着"><a href="#痛并快乐着" class="headerlink" title="痛并快乐着"></a>痛并快乐着</h2><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/%E7%97%9B%E5%B9%B6%E5%BF%AB%E4%B9%90%E7%9D%80.jpg?raw=true" class="full-image" alt="alt" title="痛并快乐着"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<p>今天讲讲<code>C/C++</code>程序的常用调试手段，介绍调试手段之前，我会首先对开发过程中可能遇到的问题进行一个总结，大概可以把问题分为以下几类：</p>
+<blockquote>
+<p>必现的程序逻辑错误<br>概率性错误<br>进程卡死或挂掉，系统变卡，<code>cpu</code> 调度变慢<br>程序正常，程序性能瓶颈分析</p>
+</blockquote>
+<p>三年下来，排查的问题不少，该遇到的都遇到了，不该遇到的也遇到了，只能说五味杂陈。<br><a id="more"></a><br>现在的我大概是这样的，一段程序放在我面前，我会从以下几个角度去考虑它。</p>
+<ol>
+<li><p>功能<br>这段程序是用来实现什么功能？ 是否可以满足功能的需求？是否可以对职责场景覆盖全面？</p>
+</li>
+<li><p>代码规范<br>变量名、函数名、类名是否简单、精准的表达变量的含义？所有变量命名是否可以保持一致性？缩进，换行，可读性如何？<br>（驼峰、下划线，这个根据公司或者谷歌等的编码规范去做，至于缩进、换行、注释等，可以在经常使用的<code>ide</code>上安装相关格式化插件）</p>
+</li>
+<li><p>是否涉及动态资源<br>是否有申请动态内存，文件描述符等，执行完是否有正确释放？指针等操作是否规范？</p>
+</li>
+<li><p>性能如何<br>是否有一些执行耗时的操作，I/O，网络文件下载，文件解析等，是否可以进行优化？是否会影响到功能体验？使用异步线程执行会更好吗？</p>
+</li>
+<li><p>多线程相关<br>是否涉及到多线程，临界区访问是否正常？会引入多线程问题吗？接口可重入吗？会造成死锁吗？</p>
+</li>
+<li><p>是否符合常见的设计原则<br>类继承是否符合里氏替换原则？接口做的事情是不是太多了，是否符合单一职责原则？程序是否有其他地方也用到，可以复用吗？是否有重复代码，可以精简吗？</p>
+</li>
+</ol>
+<p>大概就这些吧，如果都考虑到了，这个程序就完美了吗？ 不不不，程序只是在当前场景下表现正常，也许在某个时刻某个不知名的场景下，还是会出问题，问题原因可能是因为其他模块代码的影响，可能是系统环境变了，可能是某些不知名的原因。。。。</p>
+<p>只能说程序出问题的可能性太高了，因此程序调试和排错的手段，就显得异常重要！</p>
+<h2 id="必现的程序逻辑错误"><a href="#必现的程序逻辑错误" class="headerlink" title="必现的程序逻辑错误"></a>必现的程序逻辑错误</h2><p>对于必现的程序逻辑错误，一开始，我们往往会选择在关键地方加上一些 <code>log</code> 来进行问题排查(有些比较特殊场景只能加 <code>log</code> )，在我看来，采用这种方式可以，前提是你对代码的业务流程已经比较熟悉，然后你为了确认一下自己的判断，去加 <code>log</code>(可以在<code>ide</code> 中设置一些快捷键)，因为你知道 <code>log</code> 加在哪里最关键，而不是漫无目的，否则效率会奇低。</p>
+<p>另一种方式当然是使用调试工具，单步调试，随时查看栈中任意数据，<code>Linux</code> 下使用<a href="https://mikeblog.top/2019/01/23/GDB/">GDB</a>，<code>windows</code> 直接用宇宙第一<code>ide</code>：<a href="https://visualstudio.microsoft.com/zh-hans/downloads/" target="_blank" rel="noopener">Visual Studio</a>，至于 <code>android</code> 调试 <code>Native C++</code> 程序，现在公司是修改完代码、编译，然后用 <code>adb</code> <code>pull</code> 到 <code>android</code> 系统上(公司开发的是<code>android</code>系统软件，不是<code>app</code>), 说实话，实在无语，原因是 <code>android</code> 系统的 <code>ANR</code> 机制，长时间不操作，调试进程会被系统杀掉，这个后面有时间再研究一下，肯定有更好的办法（不能把<code>ANR</code>机制关了吗 ?）。</p>
+<h2 id="概率性错误"><a href="#概率性错误" class="headerlink" title="概率性错误"></a>概率性错误</h2><p>此类错误，那就涉及到场景复现的问题，如果有拿到有效的 <code>log</code>，那还好，可以根据<code>log</code>进行分析，找出问题的根本原因；最怕的就是测试或者客户测反馈一个<code>bug</code>，但是没有效 <code>log</code>和相关配置，然后本地又复现不出来，这种比较麻烦，能做的无非就是复现，或者做一些促进复现的工作，比如<strong>写一些测试脚本，然后在代码流程中加入一些有助于问题分析的 <code>log</code>，然后放到反馈的环境下去挂机</strong>。</p>
+<p>如果最后挂机也没有复现，客户侧也没有再复现，那怎么办，最近就遇到一个，实在太坑了，工厂反馈的<code>bug</code>，<code>100</code>台中大概出现<code>4</code>台，系统升级过程中部分配置没有生效，导致升级上来，系统直接异常，而且完全没有有效的 <code>log</code>。</p>
+<p>对于此类概率性问题，之前其实已经有处理过一些，大部分原因都是<strong>两个进程/线程的启动时序出现变动，并且两者间又存在依赖</strong>导致的, 此类问题相对来说比较难查，因为你要对两个大的模块都要有一个整体的了解，两模块间的关系要分析的很清楚。这种涉及多个模块的问题，比较考验你的<strong>代码阅读能力，以及对整体框架的理解</strong>。</p>
+<p>说回那个比较坑的系统升级配置丢失问题，我详细的查看了一下系统的启动脚本(<code>shell</code>) 以及 该升级模块的代码，然后抛出了几个可能的原因，预约了一个会议室，把部门主管和其他部门的相关模块都拉上，一起讨论分析，因为工厂反馈的，比较着急，要出货（哈哈），大家一起确认完，大概也就这几个原因，比较可能的是，<strong>触发升级的进程没有去设置环境变量，升级转换配置的模块在运行的过程中异常挂掉了，升级模块进程有依赖另一个进程，而且两者间需要保证确定的启动优先顺序</strong>等，但是不能确定啊，所以我改了下脚本，在两种最可能出现的场景下，让系统循环运行，这种人力做基本不可能，挂了一个周末，问题还是没有复现。</p>
+<p>无解了是吗？ 确实是，因为你不知道原因啊，那怎么对症下药呢？  是的，我们虽然不知道确切的原因，但是我们知道原因就是其中的一个，所以当时做了个容错，保证就算出现由其中任何一个原因导致的该问题，我们都可以用这个容错修改规避掉，其实很简单，在 <code>shell</code> 脚本中加入一个判断就可以了，升级模块代码，需要成功以后，才去设置成功的环境变量，否则下次重启还是需要重新执行配置转换流程，然后还补充了一些关键的<code>log</code>，由于问题概率非常低，容错可以保证客户侧的正常使用，然后如果问题真的出现，也可以及时反馈分析。</p>
+<h2 id="进程挂掉，系统变卡"><a href="#进程挂掉，系统变卡" class="headerlink" title="进程挂掉，系统变卡"></a>进程挂掉，系统变卡</h2><p>系统变卡，就是<code>CPU</code> 调度变慢，那这肯定是哪个程序一直占用<code>CPU</code>，导致其他程序无法被执行。 常见的原因可能是，内存变少，导致系统分配内存的时候，需要频繁的进行内存置换操作，进而导致系统变慢，内存相关可以看下之前的另一篇博客<a href="https://www.cnblogs.com/blog-yejy/p/9631708.html" target="_blank" rel="noopener">Linux 系统内存分析</a>，如果置换到后面，物理内存和交换空间都用完了，系统将触发<code>oom-killer</code>，把来申请内存的进程直接杀掉了，这也是导致进程挂掉的可能原因之一;  或者某个程序死循环了，而且还没有超过系统设置的默认函数栈大小（<code>ulimit –s</code>, 超过就栈溢出，直接收到系统信号，然后进程直接被杀了），导致系统卡住；最后就是指针误操作(访问非法内存，数组越界也属于此类)，这种算是最基本的错误了，需要无时无刻警惕，有一定经验后，这种错误基本就不会犯了。</p>
+<p>对于该类所谓的<code>疑难</code>问题，最困恼我们的无非就是<strong>定位</strong>，定位到模块，定位到进程/线程，定位到具体代码行。公司当前有几个系统平台采用的方法是对异常信号（<code>signal</code>）注册回调，然后进行堆栈回溯，最后将堆栈保存到本地文件、标准输出、远程服务器等，这样比较方便，实时性也较好(对于一些比较低端的系统，承受不来<code>valgrind</code>等高级工具的，还是不错的选择)，可以看下这篇文章，基本是一样的<a href="https://www.jianshu.com/p/78a363ea48df" target="_blank" rel="noopener">Android Native Crash</a>。</p>
+<h2 id="程序正常，程序性能瓶颈分析"><a href="#程序正常，程序性能瓶颈分析" class="headerlink" title="程序正常，程序性能瓶颈分析"></a>程序正常，程序性能瓶颈分析</h2><p>工欲善其事，必先利其器！ 在 <code>Linux</code> 系统下，有很多很棒的、来源的性能分析工具，我现在有这样一个想法，如果你开发多平台使用的程序，那么<strong>请你把 <code>Linux</code> 作为你编译、调试、性能调优的大本营</strong>。你想想编译服务器(<code>Linux</code>)上支持的 <code>20</code> 个线程，同时编译你的程序，那速度简直快到飞起，像我们使用 <code>NDK</code> 到自己的 <code>windows</code> 系统下编译，整份代码编完需要 <code>10</code> 分钟以上，<code>Linux</code> 下直接<code>ndk-build -j20</code>，<code>2~3</code> 分钟就搞定，而且编译服务器所有人共享。</p>
+<p>性能调优，你写出来的代码，你如何知道它有没有坑呢？ 怎么知道它是完美的呢？ 我们需要一款<code>计分</code>工具，<code>Linux</code>下常用的有 <code>gprof</code>、<code>google-perftools</code>、<code>valgrind</code>等。我们看一下<code>valgrind</code>，看下它搭配<code>kcachegrind</code> 导出的分析图，可以说是相当细致，里面有各个函数执行的时间占比，调用次数。</p>
+<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/tree.png?raw=true" class="full-image" alt="alt" title="valgrind"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<p>下面这个是<code>valgrind + gprof2dot.py + dot</code> 导出图的一部分，太大了，截了关键的一部分，程序是练手的二叉树算法：<br><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/main.png?raw=true" class="full-image" alt="alt" title="main"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span></p>
+<p>kcachegrind：<a href="https://sourceforge.net/projects/precompiledbin/" target="_blank" rel="noopener">https://sourceforge.net/projects/precompiledbin/</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/03/05/Linux-程序异常排查/" title="Linux 程序异常排查">https://mikeblog.top/2019/03/05/Linux-程序异常排查/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/程序调试与问题排查/" rel="tag"><i class="fa fa-tag"></i> 程序调试与问题排查</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/23/C-11/" rel="next" title="C++ 11">
+                <i class="fa fa-chevron-left"></i> C++ 11
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/15/二叉树/" rel="prev" title="二叉树">
+                二叉树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://thispointer.com" title="thispointer" target="_blank">thispointer</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#痛并快乐着"><span class="nav-number">1.</span> <span class="nav-text">痛并快乐着</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#必现的程序逻辑错误"><span class="nav-number">2.</span> <span class="nav-text">必现的程序逻辑错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率性错误"><span class="nav-number">3.</span> <span class="nav-text">概率性错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程挂掉，系统变卡"><span class="nav-number">4.</span> <span class="nav-text">进程挂掉，系统变卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序正常，程序性能瓶颈分析"><span class="nav-number">5.</span> <span class="nav-text">程序正常，程序性能瓶颈分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/03/05/Linux-程序异常排查/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

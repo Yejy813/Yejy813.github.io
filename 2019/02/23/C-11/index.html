@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概要 C++ 总共有四个官方版本，都是以 ISO 标准被接受的年份命名的，它们是 C++98, C++03, C++11和C++14。C++98 和 C++03 仅有一些技术细节上的不同，可以统称为 C++98，C++14则是C++11的超集。总的来说，C++11是C++所有版本中跳跃性最大的一个版本，很多人认为相对之前的版本，C++11是一个新语言。">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 11">
+<meta property="og:url" content="https://mikeblog.top/2019/02/23/C-11/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="概要 C++ 总共有四个官方版本，都是以 ISO 标准被接受的年份命名的，它们是 C++98, C++03, C++11和C++14。C++98 和 C++03 仅有一些技术细节上的不同，可以统称为 C++98，C++14则是C++11的超集。总的来说，C++11是C++所有版本中跳跃性最大的一个版本，很多人认为相对之前的版本，C++11是一个新语言。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/c++11/timg.jpg?raw=true">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/c++11/move.jpg?raw=true">
+<meta property="og:updated_time" content="2019-08-17T07:34:26.491Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 11">
+<meta name="twitter:description" content="概要 C++ 总共有四个官方版本，都是以 ISO 标准被接受的年份命名的，它们是 C++98, C++03, C++11和C++14。C++98 和 C++03 仅有一些技术细节上的不同，可以统称为 C++98，C++14则是C++11的超集。总的来说，C++11是C++所有版本中跳跃性最大的一个版本，很多人认为相对之前的版本，C++11是一个新语言。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/c++11/timg.jpg?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/02/23/C-11/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++ 11 | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/02/23/C-11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++ 11
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-23 12:31:39" itemprop="dateCreated datePublished" datetime="2019-02-23T12:31:39+08:00">2019-02-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-17 15:34:26" itemprop="dateModified" datetime="2019-08-17T15:34:26+08:00">2019-08-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/02/23/C-11/" class="leancloud_visitors" data-flag-title="C++ 11">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">14k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/c++11/timg.jpg?raw=true" class="full-image" alt="alt" title="C++11"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<p><code>C++</code> 总共有四个官方版本，都是以 <code>ISO</code> 标准被接受的年份命名的，它们是 <code>C++98</code>, <code>C++03</code>, <code>C++11</code>和<code>C++14</code>。<code>C++98</code> 和 <code>C++03</code> 仅有一些技术细节上的不同，可以统称为 <code>C++98</code>，<code>C++14</code>则是<code>C++11</code>的超集。总的来说，<code>C++11</code>是<code>C++</code>所有版本中跳跃性最大的一个版本，很多人认为相对之前的版本，<code>C++11</code>是一个新语言。<br><a id="more"></a><br>工作中，由于系统平台很多，有些较早时间开发的并不支持<code>C++11</code>，<code>gcc</code>编译器是在 <code>4.7</code> 版本中加入的<code>C++11</code>，在<code>android</code>和<code>armv6</code>以上<code>cpu</code>的系统是可以支持的，那今天就结合工作中<code>C++11</code>使用情况，来对<code>C++11</code>的知识进行一个总结。参考书籍主要是<code>&lt;&lt;Effective Modern C++&gt;&gt;</code>，该书作者是<code>Scott Meyers</code>，他的<code>Effective</code>系列书籍，都是同样的配方，熟悉的味道，对所有的特性进行系统的分析，包括实现原理，主要解决问题等，而且挖的很深，很细，往往需要多次阅读，才能完全吸收。</p>
+<p>我会结合工程中具体使用场景进行简短分析，同时加入相关测试使用代码，挑选一些平常工作中用的到的特性。</p>
+<p>本章内容分为：</p>
+<blockquote>
+<ul>
+<li>语言可用性的强化</li>
+<li>语言运行期的强化</li>
+<li>标准库扩充：新增容器</li>
+<li>标准库扩充：智能指针</li>
+</ul>
+</blockquote>
+<p><strong>系统环境</strong></p>
+<blockquote>
+<ul>
+<li><strong>gcc &ensp;版本 &ensp; 4.8.5 &ensp; 20150623 &ensp; (Red Hat 4.8.5-28) &ensp; (GCC)</strong></li>
+<li><strong>Linux&ensp; yejy &ensp;3.10.0-514.el7.x86_64&ensp; #1 &ensp;SMP &ensp;Tue&ensp; Nov &ensp;22 &ensp;16:42:41&ensp; UTC &ensp;2016&ensp; x86_64&ensp; x86_64 &ensp;x86_64&ensp; GNU/Linux</strong></li>
+</ul>
+</blockquote>
+<p><code>CMake</code> 编译参数：</p>
+<blockquote>
+<p>add_definitions(-std=c++11)</p>
+</blockquote>
+<h2 id="语言可用性的强化"><a href="#语言可用性的强化" class="headerlink" title="语言可用性的强化"></a>语言可用性的强化</h2><h3 id="nullptr-和-constexpr"><a href="#nullptr-和-constexpr" class="headerlink" title="nullptr 和 constexpr"></a>nullptr 和 constexpr</h3><p><code>nullptr</code> 的引入主要是为了避免 <code>0</code> 和 <code>NULL</code> 在重载决议中的意外，同时可以提高代码的清晰性。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>)</span></span>;  <span class="comment">// f的三个重载版本</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">bool</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">void</span>*)</span></span>;</span><br><span class="line"></span><br><span class="line">f(<span class="number">0</span>);         <span class="comment">// 调用f(int), 而不是f(void*)</span></span><br><span class="line">f(<span class="literal">nullptr</span>);   <span class="comment">// 调用f(void*), nullptr 会通过隐式转型为裸指针</span></span><br><span class="line">f(<span class="literal">NULL</span>);      <span class="comment">// 可能通不过编译</span></span><br></pre></td></tr></table></figure></p>
+<p>提高代码清晰性例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">auto result = findRecord(/*实参*/);</span><br><span class="line"></span><br><span class="line">// 按照以前，这个是指针还是整形 ?</span><br><span class="line">if(result == 0)&#123;  </span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 必然指针</span><br><span class="line">if(result == nullptr)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>constexpr</code> 主要作用是，编译器在编译时，constexpr修饰函数如果传入实参是编译期已知的，就把这些表达式直接优化出结果并植入到程序运行时，从而增加程序的性能，并且 <code>constexpr</code>具备 <code>const</code> 属性。</p>
+<h3 id="类型推导-auto-和-decltype"><a href="#类型推导-auto-和-decltype" class="headerlink" title="类型推导 (auto 和 decltype)"></a>类型推导 (auto 和 decltype)</h3><p><code>auto</code> 关键字，类型推导，在之前的<code>C++</code>中，<code>auto</code>作为一个存储类型，如果一个变量不是<code>register</code>（寄存器）变量，就是<code>auto</code>了。一个主要使用场景，就是遍历容器：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以前</span></span><br><span class="line"><span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; hashMapA;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt;::const_iterator it = hashMapA.begin(); it != hashMapA.begin(); it ++)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有了auto以后，代码量可以减少很多</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it = hashMapA.begin(); it != hashMapA.begin(); it ++)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>auto</code> 不能用于函数传参，和数组推导。</p>
+<p><code>decltype</code> 关键字是为了解决 <code>auto</code> 关键字只能对变量进⾏类型推导的缺陷而出现的。它的用法和 <code>sizeof</code> 很相似.</p>
+<blockquote>
+<p>decltype ( 变量/表 达 式 )</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nullptr</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">std</span>::is_same&lt;<span class="keyword">decltype</span>(<span class="literal">NULL</span>), <span class="keyword">decltype</span>(<span class="number">0</span>)&gt;::value)</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"null == 0"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">std</span>::is_same&lt;<span class="keyword">decltype</span>(<span class="literal">NULL</span>), <span class="keyword">decltype</span>((<span class="keyword">void</span> *)<span class="number">0</span>)&gt;::value)</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"null == (void *)0"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">std</span>::is_same&lt;<span class="keyword">decltype</span>(<span class="literal">NULL</span>), <span class="keyword">decltype</span>(<span class="literal">nullptr</span>)&gt;::value)</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"null == nullptr"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="列表初始化"><a href="#列表初始化" class="headerlink" title="列表初始化"></a>列表初始化</h3><p><code>C++11</code> 提供了一种统一的初始化方法，在 <code>C++98/03</code> 中我们只能对普通数组和 <code>POD</code>(<code>plain old data</code>，简单来说就是可以用<code>memcpy</code>复制的对象) 类型可以使用列表初始化，如下：</p>
+<blockquote>
+<p>数组的初始化列表： int arr[4] = {1,2,3,4}</p>
+</blockquote>
+<p><code>C++11</code> 将此方法适用性范围进行了放大，列表初始化的方式对：内置类型（int、float、double、char等）、数组、自定义的类、函数参数列表、<code>STL</code>标准模板库等都是有效的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pod</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	<span class="keyword">int</span> b;</span><br><span class="line">	<span class="keyword">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Test1 typic = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> d&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">float</span> b&#123;<span class="number">1.2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="built_in">std</span>::<span class="built_in">string</span>&gt; _map&#123;&#123;<span class="number">1</span>,<span class="string">"lxg"</span>&#125;,&#123;<span class="number">2</span>,<span class="string">"the answer"</span>&#125;,&#123;<span class="number">3</span>,<span class="string">"hello world."</span>&#125;&#125;; <span class="comment">// c++ 98 不支持</span></span><br></pre></td></tr></table></figure>
+<p>列表初始化在 <code>STL</code> 中的实现则是基于<code>std::initializer_list</code>类型, <code>STL</code>有提供<code>std::initializer_list</code>类型作为参数的构造函数。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vector 可变长参数初始化</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">initializer_list_Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	initializer_list_Test(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">list</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="keyword">int</span>&gt;::iterator itr = <span class="built_in">list</span>.begin(); itr != <span class="built_in">list</span>.end(); itr++)</span><br><span class="line">		&#123;</span><br><span class="line">			m_vecTest.push_back(*itr);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; m_vecTest;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// initializer_list   可以作为类construct的形参类型，也可以作为普通函数的形参类型</span></span><br><span class="line">initializer_list_Test initializer_Test&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="区间-for-迭代"><a href="#区间-for-迭代" class="headerlink" title="区间 for 迭代"></a>区间 for 迭代</h3><p>主要是提供一种类似脚本语言的遍历循环的方式:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以前</span></span><br><span class="line"><span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; hashMapA;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt;::const_iterator it = hashMapA.begin(); it != hashMapA.begin(); it ++)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> elementB : hashMapA)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="模板别名"><a href="#模板别名" class="headerlink" title="模板别名"></a>模板别名</h3><p>我们应该尽量避免使用<code>typedef</code>，<code>typedef</code> 可以为类型定义一个新的名称，而没有办法为模板定义一个新的名称，因为模板不是类型， <code>C++11</code>提供了一个<code>using</code>关键字来处理模板别名，该关键字在函数指针使用过程中，也比较容易理解<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数指针</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(*FP)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> FP = <span class="keyword">void</span>(*)(<span class="keyword">int</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;); <span class="comment">// 使用别名是不是更直观</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模板别名</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">using</span> MyAllocList = <span class="built_in">std</span>::<span class="built_in">list</span>&lt;T, MyAlloc&lt;T&gt;&gt;; <span class="comment">// MyAllocList 就是 std::list&lt;T, MyAlloc&lt;T&gt;&gt; 同义词</span></span><br><span class="line"></span><br><span class="line">MyAllocList&lt;Widget&gt; lw;                       <span class="comment">// 客户代码</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="模板变长参数"><a href="#模板变长参数" class="headerlink" title="模板变长参数"></a>模板变长参数</h3><p>模板参数可以不固定，如果需要对其中数据进行解包，<code>C++11</code>中可以使用递归的方式。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 至少包含一个模板参数的模板类</span></span><br><span class="line"><span class="keyword">template</span> &lt; <span class="keyword">typename</span> Require , <span class="keyword">typename</span> ... Args &gt; <span class="class"><span class="keyword">class</span> <span class="title">Magic</span> ;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">// 可变模板参数的模板函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">magic</span><span class="params">(Args ... args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span> ... (args) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">magic(<span class="number">0</span>); <span class="comment">// 传入1个实参</span></span><br><span class="line">magic(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>); <span class="comment">// 传入3个实参</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="override-和-final"><a href="#override-和-final" class="headerlink" title="override 和 final"></a>override 和 final</h3><p>有时候，程序员并不想尝试覆盖父类虚函数，但是又恰好加入了一个具有相同名字的函数。另一个可能的情形是，当基类的虚函数被删除后，子类拥有旧的函数就不再覆盖该虚函数，摇身一变成为了一个普通的类方法，这将造成灾难性的后果，导致函数表现完全不一样了。</p>
+<p><code>C++11</code> 引入了 <code>override</code> 和 <code>final</code> 这两个关键字来防止上述情形的发生。</p>
+<p><code>override</code> 当重载虚函数时，引入 <code>override</code> 关键字将显式的告知编译器进行覆盖，编译器将检查基函数是否存在这样的虚函数，否则将无法通过编译：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">( <span class="keyword">int</span> )</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span> :</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">( <span class="keyword">int</span> )</span> override </span>; <span class="comment">// 合法</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">( <span class="keyword">float</span> )</span> override </span>; <span class="comment">// 非法, 父类没有此虚函数</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><code>final</code> 则是为了防止类被继续继承以及终止虚函数继续覆盖引入的。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span> <span class="params">()</span> final </span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass1</span> <span class="title">final</span> :</span> Base &#123;</span><br><span class="line">&#125;; <span class="comment">// 合法</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass2</span> :</span> SubClass1 &#123;</span><br><span class="line">&#125;; <span class="comment">// 非法 , SubClass1已 final</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass3</span> :</span> Base &#123;</span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">foo</span> <span class="params">()</span></span>; <span class="comment">// 非法, foo已 final</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="语言运行期的强化"><a href="#语言运行期的强化" class="headerlink" title="语言运行期的强化"></a>语言运行期的强化</h2><h3 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="Lambda 表达式"></a>Lambda 表达式</h3><p>什么是<code>C++11 Lambda</code> 函数，如何使用 <code>Lambda</code> 函数。</p>
+<p><code>Lambda</code>函数是<code>C++</code>中的一种匿名函数, 而匿名函数则是在需要一个函数，但是又不想费力去命名一个函数的情况下去使用的。这样的场景其实有很多很多，所以匿名函数⼏乎是现代编程语言的标配。</p>
+<p><code>Lambda</code> 函数其实就像一个普通的函数一样：</p>
+<blockquote>
+<p>You can pass arguments to it (可以传参)<br>It can return the result (可以返回结果)</p>
+</blockquote>
+<p>但它没有任何名字。它主要用于我们必须创建非常小的函数, 以作为回调传递给另一个 <code>API</code>的场景 (回调)。</p>
+<p><code>Lambda</code> 语法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lamda</span></span><br><span class="line"><span class="comment">/** [ captures ] &lt;tparams&gt;(optional)(c++20) ( params ) specifiers exception attr -&gt; </span></span><br><span class="line"><span class="comment">  *               ret requires(optional)(c++20) &#123; body &#125;	(1)	</span></span><br><span class="line"><span class="comment">  * [ captures ] ( params ) -&gt; ret &#123; body &#125;	(2)	</span></span><br><span class="line"><span class="comment">  * [ captures ] ( params ) &#123; body &#125;	(3)	</span></span><br><span class="line"><span class="comment">  * [ captures ] &#123; body &#125;	(4)	</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure></p>
+<p>解释成中文就是:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ 捕 获 列 表 ]( 参 数 列 表 ) <span class="keyword">mutable</span> ( 可 选 ) 异 常 属 性 -&gt; 返 回 类 型 &#123;</span><br><span class="line">  <span class="comment">// 函 数 体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除了这个捕获列表外，其他应该都很好理解，捕获列表主要含义有以下几个：</p>
+<blockquote>
+<p>[] 空捕获列表<br>[name1, name2, . . . ] 捕获一系列变量<br>[&amp;] 引用捕获, 让编译器自行推导捕获列表 （引用即别名，内部修改该变量，会改变闭包外部该捕获变量的值）<br>[=] 值捕获, 让编译器执行推导应用列表 （值捕获为拷贝，内部修改该变量，不会改变闭包外部该捕获变量的值）</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> test_param1 = <span class="number">56</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> f = [](<span class="keyword">int</span> param1) &#123; <span class="keyword">return</span> param1; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// mutable 允许表达式修改捕获的参数 noexcept 函数不会抛出异常</span></span><br><span class="line"><span class="keyword">auto</span> test_param2 = [=](<span class="keyword">int</span> i = <span class="number">6</span>) <span class="keyword">mutable</span> <span class="keyword">noexcept</span>(<span class="literal">true</span>)-&gt;<span class="keyword">int</span>&#123;  </span><br><span class="line">  i += <span class="number">12</span>;</span><br><span class="line">  test_param1 += <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> test_param1 + i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="std-function"><a href="#std-function" class="headerlink" title="std::function"></a>std::function</h3><p><code>Lambda</code> 表达式的本质是一个函数对象，当 <code>Lambda</code> 表达式的捕获列表为空时， <code>Lambda</code> 表达式还能够作为一个函数指针进行传递。</p>
+<p><code>C++11 std::function</code> 是一种通用、多态的函数封装，它的实例可以对任何可以调用的目标实体进行存储、复制和调用操作，它也是对 <code>C++</code> 中现有的可调用实体的一种类型安全的包裹（相对来说，函数指针的调用不是类型安全的）。换句话说，就是函数的容器，当我们有了函数的容器之后便能够更加方便的将函数、函数指针作为对象进行处理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a = <span class="number">5</span>;</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// std::function</span></span><br><span class="line">  <span class="built_in">std</span>::function&lt;<span class="keyword">int</span>()&gt; function_Test;</span><br><span class="line"></span><br><span class="line">  function_Test = <span class="literal">nullptr</span>; </span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span></span><br><span class="line">  &#123;</span><br><span class="line">    function_Test(); <span class="comment">// function 为空时进行调用，会出现异常</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">catch</span> (<span class="built_in">std</span>::bad_function_call e)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; e.what() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 输出： bad_function_call</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function_Test = test; <span class="comment">// 存储函数</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; function_Test() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  function_Test = []() &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"i"</span> &lt;&lt; <span class="string">""</span> &lt;&lt; <span class="string">"j"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="keyword">return</span> <span class="number">5</span>; &#125;; <span class="comment">// 存储 `Lambda`</span></span><br><span class="line"></span><br><span class="line">  function_Test();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数指针可以说是一个相当重要的运行时机制，现在我们可以用 <code>Lambda</code>表达式和 <code>std::function</code>来实现，既正规又清晰。对于实际开发中的回调实现，不同代码层次间的适配工作提供了很好的支持。</p>
+<h3 id="std-bind-std-placeholder"><a href="#std-bind-std-placeholder" class="headerlink" title="std::bind/std::placeholder"></a>std::bind/std::placeholder</h3><p>std::bind 则是用来绑定函数调用的参数的，它解决的需求是我们有时候可能并不一定能够一次性获得调用某个函数的全部参数，通过这个函数，我们可以将部分调用参数提前绑定到函数身上成为一个新的对象，然后在参数齐全后，完成调用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">MemberFunction1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"member function 1"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">MemberFunction2</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"member function 2, i = "</span> &lt;&lt; i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> iMemData = &#123;<span class="number">2000</span>&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// std::bind ; std::placeholders</span></span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>::placeholders; <span class="comment">//  占位符</span></span><br><span class="line"></span><br><span class="line">  Test testClass;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 测试类中的 MemberFunction2，bind 函数时，第一个参数位置先占用，不传入实参</span></span><br><span class="line">  <span class="keyword">auto</span> bindFunction = <span class="built_in">std</span>::bind(&amp;Test::MemberFunction2, &amp;testClass, _1); </span><br><span class="line"></span><br><span class="line">  <span class="comment">// 传入实参</span></span><br><span class="line">  bindFunction(<span class="number">100</span>); </span><br><span class="line"></span><br><span class="line">  <span class="comment">// 直接传入实参</span></span><br><span class="line">  function_Test1 = <span class="built_in">std</span>::bind(&amp;Test::MemberFunction2, &amp;testClass, <span class="number">6600</span>); </span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调用 bind 函数</span></span><br><span class="line">  function_Test1(); </span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::function&lt;<span class="keyword">void</span>()&gt; function_Test2;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// bind 函数传入 std::function</span></span><br><span class="line">  <span class="keyword">auto</span> bindFunction2 =  <span class="built_in">std</span>::bind(&amp;Test::MemberFunction2, &amp;testClass, <span class="number">6600</span>); </span><br><span class="line"></span><br><span class="line">  function_Test2 = bindFunction2;</span><br><span class="line"></span><br><span class="line">  function_Test2();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h3><p>在介绍右值引用前，我们先了解一下左值。具体什么是左值呢？ 左值是可以通过地址访问的变量值。</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong><code>lvalue is anything whose address is accessible. It means we can take address of lvalue using &amp; operator.</code></strong></td></tr></table>
+</blockquote>
+<p>因此，右值正好与左值相反。</p>
+<blockquote>
+<table><tr><td bgcolor="#D1EEEE"><strong><code>Rvalue is anything that is not lvalue. It means we cannot take address of rvalue and it also don’t persist beyond the single expression.</code></strong></td></tr></table>
+</blockquote>
+<p>我们不能通过 <code>&amp;</code> 运算符来获取右值的地址，而且右值在使用时，不会超出单个表达式。 看下面例子。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * ptr3 = &amp;(x+<span class="number">1</span>); <span class="comment">// Compile Error</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a = <span class="number">7</span>; <span class="comment">// a is lvalue &amp; 7 is rvalue</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> b = (a + <span class="number">2</span>); <span class="comment">// b is lvalue &amp; (a+2) is rvalue</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> c = (a + b) ; <span class="comment">// c is lvalue &amp; (a+b) is rvalue</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> * ptr = &amp;a; <span class="comment">// Possible to take address of lvalue</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//int * ptr3 = &amp;(a + 1);  // Compile Error. Can not take address of rvalue</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getData</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> data = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> * ptr = &amp;getData(); <span class="comment">// Compile error - Cannot take address of rvalue</span></span><br></pre></td></tr></table></figure></p>
+<p>传统<code>C++</code>中的 <code>Reference</code>变量是始终指向已存在变量的别名，也就是始终指向左值。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">int</span> &amp; lvalueRef = x; <span class="comment">// lvalueRef is a lvalue reference</span></span><br></pre></td></tr></table></figure></p>
+<p>右值引用在<code>C++11</code>中引入，右值引用可以执行左值引用无法执行的操作，即右值引用可以引用右值。</p>
+<p>Declaring rvalue reference<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;&amp; rvalueRef = (x+<span class="number">1</span>); <span class="comment">// rvalueRef is rvalue reference</span></span><br></pre></td></tr></table></figure></p>
+<p>这里，<code>rvalueRef</code> 是 <code>rvalue reference</code>，它指向一个<code>rvalue</code>，即<code>（x + 1）</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getData</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> &amp;&amp; rvalueRef2 = getData();</span><br></pre></td></tr></table></figure>
+<p>那么右值引用的概念基本如上所示，那么<code>C++11</code>中使用右值引用来干什么呢？</p>
+<h4 id="移动语义"><a href="#移动语义" class="headerlink" title="移动语义"></a>移动语义</h4><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/c++11/move.jpg?raw=true" class="full-image" alt="alt" title="右值引用"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<p>没错，就是引入移动语意，上图是原理图。</p>
+<p>传统 <code>C++</code> 通过拷贝构造函数和赋值操作符为类对象设计了拷贝/复制的概念，但为了实现对资源的移动操作，调⽤者必须使用先复制、再析构的方式，否则就需要自己实现移动对象的接口。这个设计是非常反人类的，已经有一个现成的”地”在这里了，为什么要重新开辟另一块相同的”地”，然后还把原来那一块”地”给毁了，这不是吃力不讨好吗？</p>
+<p>移动语意和右值引用，就是为了解决临时对象在内存上的负载，每次我们从函数返回一个对象时，都会创建一个临时对象，最终会被复制。在最后等于我们创建了一个对象的 2 个副本，而我们只需要一个。</p>
+<p>移动语意则不会进行复制操作，而是如上图中所示转移内存的控制权，将指针传给当前对象，原来的指针置空。</p>
+<h4 id="完美转发"><a href="#完美转发" class="headerlink" title="完美转发"></a>完美转发</h4><p>一个模板函数，如何能够判断传入的参数是右值还是左值，是该进行右值引用，还是左值处理呢？ 如何才能做到参数完美派发呢？</p>
+<p>首先我们介绍一个规则，<strong>引用坍缩/折叠规则</strong>：在传统 <code>C++</code> 中，我们不能够对一个引用类型继续进行引用，但 <code>C++</code> 由于右值引用的出现而放宽了这一做法，从而产生了引用坍缩/折叠规则，允许我们对引用进行引用，既能左引用，又能右引用。</p>
+<p>规则如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数形参类型  实参参数类型  推导后函数形参类型</span></span><br><span class="line"><span class="number">1</span>、   T&amp;      +   &amp;         = T&amp;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、   T&amp;      +   &amp;&amp;        = T&amp;</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、   T&amp;&amp;     +   &amp;         = T&amp;</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、   T或T&amp;&amp;  +   &amp;&amp;        = T&amp;&amp;</span><br></pre></td></tr></table></figure></p>
+<p>因此，模板函数中实参类型为 <code>T&amp;&amp;</code>不一定能进行右值引用，所谓完美转发，就是为了让我们在传递参数的时候，保持原来的参数类型（左引用保持左引用，右引用保持右引用）。为了解决这个问题，我们使用 <code>std::forward</code> 来进行参数的转发。</p>
+<p><code>std::forward</code> 即没有造成任何多余的拷贝，同时完美转发 (传递) 了函数的实参给了内部调用的其他函数。<code>std::move</code> 单纯的将左值转化为右值。</p>
+<p>两者的内部实现都是 <code>static_cast</code> 转型动作， <code>std::forward&lt;T&gt;(v)</code> 和 <code>static_cast&lt;T&amp;&amp;&gt;(v)</code> 是一样的。</p>
+<p>我们看一个推导过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template&lt;class A1&gt; </span><br><span class="line">void f(A1 &amp;&amp; a1)</span><br><span class="line">&#123;</span><br><span class="line">  return g(static_cast&lt;A1 &amp;&amp;&gt;(a1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当传给<code>f</code>一个左值（类型为<code>T</code>）时，由于模板是一个引用类型，因此它被隐式装换为左值引用类型<code>T&amp;</code>，根据推导规则1，模板参数<code>A</code>被推导为<code>T&amp;</code>。这样，在<code>f</code>内部调用<code>F(static_cast&lt;A &amp;&amp;&gt;(a))</code>时，<code>static_cast&lt;A &amp;&amp;&gt;(a)</code>等同于<code>static_cast&lt;T&amp; &amp;&amp;&gt;(a)</code>，根据引用叠加规则第2点，即为<code>static_cast&lt;T&amp;&gt;(a)</code>，这样转发给<code>g</code>的还是一个左值。</p>
+<p>当传给<code>f</code>一个右值（类型为<code>T</code>）时，由于模板是一个引用类型，因此它被隐式装换为右值引用类型<code>T&amp;&amp;</code>，根据推导规则2，模板参数<code>A</code>被推导为<code>T</code>。这样，在<code>G</code>内部调用<code>F(static_cast&lt;A &amp;&amp;&gt;(a))</code>时，<code>static_cast&lt;A &amp;&amp;&gt;(a)</code>等同于<code>static_cast&lt;T&amp;&amp;&gt;(a)</code>，这样转发给<code>F</code>的还是一个右值（不具名右值引用是右值）。</p>
+<p>可见，引入 <code>std::forward&lt;T&gt;(v)</code> ，配合折叠引入推导规则，是可以做到参数完美转发的。</p>
+<h2 id="标准库扩充：新增容器"><a href="#标准库扩充：新增容器" class="headerlink" title="标准库扩充：新增容器"></a>标准库扩充：新增容器</h2><h3 id="std-unordered-map-和-std-unordered-set"><a href="#std-unordered-map-和-std-unordered-set" class="headerlink" title="std::unordered_map 和 std::unordered_set"></a>std::unordered_map 和 std::unordered_set</h3><p>我们知道传统 <code>C++</code> 中的有序容器 <code>std::map/std::set</code>，这些元素内部通过<strong>红黑树</strong>进行实现，插入和搜索的平均复杂度均为 <code>O(log(size))</code>。在插入元素时候，会根据 <code>&lt;</code> 操作符比较元素大小并判断元素是否相同，并选择合适的位置插入到容器中。当对这个容器中的元素进行遍历时，输出结果会按照 <code>&lt;</code> 操作符的顺序来逐个遍历。</p>
+<p>而无序容器中的元素是不进行排序的，内部通过哈希表实现的，插入和搜索元素的平均复杂度为 <code>O(constant)</code>，在不关心容器内部元素顺序时，能够获得显著的性能提升。</p>
+<p><code>C++11</code>引入了两组无序容器：<code>std::unordered_map/std::unordered_multimap</code> 和 <code>std::unordered_set/std::unordered_multiset</code>。</p>
+<p>用法与原来的 <code>std::map/std::multimap/std::set/set::multiset</code> 基本类似。 之前应该已经比较熟悉了，就举一个<code>std::unordered_map</code> 使用例子。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 元素相同，顺序不同</span></span><br><span class="line"><span class="comment">// hash_map</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isPermutation</span><span class="params">(<span class="built_in">string</span> stringA, <span class="built_in">string</span> stringB)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(stringA.length() != stringB.length())&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; hashMapA;</span><br><span class="line">	<span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; hashMapB;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">auto</span> elementA : stringA)&#123;</span><br><span class="line">		hashMapA[elementA]++;</span><br><span class="line">		hashMapB[elementA]++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(hashMapA.size() != hashMapB.size())&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">auto</span> elementB : hashMapA)&#123;</span><br><span class="line">		<span class="keyword">if</span>(elementB.second != hashMapB[elementB.first])&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="std-array-和-std-forward-list"><a href="#std-array-和-std-forward-list" class="headerlink" title="std::array 和 std::forward_list"></a>std::array 和 std::forward_list</h3><p><code>std::array</code> 是一个固定大小的数组容器，相比<code>std::vector</code>（堆内存）, 它申请的内存是在栈上的，访问其中元素会更加灵活，性能更高，内存消耗更少。 <code>std::array</code>不能被隐式转换为指针。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">( <span class="keyword">int</span> *p, <span class="keyword">int</span> len)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span> :: <span class="built_in">array</span> &lt;<span class="keyword">int</span> , 4&gt; arr = &#123;<span class="number">1</span> ,<span class="number">2</span> ,<span class="number">3</span> ,<span class="number">4</span>&#125;; <span class="comment">// 传入元素类型和个数即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// C风格接口传参</span></span><br><span class="line"><span class="comment">// foo (arr , arr . size ()); // 非法 ,无法隐式转换</span></span><br><span class="line">foo (&amp; arr [<span class="number">0</span>] , arr. size ());</span><br></pre></td></tr></table></figure></p>
+<p><code>std::forward_list</code> 内部实现则是一个单向链表，使用接口和<code>std::list</code>基本类似，相比于<code>std::list</code>来说，如果是一些无需双向迭代的场景，<code>std::forward_list</code> 空间利用率更高。</p>
+<h3 id="std-tuple"><a href="#std-tuple" class="headerlink" title="std::tuple"></a>std::tuple</h3><p>传统 <code>C++</code> 中的容器，除了 <code>std::pair</code> 外，似乎没有现成的结构能够⽤来存放不同类型的数据（通常我们会自己定义结构）。但 <code>std::pair</code> 的缺陷是显⽽易见的，只能保存两个元素。<code>std::tuple</code> 元组则可以保存多个不同类型的元素。<br>主要接口：</p>
+<blockquote>
+<p>std::make_tuple: 构造元组<br>std::get: 获得元组某个位置的值<br>std::tie: 元组拆包</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造元组</span></span><br><span class="line"><span class="keyword">auto</span> student = <span class="built_in">std</span> :: make_tuple (<span class="number">3.8</span> , <span class="string">'A'</span>, <span class="string">" 张 三 "</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获得元组某个位置的值</span></span><br><span class="line"><span class="built_in">std</span>::get &lt;<span class="number">0</span>&gt;(student)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拆包</span></span><br><span class="line"><span class="keyword">double</span> gpa;</span><br><span class="line"><span class="keyword">char</span> grade ;</span><br><span class="line"><span class="built_in">std</span> :: <span class="built_in">string</span> name ;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span> :: tie(gpa , grade , name) = student;</span><br></pre></td></tr></table></figure>
+<h2 id="标准库扩充：智能指针"><a href="#标准库扩充：智能指针" class="headerlink" title="标准库扩充：智能指针"></a>标准库扩充：智能指针</h2><p>在构造函数的时候申请空间，⽽在析构函数（在离开作⽤域时调⽤）的时候释放空间，也就是我们常说的 RAII 资源获取即初始化技术，智能指针就是使用了该技术。</p>
+<p>这一部分，我就不介绍了，因为之前已经分析过了，具体见：</p>
+<blockquote>
+<p>unique_ptr: <a href="https://www.cnblogs.com/blog-yejy/p/8972858.html" target="_blank" rel="noopener">https://www.cnblogs.com/blog-yejy/p/8972858.html</a><br>shared_ptr: <a href="https://www.cnblogs.com/blog-yejy/p/9030722.html" target="_blank" rel="noopener">https://www.cnblogs.com/blog-yejy/p/9030722.html</a><br>weak_ptr: <a href="https://www.cnblogs.com/blog-yejy/p/9727070.html" target="_blank" rel="noopener">https://www.cnblogs.com/blog-yejy/p/9727070.html</a></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>C++11</code> 比之前版本好用很多有没有，语言可用性强化方面的各种修缮，以及新增语法糖，运行期强化部分的 <code>Lambda</code>表达式，右值引用对性能的极大提升，智能指针对资源管理的强化，新增容器对旧有容器的适用场景补充等, <code>C++</code> 语言正变得越来越好，日久弥新。至于新加入的线程库和正则表达式支持，后续再统一介绍，线程相关总体和陈硕老师的<code>muduo</code>网络库中的封装思路是类似的，使用方式也不会相差太多。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p>Effective Modern C++<br>高速上手 C++11/14/17<br><a href="https://thispointer.com/c11-tutorial/" target="_blank" rel="noopener">https://thispointer.com/c11-tutorial/</a><br><a href="https://blog.csdn.net/ink_cherry/article/details/74573225" target="_blank" rel="noopener">https://blog.csdn.net/ink_cherry/article/details/74573225</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/02/23/C-11/" title="C++ 11">https://mikeblog.top/2019/02/23/C-11/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/15/C-对象模型/" rel="next" title="C++ 对象模型">
+                <i class="fa fa-chevron-left"></i> C++ 对象模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/05/Linux-程序异常排查/" rel="prev" title="Linux 程序异常排查">
+                Linux 程序异常排查 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://thispointer.com" title="thispointer" target="_blank">thispointer</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言可用性的强化"><span class="nav-number">2.</span> <span class="nav-text">语言可用性的强化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nullptr-和-constexpr"><span class="nav-number">2.1.</span> <span class="nav-text">nullptr 和 constexpr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型推导-auto-和-decltype"><span class="nav-number">2.2.</span> <span class="nav-text">类型推导 (auto 和 decltype)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表初始化"><span class="nav-number">2.3.</span> <span class="nav-text">列表初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区间-for-迭代"><span class="nav-number">2.4.</span> <span class="nav-text">区间 for 迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板别名"><span class="nav-number">2.5.</span> <span class="nav-text">模板别名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板变长参数"><span class="nav-number">2.6.</span> <span class="nav-text">模板变长参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#override-和-final"><span class="nav-number">2.7.</span> <span class="nav-text">override 和 final</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言运行期的强化"><span class="nav-number">3.</span> <span class="nav-text">语言运行期的强化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda-表达式"><span class="nav-number">3.1.</span> <span class="nav-text">Lambda 表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-function"><span class="nav-number">3.2.</span> <span class="nav-text">std::function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-bind-std-placeholder"><span class="nav-number">3.3.</span> <span class="nav-text">std::bind/std::placeholder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#右值引用"><span class="nav-number">3.4.</span> <span class="nav-text">右值引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#移动语义"><span class="nav-number">3.4.1.</span> <span class="nav-text">移动语义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完美转发"><span class="nav-number">3.4.2.</span> <span class="nav-text">完美转发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准库扩充：新增容器"><span class="nav-number">4.</span> <span class="nav-text">标准库扩充：新增容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#std-unordered-map-和-std-unordered-set"><span class="nav-number">4.1.</span> <span class="nav-text">std::unordered_map 和 std::unordered_set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-array-和-std-forward-list"><span class="nav-number">4.2.</span> <span class="nav-text">std::array 和 std::forward_list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-tuple"><span class="nav-number">4.3.</span> <span class="nav-text">std::tuple</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准库扩充：智能指针"><span class="nav-number">5.</span> <span class="nav-text">标准库扩充：智能指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/02/23/C-11/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

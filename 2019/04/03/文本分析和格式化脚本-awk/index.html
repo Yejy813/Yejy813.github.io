@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Awk 简介 有时候，我们需要非常强有力的工具，来控制和处理我们的数据文件，达到对文件进行分析、统计、格式化输出的效果，没错，Awk 就是这样一款工具。">
+<meta name="keywords" content="script">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本分析和格式化脚本-Awk">
+<meta property="og:url" content="https://mikeblog.top/2019/04/03/文本分析和格式化脚本-awk/index.html">
+<meta property="og:site_name" content="Mike&#39;s Blog">
+<meta property="og:description" content="Awk 简介 有时候，我们需要非常强有力的工具，来控制和处理我们的数据文件，达到对文件进行分析、统计、格式化输出的效果，没错，Awk 就是这样一款工具。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/awk.png?raw=true">
+<meta property="og:updated_time" content="2019-08-17T07:34:26.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文本分析和格式化脚本-Awk">
+<meta name="twitter:description" content="Awk 简介 有时候，我们需要非常强有力的工具，来控制和处理我们的数据文件，达到对文件进行分析、统计、格式化输出的效果，没错，Awk 就是这样一款工具。">
+<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/awk.png?raw=true">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mike's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://mikeblog.top/2019/04/03/文本分析和格式化脚本-awk/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>文本分析和格式化脚本-Awk | Mike's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/04/03/文本分析和格式化脚本-awk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiayun-Ye">
+      <meta itemprop="description" content="Done is better than Perfect">
+      <meta itemprop="image" content="/images/ha.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文本分析和格式化脚本-Awk
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 20:50:27" itemprop="dateCreated datePublished" datetime="2019-04-03T20:50:27+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-17 15:34:26" itemprop="dateModified" datetime="2019-08-17T15:34:26+08:00">2019-08-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/03/文本分析和格式化脚本-awk/" class="leancloud_visitors" data-flag-title="文本分析和格式化脚本-Awk">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">8.7k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Awk-简介"><a href="#Awk-简介" class="headerlink" title="Awk 简介"></a>Awk 简介</h2><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7/awk.png?raw=true" class="full-image" alt="alt" title="Awk工作流程图"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
+<div class="note warning"><p><strong>有时候，我们需要非常强有力的工具，来控制和处理我们的数据文件，达到对文件进行分析、统计、格式化输出的效果，没错，<code>Awk</code> 就是这样一款工具。</strong> </p></div>
+<a id="more"></a>
+<p><code>awk</code> 命令或 <code>GNU awk</code> 提供了用于处理文本的脚本语言。使用 <code>awk</code> 脚本语言，您可以进行以下操作：</p>
+<blockquote>
+<p>定义变量。<br>使用字符串和算术运算符。<br>使用控制流和循环。<br>生成格式化报告。</p>
+</blockquote>
+<p>当然，我们可以使用 <code>awk</code> 处理包含数百万行的日志文件，以输出可以从中受益的可读报告，除此之外，在<code>Linux</code>下，当你想要对文本进行其他非常细致的处理，<code>awk</code>基本都可以很好的胜任，特别是当它与<code>sed</code> <code>grep</code> 配合起来，可以对文件进行全方位的分析处理。</p>
+<p>官方手册:</p>
+<blockquote>
+<p><strong><a href="https://www.gnu.org/software/gawk/manual/html_node/index.html#SEC_Contents" target="_blank" rel="noopener">https://www.gnu.org/software/gawk/manual/html_node/index.html#SEC_Contents</a></strong></p>
+</blockquote>
+<h2 id="Awk-Options-选项参数"><a href="#Awk-Options-选项参数" class="headerlink" title="Awk Options (选项参数)"></a>Awk Options (选项参数)</h2><p><code>awk</code> 命令使用如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> awk options program file</span></span><br></pre></td></tr></table></figure></p>
+<p>我们可以携带以下选择参数：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-F fs     To specify a file separator. 分隔符</span><br><span class="line"></span><br><span class="line">-f file     To specify a file that contains awk script. 脚本文件</span><br><span class="line"></span><br><span class="line">-v var=value     To declare a variable. 变量</span><br></pre></td></tr></table></figure></p>
+<p>我们接下来将看到如何使用 <code>awk</code>处理文件和打印结果。</p>
+<h2 id="Read-Awk-Scripts-脚本读取"><a href="#Read-Awk-Scripts-脚本读取" class="headerlink" title="Read Awk Scripts (脚本读取)"></a>Read Awk Scripts (脚本读取)</h2><p>我们要定义一个 <code>awk</code> 脚本，我们需要使用<strong>单引号括起来的大括号</strong>，如下所示：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 'this is a test' | awk '&#123;print $3&#125;' # 打印 a</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>echo</code>输出一句话，然后通过 <code>|</code> 管道执行 <code>awk</code> 指令，打印出第三个字段（Fileds）。</p>
+<h2 id="Using-Variables-变量"><a href="#Using-Variables-变量" class="headerlink" title="Using Variables (变量)"></a>Using Variables (变量)</h2><p>使用 <code>awk</code>，您可以处理文本文件。 <code>Awk</code> 为找到的每个数据字段分配一些变量：</p>
+<blockquote>
+<ul>
+<li>$0 for the whole line.</li>
+<li>$1 for the first field.</li>
+<li>$2 for the second field.</li>
+<li>$n for the nth field.</li>
+</ul>
+</blockquote>
+<p>像空格或制表符这样的空白字符是<code>awk</code>中字段之间的默认分隔符。</p>
+<p>我们看下这个示例，看下<code>awk</code>如何处理它：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@yejy myshare]# cat myfile </span><br><span class="line">This is a test.</span><br><span class="line">This is the second test.</span><br><span class="line">This is the thrid test.</span><br><span class="line">This is the fourth test.</span><br><span class="line">[root@yejy myshare]# </span><br><span class="line">[root@yejy myshare]# awk '&#123;print $1&#125;' myfile </span><br><span class="line">This</span><br><span class="line">This</span><br><span class="line">This</span><br><span class="line">This</span><br><span class="line">[root@yejy myshare]#</span><br></pre></td></tr></table></figure></p>
+<p>上面这个示例会打印出每一行的第一个字段（filed）。</p>
+<p>有时某些文件中的分隔符不是空格，也不是制表符，而是其他内容。 您可以使用<code>-F</code>选项指定它：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@yejy myshare]# awk -F : &apos;&#123;print $1&#125;&apos; /etc/passwd</span><br><span class="line">root</span><br><span class="line">bin</span><br><span class="line">daemon</span><br><span class="line">adm</span><br><span class="line">lp</span><br><span class="line">sync</span><br><span class="line">shutdown</span><br><span class="line">halt</span><br><span class="line">mail</span><br><span class="line">operator</span><br><span class="line">games</span><br><span class="line">ftp</span><br><span class="line">nobody</span><br><span class="line">systemd-bus-proxy</span><br><span class="line">systemd-network</span><br><span class="line">dbus</span><br><span class="line">polkitd</span><br><span class="line">abrt</span><br><span class="line">unbound</span><br></pre></td></tr></table></figure></p>
+<p>这个命令打印 <code>passwd</code> 文件中的第一个字段。 我们使用冒号作为分隔符，因为 <code>passwd</code> 文件使用了它。</p>
+<h2 id="Using-Multiple-Commands-多命令"><a href="#Using-Multiple-Commands-多命令" class="headerlink" title="Using Multiple Commands (多命令)"></a>Using Multiple Commands (多命令)</h2><p>要运行多个命令，请使用分号分隔它们，如下所示：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ echo "hello yejy" | awk '&#123;$2="daianqi"; print $0&#125;'</span><br><span class="line">hello daianqi</span><br></pre></td></tr></table></figure></p>
+<p>第一个命令使<code>$2</code>字段等于<code>yejy</code>，第二个命令打印整行。</p>
+<h2 id="Reading-The-Script-From-a-File-文件中读取-awk-脚本"><a href="#Reading-The-Script-From-a-File-文件中读取-awk-脚本" class="headerlink" title="Reading The Script From a File (文件中读取 awk 脚本)"></a>Reading The Script From a File (文件中读取 awk 脚本)</h2><p>我们可以在文件中写入 <code>awk</code> 脚本，并使用 <code>-f</code> 选项指定该文件执行。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ cat testfile </span><br><span class="line">&#123;</span><br><span class="line">    print $1 " home at " $6</span><br><span class="line">&#125;</span><br><span class="line">-bash-4.2$ awk -F: -f testfile /etc/passwd                   </span><br><span class="line">root home at /root</span><br><span class="line">bin home at /bin</span><br><span class="line">daemon home at /sbin</span><br><span class="line">adm home at /var/adm</span><br><span class="line">lp home at /var/spool/lpd</span><br><span class="line">sync home at /sbin</span><br><span class="line">shutdown home at /sbin</span><br><span class="line">halt home at /sbin</span><br><span class="line">mail home at /var/spool/mail</span><br></pre></td></tr></table></figure></p>
+<p>这里我们从 <code>/etc/passwd</code> 打印用户名和他的主路径，当然分隔符是用冒号 <code>-F</code>。</p>
+<p>你也可以像这样写 <code>awk</code> 脚本文件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  text = $1 " home at " $6</span><br><span class="line">  print text  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Awk-Preprocessing-预处理"><a href="#Awk-Preprocessing-预处理" class="headerlink" title="Awk Preprocessing (预处理)"></a>Awk Preprocessing (预处理)</h2><p>如果您需要为结果创建标题, 您可以使用 <code>BEGIN</code> 关键字来实现此目的, 它在处理数据之前运行：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk 'BEGIN&#123;print "Report Title"&#125;&#123;print $0&#125;' myfile</span><br><span class="line">Report Title</span><br><span class="line">This is a test.</span><br><span class="line">This is the second test.</span><br><span class="line">This is the thrid test.</span><br><span class="line">This is the fourth test.</span><br></pre></td></tr></table></figure></p>
+<h2 id="Awk-Postprocessing-后期处理"><a href="#Awk-Postprocessing-后期处理" class="headerlink" title="Awk Postprocessing (后期处理)"></a>Awk Postprocessing (后期处理)</h2><p>要在处理数据后运行脚本，请使用<code>END</code>关键字：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk 'BEGIN&#123;print "Report Title"&#125; &#123;print $0&#125; END&#123;print "file footer"&#125;' myfile </span><br><span class="line">Report Title</span><br><span class="line">This is a test.</span><br><span class="line">This is the second test.</span><br><span class="line">This is the thrid test.</span><br><span class="line">This is the fourth test.</span><br><span class="line">file footer</span><br><span class="line">-bash-4.2$</span><br></pre></td></tr></table></figure></p>
+<p>这个很有用，我们可以用这个来添加页脚。<br>我们把这些集合在一起，写到一个脚本文件里面：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">BEGIN&#123;</span><br><span class="line">print "Users and thier corresponding home"</span><br><span class="line">print " UserName \t HomePath"</span><br><span class="line">print "___________ \t __________"</span><br><span class="line">FS=":"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">print $1 " \t " $6</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">END&#123;</span><br><span class="line">print "the end"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先，使用 <code>BEGIN</code> 关键字创建顶部。 然后我们定义<code>FS</code>并在末尾打印页脚。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk -f testfile /etc/passwd</span><br><span class="line">Users and thier corresponding home</span><br><span class="line"> UserName        HomePath</span><br><span class="line">___________      __________</span><br><span class="line">root     /root</span><br><span class="line">bin      /bin</span><br><span class="line">daemon   /sbin</span><br><span class="line">adm      /var/adm</span><br><span class="line">lp       /var/spool/lpd</span><br><span class="line">sync     /sbin</span><br><span class="line">shutdown         /sbin</span><br><span class="line">halt     /sbin</span><br><span class="line">mail     /var/spool/mail</span><br><span class="line">operator         /root</span><br><span class="line">games    /usr/games</span><br><span class="line">ftp      /var/ftp</span><br></pre></td></tr></table></figure>
+<h2 id="Built-in-Variables-内建变量"><a href="#Built-in-Variables-内建变量" class="headerlink" title="Built-in Variables (内建变量)"></a>Built-in Variables (内建变量)</h2><p>我们看到数据字段变量 <code>$1，$2，$3</code> 等用于提取数据字段，我们还处理字段分隔符 <code>FS</code>。<code>awk</code>的内建变量其实还有很多。<br>下面列举一些比较常见的：</p>
+<blockquote>
+<ul>
+<li>FIELDWIDTHS &emsp;&emsp;    Specifies the field width.</li>
+<li>RS          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;    Specifies the record separator.</li>
+<li>FS          &emsp;&emsp;&emsp;&emsp;    Specifies the field separator.</li>
+<li>OFS         &emsp;&emsp;    Specifies the Output separator.</li>
+<li>ORS         &emsp;&emsp;    Specifies the Output separator.</li>
+</ul>
+</blockquote>
+<p>默认情况下，<code>OFS</code>变量是空格，您可以设置 <code>OFS</code> 变量以指定所需的分隔符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;BEGIN&#123;FS=&quot;:&quot;; OFS=&quot;-&quot;&#125; &#123;print $1,$6,$7&#125;&apos; /etc/passwd</span><br><span class="line">root-/root-/bin/bash</span><br><span class="line">bin-/bin-/sbin/nologin</span><br><span class="line">daemon-/sbin-/sbin/nologin</span><br><span class="line">adm-/var/adm-/sbin/nologin</span><br><span class="line">lp-/var/spool/lpd-/sbin/nologin</span><br><span class="line">sync-/sbin-/bin/sync</span><br><span class="line">shutdown-/sbin-/sbin/shutdown</span><br><span class="line">halt-/sbin-/sbin/halt</span><br><span class="line">mail-/var/spool/mail-/sbin/nologin</span><br><span class="line">operator-/root-/sbin/nologin</span><br><span class="line">games-/usr/games-/sbin/nologin</span><br><span class="line">ftp-/var/ftp-/sbin/nologin</span><br><span class="line">nobody-/-/sbin/nologin</span><br><span class="line">systemd-bus-proxy-/-/sbin/nologin</span><br><span class="line">systemd-network-/-/sbin/nologin</span><br></pre></td></tr></table></figure></p>
+<p>有时，字段是在没有固定分隔符的情况下分发的。 在这些情况下，<code>FIELDWIDTHS</code>变量解决了这个问题。<br>假如我们有这样一个文件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ cat myfile </span><br><span class="line">1235.96521 </span><br><span class="line">927-8.3652</span><br><span class="line">36257.8157</span><br></pre></td></tr></table></figure></p>
+<p>看下处理结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;BEGIN&#123;FIELDWIDTHS=&quot;3 4 3&quot;&#125; &#123;print $1,$2,$3&#125;&apos; myfile </span><br><span class="line">123 5.96 521</span><br><span class="line">927 -8.3 652</span><br><span class="line">362 57.8 157</span><br></pre></td></tr></table></figure></p>
+<p>看看输出，输出字段为每行3个，每个字段长度基于<code>FIELDWIDTH</code>指定的内容。</p>
+<p>假设您的数据分布在不同的行上，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ cat myfile </span><br><span class="line">person Name </span><br><span class="line">123 High Street</span><br><span class="line">(222) 466-1234</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">Another person</span><br><span class="line">487 High Street</span><br><span class="line">(523) 643-8754</span><br></pre></td></tr></table></figure></p>
+<p>在上面的示例中，<code>awk</code>无法正确处理字段，因为字段是换行符而不是空格分隔。<br>您需要将<code>FS</code>设置为换行符<code>（\n）</code>并将<code>RS</code>设置为空白文本，因此空行将被视为分隔符。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk 'BEGIN&#123;FS="\n";RS=""&#125; &#123;print $1,$3&#125;' myfile </span><br><span class="line">person Name  (222) 466-1234</span><br><span class="line">Another person (523) 643-8754</span><br></pre></td></tr></table></figure></p>
+<p>是不是很棒，我们可以正确阅读记录(<code>record</code>)和字段(<code>filed</code>)。</p>
+<h2 id="More-Variables-更多变量"><a href="#More-Variables-更多变量" class="headerlink" title="More Variables (更多变量)"></a>More Variables (更多变量)</h2><p>还有一些其他变量可以帮助我们获取更多信息：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ARGC     Retrieves the number of passed parameters.</span><br><span class="line"></span><br><span class="line">ARGV     Retrieves the command line parameters.</span><br><span class="line"></span><br><span class="line">ENVIRON     Array of the shell environment variables and corresponding values.</span><br><span class="line"></span><br><span class="line">FILENAME    The file name that is processed by awk.</span><br><span class="line"></span><br><span class="line">NF     Fields count of the line being processed.</span><br><span class="line"></span><br><span class="line">NR    Retrieves total count of processed records.</span><br><span class="line"></span><br><span class="line">FNR     The record which is processed.</span><br><span class="line"></span><br><span class="line">IGNORECASE     To ignore the character case.</span><br></pre></td></tr></table></figure></p>
+<p>看下这条指令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk 'BEGIN&#123;print ARGC,ARGV[1]&#125;' myfile</span><br><span class="line">2 myfile</span><br></pre></td></tr></table></figure></p>
+<p>其实很好理解，每个进程执行的时候，都会带参数，和<code>C</code>语言的<code>main</code>函数带的参数是一致的。<code>ARGC</code> 参数个数，<code>ARGV</code> 二阶字符数组，打印具体参数。</p>
+<p><code>ENVIRON</code>变量检索<code>shell</code>环境变量，如下所示：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk 'BEGIN&#123;print ENVIRON["PATH"]&#125;'</span><br><span class="line">/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin</span><br></pre></td></tr></table></figure></p>
+<p>我们可以使用没有<code>ENVIRON</code>变量的<code>bash</code>变量，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ echo | awk -v home=$HOME &apos;&#123;print &quot;my home is &quot; home&#125;&apos;</span><br><span class="line">my home is /home/willy</span><br></pre></td></tr></table></figure></p>
+<p><code>NF</code>变量指定记录中的最后一个字段，但不知道其位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;BEGIN&#123;FS=&quot;:&quot;; OFS=&quot;-&quot;&#125;&#123;print $1,$(NF-1)&#125;&apos; /etc/passwd</span><br><span class="line">root-/root</span><br><span class="line">bin-/bin</span><br><span class="line">daemon-/sbin</span><br><span class="line">adm-/var/adm</span><br><span class="line">lp-/var/spool/lpd</span><br><span class="line">sync-/sbin</span><br><span class="line">shutdown-/sbin</span><br><span class="line">halt-/sbin</span><br><span class="line">mail-/var/spool/mail</span><br><span class="line">operator-/root</span><br><span class="line">games-/usr/games</span><br><span class="line">ftp-/var/ftp</span><br><span class="line">nobody-/</span><br><span class="line">systemd-bus-proxy-/</span><br><span class="line">systemd-network-/</span><br></pre></td></tr></table></figure></p>
+<p>让我们看看这个例子来了解 <code>FNR</code> 和 <code>NR</code> 变量之间的区别：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;BEGIN&#123;FS=&quot;,&quot;&#125;&#123;print $1 &quot;FNR = &quot; FNR &quot;  NR = &quot; NR&#125;&apos; myfile myfile </span><br><span class="line">person Name FNR = 1  NR = 1</span><br><span class="line">123 High StreetFNR = 2  NR = 2</span><br><span class="line">(222) 466-1234FNR = 3  NR = 3</span><br><span class="line">Another personFNR = 4  NR = 4</span><br><span class="line">487 High StreetFNR = 5  NR = 5</span><br><span class="line">(523) 643-8754FNR = 6  NR = 6</span><br><span class="line">person Name FNR = 1  NR = 7</span><br><span class="line">123 High StreetFNR = 2  NR = 8</span><br><span class="line">(222) 466-1234FNR = 3  NR = 9</span><br><span class="line">Another personFNR = 4  NR = 10</span><br><span class="line">487 High StreetFNR = 5  NR = 11</span><br><span class="line">(523) 643-8754FNR = 6  NR = 12</span><br></pre></td></tr></table></figure></p>
+<p>在此示例中，<code>awk</code>命令定义了两个输入文件, 相同的文件，但处理了两次, 输出是第一个字段值和<code>FNR</code>和<code>NR</code>变量。很容易可以看出，<code>NR</code>是当前正在处理的<code>record</code>的总序列数，<code>FNR</code>则在到达第二个文件时，<code>FNR</code>变量会变成1，<code>NR</code>不会。</p>
+<h2 id="User-Defined-Variables（自己定义的变量）"><a href="#User-Defined-Variables（自己定义的变量）" class="headerlink" title="User Defined Variables（自己定义的变量）"></a>User Defined Variables（自己定义的变量）</h2><p>变量名可以是任何名称，但它不能以数字开头。和<code>shell</code>脚本基本一致，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;BEGIN&#123;test=&quot;this is a test&quot;; print test&#125;&apos;</span><br><span class="line">this is a test</span><br></pre></td></tr></table></figure></p>
+<h2 id="Structured-Commands（类-C-语言）"><a href="#Structured-Commands（类-C-语言）" class="headerlink" title="Structured Commands（类 C 语言）"></a>Structured Commands（类 C 语言）</h2><p><code>awk</code> 脚本语言支持 <code>if</code> 条件语句、<code>While</code>、<code>for</code>循环（其中也支持<code>break</code>），以及格式化输出<code>printf</code>，和<code>C</code>语言基本一致，这个就不详细介绍了，注意换行就行，避免出现格式错误。</p>
+<p><code>myfile</code>包含以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ cat myfile </span><br><span class="line">10</span><br><span class="line"></span><br><span class="line">15</span><br><span class="line"></span><br><span class="line">6</span><br><span class="line"></span><br><span class="line">33</span><br><span class="line"></span><br><span class="line">45</span><br><span class="line"></span><br><span class="line">-bash-4.2$ awk &apos;&#123;if($1 &gt; 30)&#123;print $1&#125;&#125;&apos; myfile </span><br><span class="line">33</span><br><span class="line">45</span><br></pre></td></tr></table></figure></p>
+<p>如果要加入其它分支，可以这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-bash-4.2$ awk &apos;&#123;if($1 &gt; 30)&#123;print $1&#125;else&#123;x = $1 / 2; print x&#125;&#125;&apos; myfile            </span><br><span class="line">5</span><br><span class="line">0</span><br><span class="line">7.5</span><br><span class="line">0</span><br><span class="line">3</span><br><span class="line">0</span><br><span class="line">33</span><br><span class="line">0</span><br><span class="line">45</span><br></pre></td></tr></table></figure></p>
+<p>写法不太美观，如果在文件中写，需要分行。</p>
+<p>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">// 格式化输出</span><br><span class="line">awk &apos;BEGIN&#123;</span><br><span class="line"> </span><br><span class="line">x = 100 * 100</span><br><span class="line"> </span><br><span class="line">printf &quot;The result is: %e\n&quot;, x</span><br><span class="line"> </span><br><span class="line">&#125;&apos;</span><br><span class="line"></span><br><span class="line">// while 循环</span><br><span class="line">awk &apos;&#123;</span><br><span class="line"> </span><br><span class="line">tot = 0</span><br><span class="line"> </span><br><span class="line">i = 1</span><br><span class="line"> </span><br><span class="line">while (i &lt; 5)</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">tot += $i</span><br><span class="line"> </span><br><span class="line">if (i == 3)</span><br><span class="line"> </span><br><span class="line">break</span><br><span class="line"> </span><br><span class="line">i++</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">average = tot / 3</span><br><span class="line"> </span><br><span class="line">print &quot;Average is:&quot;,average</span><br><span class="line"> </span><br><span class="line">&#125; myfile</span><br><span class="line"></span><br><span class="line">// for循环</span><br><span class="line">awk &apos;&#123;</span><br><span class="line"> </span><br><span class="line">total = 0</span><br><span class="line"> </span><br><span class="line">for (var = 1; var &lt; 5; var++)</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">total += $var</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">avg = total / 3</span><br><span class="line"> </span><br><span class="line">print &quot;Average:&quot;,avg</span><br><span class="line"> </span><br><span class="line">&#125;&apos; myfile</span><br></pre></td></tr></table></figure></p>
+<h2 id="Built-In-Functions-（内建函数）"><a href="#Built-In-Functions-（内建函数）" class="headerlink" title="Built-In Functions （内建函数）"></a>Built-In Functions （内建函数）</h2><p>这个内建函数需要我们自己去了解熟悉，<code>awk</code> 为我们提供了数学计算，字符串处理等，如果想深入了解，可以查看<a href="https://www.gnu.org/software/gawk/manual/html_node/Built_002din.html#Built_002din" target="_blank" rel="noopener">官方手册</a>。除了内建函数，我们也可以自定义函数，方式和<code>shell</code>一致。</p>
+<p>比较常用的如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">数学：</span><br><span class="line">sin(x) | cos(x) | sqrt(x) | exp(x) | log(x) | rand()</span><br><span class="line"></span><br><span class="line">字符串：</span><br><span class="line">length() | substr() | sprintf() |  match() | tolower() | toupper()</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，<code>awk</code> 是一种非常人性化的语言，吸收了<code>C</code>语言的结构控制、格式化输出等特性，很多时候写着写着会感觉是在写<code>C</code>语言，然后又兼具脚本语言的特性（临时解析执行，命名方便、快速开发等），功能也较全面，如果你是在<code>Linux</code> 下从事开发工作，建议你一定要学习一些 <code>awk</code>知识。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Jiayun-Ye</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://mikeblog.top/2019/04/03/文本分析和格式化脚本-awk/" title="文本分析和格式化脚本-Awk">https://mikeblog.top/2019/04/03/文本分析和格式化脚本-awk/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/script/" rel="tag"><i class="fa fa-tag"></i> script</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/31/经典排序算法/" rel="next" title="经典排序算法">
+                <i class="fa fa-chevron-left"></i> 经典排序算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDYxMC8xNzEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/ha.png" alt="Jiayun-Ye">
+            
+              <p class="site-author-name" itemprop="name">Jiayun-Ye</p>
+              <p class="site-description motion-element" itemprop="description">Done is better than Perfect</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Yejy813" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yejiayun159@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/blog-yejy/" title="blog-yejy" target="_blank">blog-yejy</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://thispointer.com" title="thispointer" target="_blank">thispointer</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.acolyer.org" title="the-morning-paper" target="_blank">the-morning-paper</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Awk-简介"><span class="nav-number">1.</span> <span class="nav-text">Awk 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Awk-Options-选项参数"><span class="nav-number">2.</span> <span class="nav-text">Awk Options (选项参数)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-Awk-Scripts-脚本读取"><span class="nav-number">3.</span> <span class="nav-text">Read Awk Scripts (脚本读取)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Variables-变量"><span class="nav-number">4.</span> <span class="nav-text">Using Variables (变量)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Multiple-Commands-多命令"><span class="nav-number">5.</span> <span class="nav-text">Using Multiple Commands (多命令)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reading-The-Script-From-a-File-文件中读取-awk-脚本"><span class="nav-number">6.</span> <span class="nav-text">Reading The Script From a File (文件中读取 awk 脚本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Awk-Preprocessing-预处理"><span class="nav-number">7.</span> <span class="nav-text">Awk Preprocessing (预处理)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Awk-Postprocessing-后期处理"><span class="nav-number">8.</span> <span class="nav-text">Awk Postprocessing (后期处理)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Built-in-Variables-内建变量"><span class="nav-number">9.</span> <span class="nav-text">Built-in Variables (内建变量)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-Variables-更多变量"><span class="nav-number">10.</span> <span class="nav-text">More Variables (更多变量)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Defined-Variables（自己定义的变量）"><span class="nav-number">11.</span> <span class="nav-text">User Defined Variables（自己定义的变量）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Structured-Commands（类-C-语言）"><span class="nav-number">12.</span> <span class="nav-text">Structured Commands（类 C 语言）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Built-In-Functions-（内建函数）"><span class="nav-number">13.</span> <span class="nav-text">Built-In Functions （内建函数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">14.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright"> &copy; 2018 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiayun-Ye</span>
+
+  
+
+  
+</div>
+
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/04/03/文本分析和格式化脚本-awk/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "leunueKKmG9EHXwvcqaB2EhX-gzGzoHsz",
+                'X-LC-Key': "FMv3Kbmfiv0zXUKpStYHLgKi",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+  
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
