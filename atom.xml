@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2019-08-17T07:34:26.496Z</updated>
+  <updated>2020-04-19T14:21:00.195Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>好久不见</title>
+    <link href="https://mikeblog.top/2020/04/19/long-time-no-see/"/>
+    <id>https://mikeblog.top/2020/04/19/long-time-no-see/</id>
+    <published>2020-04-19T13:02:26.000Z</published>
+    <updated>2020-04-19T14:21:00.195Z</updated>
+    
+    <summary type="html">
+    
+      &lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;&lt;strong&gt;生活还在继续,它不会因为我们伤心了、后悔了、绝望了就停下脚步  –2020&lt;/strong&gt; &lt;/p&gt;&lt;/div&gt;
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="https://mikeblog.top/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>文本分析和格式化脚本-Awk</title>
@@ -158,7 +176,7 @@
     <link href="https://mikeblog.top/2019/01/26/CMake/"/>
     <id>https://mikeblog.top/2019/01/26/CMake/</id>
     <published>2019-01-26T14:37:26.000Z</published>
-    <updated>2019-08-17T07:34:26.492Z</updated>
+    <updated>2020-04-19T13:10:08.627Z</updated>
     
     <summary type="html">
     
@@ -210,9 +228,9 @@
     </summary>
     
     
-      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
-    
       <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
+    
+      <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
     
   </entry>
   
@@ -396,25 +414,6 @@
 &lt;li&gt;由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态；&lt;/li&gt;
 &lt;li&gt;不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)；&lt;/li&gt;
 &lt;li&gt;每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中&lt;br&gt;脱离出来，加入到另一个队列。
-    
-    </summary>
-    
-    
-      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>操作系统--进程管理(一)</title>
-    <link href="https://mikeblog.top/2018/11/02/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%80-2018-11-2/"/>
-    <id>https://mikeblog.top/2018/11/02/操作系统-进程管理一-2018-11-2/</id>
-    <published>2018-11-02T14:23:29.000Z</published>
-    <updated>2019-08-17T07:34:26.495Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;缅怀&quot;&gt;&lt;a href=&quot;#缅怀&quot; class=&quot;headerlink&quot; title=&quot;缅怀&quot;&gt;&lt;/a&gt;缅怀&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/rose.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
-&lt;p&gt;就在昨天，MVP 的呼声响彻标靶中心球馆，步入不惑的玫瑰，拿下了生涯新高 50 分，曾经的天之骄子，风城玫瑰，NBA 历史上最年轻的常规赛 MVP，经过多年坎途，不曾在病魔面前哭泣，而在昨天却低下了头，落下了泪…   感慨万千，脑海中记着的依然是 09 年那一轮史诗级季后赛，还有那个给芝加哥带来无限希望的玫瑰。此刻，向传奇致敬！加油，罗斯！&lt;br&gt;
     
     </summary>
     
