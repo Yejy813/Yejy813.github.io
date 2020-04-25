@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mikeblog.top/"/>
-  <updated>2020-04-19T14:21:00.195Z</updated>
+  <updated>2020-04-25T13:24:15.921Z</updated>
   <id>https://mikeblog.top/</id>
   
   <author>
@@ -15,6 +15,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 protobuf 进行数据序列化</title>
+    <link href="https://mikeblog.top/2020/04/25/%E4%BD%BF%E7%94%A8-protobuf-%E8%BF%9B%E8%A1%8C%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <id>https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/</id>
+    <published>2020-04-25T08:48:11.000Z</published>
+    <updated>2020-04-25T13:24:15.921Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;protobuf-介绍&quot;&gt;&lt;a href=&quot;#protobuf-介绍&quot; class=&quot;headerlink&quot; title=&quot;protobuf 介绍&quot;&gt;&lt;/a&gt;protobuf 介绍&lt;/h2&gt;&lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;&lt;strong&gt;protocol buffers 是Google出品的一种语言无关、平台无关、可扩展的序列化结构数据的方法，主要用于网络数据通信、数据存储等，相对于 xml、json 等结构化数据，它更小，更快，更简单。&lt;/strong&gt; &lt;/p&gt;&lt;/div&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>好久不见</title>
@@ -176,7 +192,7 @@
     <link href="https://mikeblog.top/2019/01/26/CMake/"/>
     <id>https://mikeblog.top/2019/01/26/CMake/</id>
     <published>2019-01-26T14:37:26.000Z</published>
-    <updated>2020-04-19T13:10:08.627Z</updated>
+    <updated>2020-04-25T08:53:38.130Z</updated>
     
     <summary type="html">
     
@@ -228,9 +244,9 @@
     </summary>
     
     
-      <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
-    
       <category term="编译 (compile)" scheme="https://mikeblog.top/tags/%E7%BC%96%E8%AF%91-compile/"/>
+    
+      <category term="GNU Software" scheme="https://mikeblog.top/tags/GNU-Software/"/>
     
   </entry>
   
@@ -392,31 +408,6 @@
     
     
       <category term="多线程编程" scheme="https://mikeblog.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>操作系统--进程管理(二)</title>
-    <link href="https://mikeblog.top/2018/11/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BA%8C-2018-11-3/"/>
-    <id>https://mikeblog.top/2018/11/03/操作系统-进程管理二-2018-11-3/</id>
-    <published>2018-11-03T00:13:53.000Z</published>
-    <updated>2019-08-17T07:34:26.495Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;进程状态-State&quot;&gt;&lt;a href=&quot;#进程状态-State&quot; class=&quot;headerlink&quot; title=&quot;进程状态(State)&quot;&gt;&lt;/a&gt;进程状态(State)&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://github.com/Yejy813/pictures/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81%E5%9B%BE.png?raw=true&quot; alt=&quot;avatar&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;操作系统通过维护进程状态队列，来对进程进行管理&lt;/strong&gt;。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt; 状态队列：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;由操作系统来维护一组队列，用来表示系统当中所有进程的当前状态；&lt;/li&gt;
-&lt;li&gt;不同的状态分别用不同的队列来表示(就绪队列，各种类型的阻塞队列)；&lt;/li&gt;
-&lt;li&gt;每个进程的PCB都根据它的状态加入到相应的队列当中，当一个进程的状态发生改变时，它的PCB从一个队列中&lt;br&gt;脱离出来，加入到另一个队列。
-    
-    </summary>
-    
     
       <category term="操作系统" scheme="https://mikeblog.top/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     

@@ -152,24 +152,17 @@
 
 
 
-  <meta name="description" content="春节回家 小镇上一个新的景点，最近在朋友圈疯狂刷屏，宋风刘家秀美乡村建设点，定位是力争建成省级4A级秀美乡村。">
-<meta name="keywords" content="随笔">
+  <meta name="description" content="protobuf 介绍protocol buffers 是Google出品的一种语言无关、平台无关、可扩展的序列化结构数据的方法，主要用于网络数据通信、数据存储等，相对于 xml、json 等结构化数据，它更小，更快，更简单。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="春节回家">
-<meta property="og:url" content="https://mikeblog.top/2019/02/06/春节回家/index.html">
+<meta property="og:title" content="使用 protobuf 进行数据序列化">
+<meta property="og:url" content="https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/index.html">
 <meta property="og:site_name" content="Mike&#39;s Blog">
-<meta property="og:description" content="春节回家 小镇上一个新的景点，最近在朋友圈疯狂刷屏，宋风刘家秀美乡村建设点，定位是力争建成省级4A级秀美乡村。">
+<meta property="og:description" content="protobuf 介绍protocol buffers 是Google出品的一种语言无关、平台无关、可扩展的序列化结构数据的方法，主要用于网络数据通信、数据存储等，相对于 xml、json 等结构化数据，它更小，更快，更简单。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-5.jpg?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-7.jpg?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-6.jpg?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-2.jpg?raw=true">
-<meta property="og:updated_time" content="2019-08-17T07:34:26.496Z">
+<meta property="og:updated_time" content="2020-04-25T13:24:15.921Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="春节回家">
-<meta name="twitter:description" content="春节回家 小镇上一个新的景点，最近在朋友圈疯狂刷屏，宋风刘家秀美乡村建设点，定位是力争建成省级4A级秀美乡村。">
-<meta name="twitter:image" content="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-5.jpg?raw=true">
+<meta name="twitter:title" content="使用 protobuf 进行数据序列化">
+<meta name="twitter:description" content="protobuf 介绍protocol buffers 是Google出品的一种语言无关、平台无关、可扩展的序列化结构数据的方法，主要用于网络数据通信、数据存储等，相对于 xml、json 等结构化数据，它更小，更快，更简单。">
 
 
 
@@ -178,7 +171,7 @@
 
 
 
-  <link rel="canonical" href="https://mikeblog.top/2019/02/06/春节回家/">
+  <link rel="canonical" href="https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/">
 
 
 
@@ -188,7 +181,7 @@
   };
 </script>
 
-  <title>春节回家 | Mike's Blog</title>
+  <title>使用 protobuf 进行数据序列化 | Mike's Blog</title>
   
 
 
@@ -380,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2019/02/06/春节回家/">
+    <link itemprop="mainEntityOfPage" href="https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiayun-Ye">
@@ -397,7 +390,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">春节回家
+          <h1 class="post-title" itemprop="name headline">使用 protobuf 进行数据序列化
               
             
           </h1>
@@ -422,24 +415,12 @@
                 
               
 
-              <time title="创建时间：2019-02-06 13:47:02" itemprop="dateCreated datePublished" datetime="2019-02-06T13:47:02+08:00">2019-02-06</time>
+              <time title="创建时间：2020-04-25 16:48:11 / 修改时间：21:24:15" itemprop="dateCreated datePublished" datetime="2020-04-25T16:48:11+08:00">2020-04-25</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-17 15:34:26" itemprop="dateModified" datetime="2019-08-17T15:34:26+08:00">2019-08-17</time>
               
             
           </span>
@@ -452,7 +433,7 @@
 
           
           
-             <span id="/2019/02/06/春节回家/" class="leancloud_visitors" data-flag-title="春节回家">
+             <span id="/2020/04/25/使用-protobuf-进行结构数据序列化/" class="leancloud_visitors" data-flag-title="使用 protobuf 进行数据序列化">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -477,7 +458,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.8k</span>
+                <span title="本文字数">4.3k</span>
               
 
               
@@ -501,55 +482,49 @@
       
 
       
-        <h2 id="春节回家"><a href="#春节回家" class="headerlink" title="春节回家"></a>春节回家</h2><span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-5.jpg?raw=true" class="full-image" alt="alt" title="宋风"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
-<div class="note warning"><p><strong>小镇上一个新的景点，最近在朋友圈疯狂刷屏，宋风刘家秀美乡村建设点，定位是力争建成省级4A级秀美乡村。</strong> </p></div>
+        <h2 id="protobuf-介绍"><a href="#protobuf-介绍" class="headerlink" title="protobuf 介绍"></a>protobuf 介绍</h2><div class="note warning"><p><strong>protocol buffers 是Google出品的一种语言无关、平台无关、可扩展的序列化结构数据的方法，主要用于网络数据通信、数据存储等，相对于 xml、json 等结构化数据，它更小，更快，更简单。</strong> </p></div>
 <a id="more"></a>
-<p>这几天回家过年，感觉家里好冷啊，1月31日在厦门的时候，气温是25度，一到南昌，气温骤降十几度，整个人都不好了，回家后赶紧把提前准备的秋衣秋裤穿上了。</p>
-<p>回到小镇，最引入关注的莫过于小镇上多了一个小景点，过年这几天可以说是火到不行，遇谁都说，你有去过那个宋风刘家景点吗？ 朋友圈里面，亲戚、朋友、同学也都各种晒照。</p>
-<p>我也在回来第二天就去逛了一圈，走的路可以说比我一整年走的路都多了，整体感觉风景很不错，这片地方好像每年回来都要去走一圈。放几张照片感受一下（图片均来自朋友圈，哈哈）。</p>
-<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-7.jpg?raw=true" class="full-image" alt="alt" title="宋风"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
-<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-6.jpg?raw=true" class="full-image" alt="alt" title="宋风"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
-<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-1.jpg?raw=true" class="full-image" alt="alt" title="宋风"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
-<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://github.com/Yejy813/pictures/blob/master/2019%E6%98%A5%E8%8A%82/%E5%AE%8B%E9%A3%8E-2.jpg?raw=true" class="full-image" alt="alt" title="宋风"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span>
-<p>是不是感觉很不错，这一块本来风景就很好，依水而居，非常有江南水乡的味道，也许这本来就是乡村该有的模样。</p>
-<h2 id="家乡改变"><a href="#家乡改变" class="headerlink" title="家乡改变"></a>家乡改变</h2><p>回到江西，印象最深的，应该是南昌西客站的长途客运这一块，比以前好太多了，基本可以做到临时自助购票，候车厅完全封闭，不会有外面的”黄牛”到里面拉客了，井然有序。</p>
-<p>还有就是国家对孤寡老人的关怀补助这一块，可以说是做的非常不错了，听爷爷说的，和他同岁的一些孤寡老人，国家每年补助6000多，而且还免费给房屋进行修缮，引起爷爷的一阵感慨，现在的人们生活不要太幸福，从这几年各个地方都开始新修祠堂就可以看出来了，人民的获得感确实在提高，哈哈，去年我外婆那边就把祠堂给翻新了一下，老妈作为外嫁子女还贡献了绵薄之力。</p>
-<h2 id="hexo-管理"><a href="#hexo-管理" class="headerlink" title="hexo 管理"></a>hexo 管理</h2><p>说说这两天做的事吧，刚到家，看之前留在家里的那台笔记本电脑已经开不了机了，一直蓝屏，提示磁盘有问题，看到这个，二话不说，直接重装系统，刚开始用的是那种一键 <code>ghost</code> 的系统镜像，然后发现装不了，因为系统的磁盘驱动有问题，访问不了磁盘，然后导致装机软件都跑不起来，最后是用 <code>UltraISO</code> 软碟通这个软件，用<code>U</code>盘做了一个系统盘，直接安装原始的 <code>windows</code> 系统镜像， <code>ok</code> 搞定。</p>
+<p><strong>protobuf 优点：</strong></p>
 <blockquote>
-<p>然后就是更新博客了，之前也有想过到其他电脑上要更新博客怎么办？</p>
+<ul>
+<li>语言无关，平台无关，提供了各语言各平台的 <code>protobuf</code> 编译器，可以将写的 <code>.proto</code> 配置文件编译成对应语言的源代码</li>
+<li>高效。相比 <code>xml</code>，<code>json</code>，占用空间更小，解析速度更快，表达方式更简单</li>
+<li>可灵活扩展, 写好的 <code>.proto</code> 配置文件，后续进行数据扩展时，不会影响旧的源码程序</li>
+</ul>
 </blockquote>
-<p>这次是在原来博客的 <code>git</code> 发布分支上创建了一个分支 <code>hexo</code>，专门用来存放源文件，后续如果在其他电脑上想更新博客，只需在电脑上装一下<code>nodejs</code>和<code>git</code>，然后到<code>git hub</code>上把<code>hexo</code>分支拉取下来，安装一下<code>npm install</code>, 然后就可以开始更新博客了。</p>
-<p>大概以下几步：</p>
+<p><strong>protobuf 缺点</strong></p>
 <blockquote>
-<ol>
-<li>安装 <code>nodejs</code> 和 <code>git</code></li>
-<li>git clone <a href="https://github.com/Yejy813/Yejy813.github.io.git" target="_blank" rel="noopener">https://github.com/Yejy813/Yejy813.github.io.git</a></li>
-<li>git checkout hexo </li>
-<li>npm install hexo, npm install, npm install hexo-deployer-git</li>
-<li>写博客</li>
-<li>推送到git hub 的 hexo 分支。 指令： git add , git commit ，git push orgin hexo</li>
-<li>生成发布版本，推送到github。指令：hexo d</li>
-</ol>
+<ul>
+<li>相对于 <code>xml</code> 和 <code>json</code>，可读性、可理解度上差一些，因为毕竟和程序联系比较紧密，需要进行转化和配置，对于软件工程师来说，这不算缺点。</li>
+</ul>
 </blockquote>
-<h2 id="总结与新年目标"><a href="#总结与新年目标" class="headerlink" title="总结与新年目标"></a>总结与新年目标</h2><p>首先，祝愿所有的同学朋友新的一年身体健康，万事如意。</p>
-<h3 id="2018总结"><a href="#2018总结" class="headerlink" title="2018总结"></a>2018总结</h3><ol>
-<li><p>工作，今年承担的事情很多，部门主要项目都参与了，并且负责主要模块的开发维护以及部分模块重构、性能优化的工作，相对前两年来说更辛苦一些，但是学到的东西也多了很多；工作上需要做的更好的地方，一个是效率需要进一步提高，工作的安排上需要更合理(多线程工作，这点必须要处理好)。</p>
-</li>
-<li><p>博客，基本有在不间断的更新，是一个好的开始，持续性需要再加强一点，写博客是唯一一个倒逼我们自己去学习新东西的方式，学习是生命线，这个行业不可能一技终老。</p>
-</li>
-<li><p>锻炼，后面 4 个月，基本就没有再去锻炼过了，一直工作整个人感觉会很压抑，过年回来前一天，去了一次健身房，锻炼了一次，身体感觉舒服多了。</p>
-</li>
-<li><p>生活，工作比较忙，然后平时吃饭也是在食堂吃，去年我都没有自己做过饭，平时也不去游泳、锻炼了，唉，主要是因为想要换工作的原因吧，感觉做什么都没心情，书倒是买了不少，也看了不少电子书加纸质书。</p>
-</li>
-</ol>
-<p>总结成一句话，就是 2018 工作还好，生活不易。</p>
-<h3 id="2019目标展望"><a href="#2019目标展望" class="headerlink" title="2019目标展望"></a>2019目标展望</h3><ol>
-<li>年后，尽快开始面试之旅，三月底前，完成工作变更 (重中之重)</li>
-<li>博客需要更新 70 篇，按照每两周三篇左右计算的，工作量合适</li>
-<li>锻炼，一周维持两次，就算不力量训练，跑步也行</li>
-<li>生活，尽量吧，感情，尽量吧</li>
-</ol>
-<p>至于书单之类的，因为现在还在家，所以不能及时总结更新，后续再更新一下吧，新年需要看的书单。</p>
+<p><strong>protobuf 相关资料：</strong><br>如果需要查看官方文档，可以参考 <code>Google</code> 开发者中心和 <code>github</code> 上开源项目。</p>
+<p><strong>开发者中心</strong></p>
+<blockquote>
+<p><a href="https://developers.google.cn/protocol-buffers" target="_blank" rel="noopener">https://developers.google.cn/protocol-buffers</a></p>
+</blockquote>
+<p><strong>github</strong></p>
+<blockquote>
+<p><a href="https://github.com/protocolbuffers/protobuf" target="_blank" rel="noopener">https://github.com/protocolbuffers/protobuf</a></p>
+</blockquote>
+<h2 id="protobuf-编译器安装"><a href="#protobuf-编译器安装" class="headerlink" title="protobuf 编译器安装"></a>protobuf 编译器安装</h2><p>官方安装步骤：<a href="https://github.com/protocolbuffers/protobuf/blob/master/src/README.md，" target="_blank" rel="noopener">https://github.com/protocolbuffers/protobuf/blob/master/src/README.md，</a> 按照这个来走一遍就可以了，我安装的是 <code>Linux</code> 系统 <code>protobuf</code> 库，其他系统的上面也有。</p>
+<h2 id="C-代码测试"><a href="#C-代码测试" class="headerlink" title="C++ 代码测试"></a>C++ 代码测试</h2><p>我们先写一个 <code>.proto</code> 配置文件 <code>protobuf_test.proto</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">package tutorial;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">  int32 id = 2;</span><br><span class="line">  string email = 3;</span><br><span class="line"></span><br><span class="line">  enum PhoneType &#123;</span><br><span class="line">    MOBILE = 0;</span><br><span class="line">    HOME = 1;</span><br><span class="line">    WORK = 2;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  message PhoneNumber &#123;</span><br><span class="line">    string number = 1;</span><br><span class="line">    PhoneType type = 2 [default = HOME];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  PhoneNumber phones = 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译过程中我们使用如下指令，将该文件转换成 <code>C++</code> 源码, 如果是 <code>cmake</code>，可以使用<code>ADD_CUSTOM_COMMAND</code>写一个自定义指令。</p>
+<blockquote>
+<p>protoc -I=$SRC_DIR –cpp_out=$DST_DIR $SRC_DIR/addressbook.proto</p>
+</blockquote>
+<p>在配置文件目录执行：</p>
+<blockquote>
+<p> protoc -I=./ –cpp_out=./ ./protobuf_test.proto</p>
+</blockquote>
+<p>最终生成了 <code>protobuf_test.pb.cc</code> 和  <code>protobuf_test.pb.h</code>文件，主要代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> : <span class="keyword">int</span> &#123;</span><br><span class="line">  kNumberFieldNumber = <span class="number">1</span>,</span><br><span class="line">  kTypeFieldNumber = <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// string number = 1;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear_number</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="function"><span class="built_in">string</span>&amp; <span class="title">number</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_number</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; value)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_number</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span>&amp;&amp; value)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_number</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* value)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_number</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* value, <span class="keyword">size_t</span> size)</span></span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="function"><span class="built_in">string</span>* <span class="title">mutable_number</span><span class="params">()</span></span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="function"><span class="built_in">string</span>* <span class="title">release_number</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_allocated_number</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span>* number)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>对于 <code>message</code> 每个成员都有一个 <code>set</code> 和 <code>get</code> 接口来设置和获取值。</p>
+<p>我们写个测试程序来试用一下，看官方的文档，有几个可选的序列化接口需要注意，这个是将 <code>protobuf</code> 结构化数据转换成我们代码中常见的字符串和输入输出流：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">SerializeToString</span><span class="params">(<span class="built_in">string</span>* output)</span> <span class="keyword">const</span></span>; <span class="comment">//serializes the message and stores the bytes in the given string. Note that the bytes are binary, not text; we only use the string class as a convenient container.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ParseFromString</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; data)</span></span>; <span class="comment">//parses a message from the given string.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">SerializeToOstream</span><span class="params">(ostream* output)</span> <span class="keyword">const</span></span>; <span class="comment">//writes the message to the given C++ ostream.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ParseFromIstream</span><span class="params">(istream* input)</span></span>; <span class="comment">//parses a message from the given C++ istream.</span></span><br></pre></td></tr></table></figure></p>
+<p>测试代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"protobuf_test.pb.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tutorial::Person ps;</span><br><span class="line">    ps.set_name(<span class="string">"mike"</span>); <span class="comment">// name</span></span><br><span class="line">    ps.set_email(<span class="string">"xxxxxx@qq.com"</span>); <span class="comment">// email</span></span><br><span class="line">    ps.set_id(<span class="number">666</span>); <span class="comment">// id</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// set phome number</span></span><br><span class="line">    tutorial::Person_PhoneNumber* person_num = <span class="keyword">new</span> tutorial::Person_PhoneNumber();</span><br><span class="line">    person_num-&gt;set_number(<span class="string">"12345678910"</span>);</span><br><span class="line">    person_num-&gt;set_type(tutorial::Person_PhoneType::Person_PhoneType_HOME);</span><br><span class="line"></span><br><span class="line">    ps.set_allocated_phones(person_num);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> strFile = <span class="string">"person.txt"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="function">fstream <span class="title">output</span><span class="params">(strFile, <span class="built_in">std</span>::ios::out | <span class="built_in">std</span>::ios::trunc | <span class="built_in">std</span>::ios::binary)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (!ps.SerializeToOstream(&amp;output)) &#123;</span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"Failed to write address book."</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    output.close();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Serialize from file</span></span><br><span class="line">    tutorial::Person ps_from;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="function">fstream <span class="title">input</span><span class="params">(strFile, <span class="built_in">std</span>::ios::in | <span class="built_in">std</span>::ios::binary)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (!ps_from.ParseFromIstream(&amp;input)) &#123;</span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"Failed to parse address book."</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"parse from input stream. name: "</span> &lt;&lt; ps_from.name() </span><br><span class="line">              &lt;&lt; <span class="string">" email: "</span> &lt;&lt; ps_from.email()</span><br><span class="line">              &lt;&lt; <span class="string">" phone numb: "</span> &lt;&lt; ps_from.phones().number()</span><br><span class="line">              &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;  </span><br><span class="line"></span><br><span class="line">    input.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打印结果：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bash-4.2$ ./protobuf_test</span><br><span class="line">parse from input stream. name: mike email: xxxxxx@qq.com phone numb: 12345678910</span><br></pre></td></tr></table></figure></p>
+<p>上面程序很简单，我们先创建一个 <code>person</code> 的数据结构，然后序列化到输出流保存到文件中，然后我们再创建一个 <code>person</code> 的结构对之前生成的文件进行反序列化，可以正常得到原来的内容。</p>
+<p>需要注意的是，代码除了需要依赖 <code>libprotobuf.so</code> 外，还要记得依赖 <code>pthread</code> 库，要不然运行时会报错。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>思考一下，相对 <code>xml</code> 和 <code>json</code>，<code>protobuf</code> 除了上面列的那些优点外，在代码部署层面其实没有很大的差异，<code>xml</code> 和 <code>json</code> 需要依赖各自开源库来实现序列化操作，之前用的比较多的，<code>json</code> 是 <code>rapidjson</code>库，<code>xml</code> 是 <code>pugixml</code> 库，而<code>protobuf</code> 只是多了安装编译程序，生成对应语言代码这一流程。因此，在开发过程中，如果遇到对性能要求比较高的场景（如高性能服务器相关的<code>RPC</code>等），还是十分推荐使用 <code>protobuf</code> 做为数据序列化工具的。</p>
 
       
     </div>
@@ -571,7 +546,7 @@
     <strong>本文作者： </strong>Jiayun-Ye</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://mikeblog.top/2019/02/06/春节回家/" title="春节回家">https://mikeblog.top/2019/02/06/春节回家/</a>
+    <a href="https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/" title="使用 protobuf 进行数据序列化">https://mikeblog.top/2020/04/25/使用-protobuf-进行结构数据序列化/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong> Copyright ©2018 Jiayun-Ye. 转载文章务必保留出处和署名！</li>
@@ -582,12 +557,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/随笔/" rel="tag"><i class="fa fa-tag"></i> 随笔</a>
-          
-        </div>
-      
 
       
       
@@ -597,8 +566,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/26/CMake/" rel="next" title="CMake">
-                <i class="fa fa-chevron-left"></i> CMake
+              <a href="/2020/04/19/long-time-no-see/" rel="next" title="好久不见">
+                <i class="fa fa-chevron-left"></i> 好久不见
               </a>
             
           </div>
@@ -606,10 +575,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/15/C-对象模型/" rel="prev" title="C++ 对象模型">
-                C++ 对象模型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -802,7 +767,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#春节回家"><span class="nav-number">1.</span> <span class="nav-text">春节回家</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#家乡改变"><span class="nav-number">2.</span> <span class="nav-text">家乡改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-管理"><span class="nav-number">3.</span> <span class="nav-text">hexo 管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结与新年目标"><span class="nav-number">4.</span> <span class="nav-text">总结与新年目标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2018总结"><span class="nav-number">4.1.</span> <span class="nav-text">2018总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019目标展望"><span class="nav-number">4.2.</span> <span class="nav-text">2019目标展望</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#protobuf-介绍"><span class="nav-number">1.</span> <span class="nav-text">protobuf 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#protobuf-编译器安装"><span class="nav-number">2.</span> <span class="nav-text">protobuf 编译器安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-代码测试"><span class="nav-number">3.</span> <span class="nav-text">C++ 代码测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -971,7 +936,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2019/02/06/春节回家/'
+        refer: '2020/04/25/使用-protobuf-进行结构数据序列化/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];
